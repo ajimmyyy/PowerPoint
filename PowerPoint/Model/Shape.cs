@@ -13,5 +13,7 @@ namespace PowerPoint
 
         //取得圖形名稱
         string GetShapeName();
+
+        void SetInitialPosition(params double[] pos);
     }
 }

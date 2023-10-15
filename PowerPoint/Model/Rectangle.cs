@@ -6,17 +6,11 @@ using System.Threading.Tasks;
 
 namespace PowerPoint
 {
-    public class Line : Shape
+    public class Rectangle : Shape
     {
         const string INFO_FORMAT = "({0}, {1})";
-        Coordinate _topLeft;
-        Coordinate _bottomRight;
-
-        public Line(int top, int left, int bottom, int right)
-        {
-            _topLeft = new Coordinate(left, top);
-            _bottomRight = new Coordinate(right, bottom);
-        }
+        public Coordinate _topLeft = new Coordinate();
+        public Coordinate _bottomRight = new Coordinate();
 
         //取得圖形資訊(重載)
         public string GetInfo()
@@ -27,7 +21,15 @@ namespace PowerPoint
         //取得圖形名稱(重載)
         public string GetShapeName()
         {
-            return ShapeType.LINE_NAME;
+            return ShapeType.RECTANGLE_NAME;
+        }
+
+        public void SetInitialPosition(params double[] pos)
+        {
+            _topLeft._coordinateY = pos[0];
+            _topLeft._coordinateX = pos[1];
+            _bottomRight._coordinateY = pos[2];
+            _bottomRight._coordinateX = pos[3];
         }
     }
 }

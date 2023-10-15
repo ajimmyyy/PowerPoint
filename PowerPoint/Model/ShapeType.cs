@@ -10,5 +10,6 @@ namespace PowerPoint
     {
         public const string LINE_NAME = "線";
         public const string RECTANGLE_NAME = "矩形";
+        public const string CIRCLE_NAME = "圓形";
     }
 }
