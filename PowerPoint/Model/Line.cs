@@ -26,10 +26,15 @@ namespace PowerPoint
 
         public void SetInitialPosition(params double[] pos)
         {
-            _topLeft._coordinateY = pos[0];
-            _topLeft._coordinateX = pos[1];
-            _bottomRight._coordinateY = pos[2];
-            _bottomRight._coordinateX = pos[3];
+            _topLeft._coordinateX = pos[0];
+            _topLeft._coordinateY = pos[1];
+            _bottomRight._coordinateX = pos[2];
+            _bottomRight._coordinateY = pos[3];
+        }
+
+        public void Draw(IGraphics graphics)
+        {
+            graphics.DrawLine(_topLeft._coordinateX, _topLeft._coordinateY, _bottomRight._coordinateX, _bottomRight._coordinateY);
         }
     }
 }

@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DoubleBufferedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Model\Circle.cs" />
     <Compile Include="Model\Coordinate.cs" />
     <Compile Include="Model\Factory.cs" />
@@ -55,9 +58,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\IGraphics.cs" />
     <Compile Include="Model\Line.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="PresentationModel\PresentationModel.cs" />
+    <Compile Include="PresentationModel\WindowsFormsGraphicsAdaptor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Rectangle.cs" />

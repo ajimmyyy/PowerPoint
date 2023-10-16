@@ -15,5 +15,7 @@ namespace PowerPoint
         string GetShapeName();
 
         void SetInitialPosition(params double[] pos);
+
+        void Draw(IGraphics graphics);
     }
 }

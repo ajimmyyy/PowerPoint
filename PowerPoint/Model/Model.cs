@@ -11,10 +11,15 @@ namespace PowerPoint
         private bool _isLinePressed = false;
         private bool _isRectanglePressed = false;
         private bool _isCirclePressed = false;
-        private string _toolModePressed;
+        private string _toolModePressed = "";
+
+        public event ModelChangedEventHandler _modelChanged;
+        public delegate void ModelChangedEventHandler();
         private double _firstPointX;
         private double _firstPointY;
+        private bool _isPressed = false;
         private Shape _hint;
+
         private Shapes _shapes = new Shapes();
         private Dictionary<string, Action> _shapePressed;
 
@@ -37,6 +42,7 @@ namespace PowerPoint
             }
 
             _shapes.AddNewShape(shapeType);
+            NotifyModelChanged();
         }
 
         //當DataGridView刪除按鈕被按下的處理
@@ -46,6 +52,8 @@ namespace PowerPoint
             {
                 _shapes.DeleteShape(rowIndex);
             }
+
+            NotifyModelChanged();
         }
 
         public void SetDrawingMode(string shapeType)
@@ -65,14 +73,49 @@ namespace PowerPoint
 
         public void PointerPressed(double x, double y)
         {
-            _hint = Factory.CreateShape(_toolModePressed);
-            _firstPointX = x;
-            _firstPointY = y;
+            if (x > 0 && y > 0)
+            {
+                _hint = Factory.CreateShape(_toolModePressed);
+                _firstPointX = x;
+                _firstPointY = y;
+                _isPressed = true;
+            }
         }
 
         public void PointerMoved(double x, double y)
         {
-            _hint.SetInitialPosition(_firstPointX, _firstPointY, x, y);
+            if (_isPressed)
+            {
+                _hint.SetInitialPosition(_firstPointX, _firstPointY, x, y);
+                NotifyModelChanged();
+            }
+        }
+
+        public void PointerReleased(double x, double y)
+        {
+            if (_isPressed)
+            {
+                _isPressed = false;
+                _isLinePressed = false;
+                _isRectanglePressed = false;
+                _isCirclePressed = false;
+                _shapes.AddShape(_hint);
+                NotifyModelChanged();
+            }
+        }
+
+        public void Draw(IGraphics graphics)
+        {
+            _shapes.Draw(graphics);
+
+            if (_isPressed)
+                _hint.Draw(graphics);
+        }
+
+        void NotifyModelChanged()
+        {
+            if (_modelChanged != null)
+                _modelChanged();
         }
 
         public bool IsLinePressed

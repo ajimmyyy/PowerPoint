@@ -31,9 +31,9 @@ namespace PowerPoint
 
         public void RefreshClickState()
         {
-            this._isLinePressed = _model.IsLinePressed;
-            this._isRectanglePressed = _model.IsRectanglePressed;
-            this._isCirclePressed = _model.IsCirclePressed;
+            _isLinePressed = _model.IsLinePressed;
+            _isRectanglePressed = _model.IsRectanglePressed;
+            _isCirclePressed = _model.IsCirclePressed;
             _toolButtonClick?.Invoke(_isLinePressed, _isRectanglePressed, _isCirclePressed);
         }
 
@@ -45,9 +45,28 @@ namespace PowerPoint
                 CurrentCursor = Cursors.Default;
         }
 
+        public void CanvasPressedHandler(int x, int y)
+        {
+            if (IsToolButtonPressed())
+            {
+                _model.PointerPressed(x, y);
+            }
+        }
+
+        public void CanvasReleasedHandler(int x, int y)
+        {
+            _model.PointerReleased(x, y);
+            RefreshClickState();
+        }
+
         private bool IsToolButtonPressed()
         {
             return _isLinePressed || _isRectanglePressed || _isCirclePressed;
+        }
+
+        public void Draw(System.Drawing.Graphics graphics)
+        {
+            _model.Draw(new WindowsFormsGraphicsAdaptor(graphics));
         }
     }
 }
