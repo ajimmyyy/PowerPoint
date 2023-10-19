@@ -33,9 +33,17 @@ namespace PowerPoint
 
             _model = new Model();
             _presentationModel = new PresentationModel(_model);
+            _shapeDataGridView.DataSource = _model.ShapeList;
             _model._modelChanged += ChangeModel;
-            _model._gridViewChanged += ChangeDataGridView;
             _presentationModel._toolButtonClick += UpdateToolButtonState;
+        }
+
+        private BindingManagerBase BindingManager
+        {
+            get
+            { 
+                return BindingContext[_model.ShapeList]; 
+            }
         }
 
         //DataGridView新增按鈕被按下
@@ -106,12 +114,6 @@ namespace PowerPoint
         public void ChangeModel()
         {
             _canvas.Invalidate(true);
-        }
-
-        //表格改變
-        public void ChangeDataGridView()
-        {
-            _shapeDataGridView.DataSource = _model.GetShapesDisplay();
         }
     }
 }

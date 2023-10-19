@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace PowerPoint
 {
     public class Shapes
     {
-        const string DELETE = "刪除";
         const int START_NUMBER = 200;
         const int END_NUMBER = 600;
-        private List<Shape> _shapeList = new List<Shape>();
+        private BindingList<Shape> _shapeList = new BindingList<Shape>();
+
+        public BindingList<Shape> GetShapeList
+        {
+            get
+            { 
+                return _shapeList; 
+            }
+        }
 
         //創建圖形並加入到list裡
         public void AddNewShape(string shapeType)
@@ -37,18 +45,6 @@ namespace PowerPoint
         public void DeleteShape(int rowIndex)
         {
             _shapeList.RemoveAt(rowIndex);
-        }
-
-        //取得shapes資訊
-        public List<ShapeGridViewModel> GetShapeListInfo()
-        {
-            List<ShapeGridViewModel> shapeListData = _shapeList.Select(item => new ShapeGridViewModel
-            { 
-                _column1 = DELETE,
-                _column2 = item.GetShapeName(),
-                _column3 = item.GetInfo() }).ToList();
-
-            return shapeListData;
         }
 
         //畫出所有圖形

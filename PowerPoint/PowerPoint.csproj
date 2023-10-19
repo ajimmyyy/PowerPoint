@@ -67,7 +67,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Rectangle.cs" />
     <Compile Include="Model\Shape.cs" />
-    <Compile Include="Model\ShapeGridViewModel.cs" />
     <Compile Include="Model\Shapes.cs" />
     <Compile Include="Model\ShapeType.cs" />
     <EmbeddedResource Include="View\Form1.resx">

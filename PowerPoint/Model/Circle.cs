@@ -12,29 +12,23 @@ namespace PowerPoint
         Coordinate _topLeft = new Coordinate();
         Coordinate _bottomRight = new Coordinate();
 
-        //取得圖形資訊
-        public string GetInfo()
+        public Circle()
         {
-            return string.Format(INFO_FORMAT, _topLeft.ToString(), _bottomRight.ToString());
+            ShapeName = ShapeType.CIRCLE_NAME;
         }
 
-        //取得圖形名稱
-        public string GetShapeName()
-        {
-            return ShapeType.CIRCLE_NAME;
-        }
-        
         //設定初始位置
-        public void SetInitialPosition(double left, double top, double right, double bottom)
+        public override void SetInitialPosition(double left, double top, double right, double bottom)
         {
             _topLeft._coordinateX = left;
             _topLeft._coordinateY = top;
             _bottomRight._coordinateX = right;
             _bottomRight._coordinateY = bottom;
+            Info = string.Format(INFO_FORMAT, _topLeft.ToString(), _bottomRight.ToString());
         }
 
         //繪圖
-        public void Draw(IGraphics graphics)
+        public override void Draw(IGraphics graphics)
         {
             graphics.DrawCircle(_topLeft._coordinateX, _topLeft._coordinateY, _bottomRight._coordinateX, _bottomRight._coordinateY);
         }
