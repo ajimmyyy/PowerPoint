@@ -8,31 +8,16 @@ namespace PowerPoint
 {
     public class Model
     {
-        private bool _isLinePressed = false;
-        private bool _isRectanglePressed = false;
-        private bool _isCirclePressed = false;
-        private string _toolModePressed = "";
-
         public event ModelChangedEventHandler _modelChanged;
+        public event ModelChangedEventHandler _gridViewChanged;
         public delegate void ModelChangedEventHandler();
+        private string _toolModePressed = "";
         private double _firstPointX;
         private double _firstPointY;
         private bool _isPressed = false;
         private Shape _hint;
-
         private Shapes _shapes = new Shapes();
-        private Dictionary<string, Action> _shapePressed;
-
-        public Model()
-        {
-            _shapePressed = new Dictionary<string, Action>
-            {
-                { ShapeType.LINE_NAME, () => _isLinePressed = true },
-                { ShapeType.RECTANGLE_NAME, () => _isRectanglePressed = true },
-                { ShapeType.CIRCLE_NAME, () => _isCirclePressed = true }
-            };
-        }
-
+        
         //當DataGridView新增按鈕被按下的處理
         public void AddButtonClickEvent(string shapeType)
         {
@@ -43,6 +28,7 @@ namespace PowerPoint
 
             _shapes.AddNewShape(shapeType);
             NotifyModelChanged();
+            NotifyGridViewChanged();
         }
 
         //當DataGridView刪除按鈕被按下的處理
@@ -54,15 +40,7 @@ namespace PowerPoint
             }
 
             NotifyModelChanged();
-        }
-
-        public void SetDrawingMode(string shapeType)
-        {
-            _isLinePressed = false;
-            _isRectanglePressed = false;
-            _isCirclePressed = false;
-            _toolModePressed = shapeType;
-            _shapePressed[shapeType]();
+            NotifyGridViewChanged();
         }
 
         //回傳list裡的資訊做顯示
@@ -71,74 +49,70 @@ namespace PowerPoint
             return _shapes.GetShapeListInfo();
         }
 
-        public void PointerPressed(double x, double y)
+        //繪圖滑鼠被按下
+        public void PressPointer(double pointX, double pointY)
         {
-            if (x > 0 && y > 0)
+            if (pointX > 0 && pointY > 0)
             {
                 _hint = Factory.CreateShape(_toolModePressed);
-                _firstPointX = x;
-                _firstPointY = y;
+                _firstPointX = pointX;
+                _firstPointY = pointY;
                 _isPressed = true;
             }
         }
 
-        public void PointerMoved(double x, double y)
+        //繪圖滑鼠移動
+        public void MovePointer(double pointX, double pointY)
         {
             if (_isPressed)
             {
-                _hint.SetInitialPosition(_firstPointX, _firstPointY, x, y);
+                _hint.SetInitialPosition(_firstPointX, _firstPointY, pointX, pointY);
                 NotifyModelChanged();
             }
         }
 
-        public void PointerReleased(double x, double y)
+        //繪圖滑鼠釋放
+        public void ReleasePointer(double pointX, double pointY)
         {
             if (_isPressed)
             {
                 _isPressed = false;
-                _isLinePressed = false;
-                _isRectanglePressed = false;
-                _isCirclePressed = false;
+                _toolModePressed = "";
+                _hint.SetInitialPosition(_firstPointX, _firstPointY, pointX, pointY);
                 _shapes.AddShape(_hint);
                 NotifyModelChanged();
+                NotifyGridViewChanged();
             }
         }
 
+        //畫出所有形狀和即時形狀
         public void Draw(IGraphics graphics)
         {
+            graphics.ClearAll();
             _shapes.Draw(graphics);
 
             if (_isPressed)
                 _hint.Draw(graphics);
         }
 
+        //通知模型改變
         void NotifyModelChanged()
         {
             if (_modelChanged != null)
                 _modelChanged();
         }
 
-        public bool IsLinePressed
+        //通知DataGridView改變
+        void NotifyGridViewChanged()
         {
-            get {
-                return _isLinePressed;
-            }
+            if (_gridViewChanged != null)
+                _gridViewChanged();
         }
 
-        public bool IsRectanglePressed
+        //設定繪圖模式
+        public void SetToolMode(string shapeType)
         {
-            get
-            {
-                return _isRectanglePressed;
-            }
-        }
-
-        public bool IsCirclePressed
-        {
-            get
-            {
-                return _isCirclePressed;
-            }
+            _toolModePressed = shapeType;
         }
     }
 }

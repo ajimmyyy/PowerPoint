@@ -14,8 +14,10 @@ namespace PowerPoint
         //取得圖形名稱
         string GetShapeName();
 
-        void SetInitialPosition(params double[] pos);
+        //設定初始位置
+        void SetInitialPosition(double left, double top, double right, double bottom);
 
+        //繪圖
         void Draw(IGraphics graphics);
     }
 }

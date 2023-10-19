@@ -21,8 +21,8 @@ namespace PowerPoint
             InitializeComponent();
 
             _canvas.Dock = DockStyle.Fill;
-            _canvas.MouseEnter += FromMouseEnter;
-            _canvas.MouseLeave += FromMouseLeave;
+            _canvas.MouseEnter += EnterFromMouse;
+            _canvas.MouseLeave += LeaveFromMouse;
             _canvas.MouseDown += CanvasPressed;
             _canvas.MouseUp += CanvasReleased;
             _canvas.MouseMove += CanvasMoved;
@@ -33,22 +33,21 @@ namespace PowerPoint
 
             _model = new Model();
             _presentationModel = new PresentationModel(_model);
-            _model._modelChanged += ModelChanged;
-            _presentationModel._toolButtonClick += ToolButtonUpdated;
+            _model._modelChanged += ChangeModel;
+            _model._gridViewChanged += ChangeDataGridView;
+            _presentationModel._toolButtonClick += UpdateToolButtonState;
         }
 
         //DataGridView新增按鈕被按下
         private void AddButtonClick(object sender, EventArgs e)
         {
             _model.AddButtonClickEvent(_shapeComboBox.Text);
-            _shapeDataGridView.DataSource = _model.GetShapesDisplay();
         }
 
         //DataGridView刪除按鈕被按下
         private void DeleteCellClick(object sender, DataGridViewCellEventArgs e)
         {
             _model.DeleteButtonClickEvent(e.RowIndex, e.ColumnIndex);
-            _shapeDataGridView.DataSource = _model.GetShapesDisplay();
         }
 
         //圖形工具按鈕被按下
@@ -59,22 +58,21 @@ namespace PowerPoint
         }
 
         //圖形工具按鈕狀態更新
-        private void ToolButtonUpdated(bool chicked1, bool chicked2, bool chicked3)
+        private void UpdateToolButtonState(bool lineChick, bool rectangleChick, bool circleChick)
         {
-            _lineToolButton.Checked = chicked1;
-            _rectangleToolButton.Checked = chicked2;
-            _circleToolButton.Checked = chicked3;
+            _lineToolButton.Checked = lineChick;
+            _rectangleToolButton.Checked = rectangleChick;
+            _circleToolButton.Checked = circleChick;
         }
 
         //滑鼠進入繪圖區
-        private void FromMouseEnter(object sender, EventArgs e)
+        private void EnterFromMouse(object sender, EventArgs e)
         {
-            _presentationModel.UpdateCursor();
-            Cursor = _presentationModel.CurrentCursor;
+            Cursor = _presentationModel.UpdateCursor();
         }
 
         //滑鼠離開繪圖區
-        private void FromMouseLeave(object sender, EventArgs e)
+        private void LeaveFromMouse(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
         }
@@ -88,25 +86,32 @@ namespace PowerPoint
         //滑鼠移動
         public void CanvasMoved(object sender, MouseEventArgs e)
         {
-            _model.PointerMoved(e.X, e.Y);
+            _model.MovePointer(e.X, e.Y);
         }
 
-        ////滑鼠釋放
+        //滑鼠釋放
         public void CanvasReleased(object sender, MouseEventArgs e)
         {
             _presentationModel.CanvasReleasedHandler(e.X, e.Y);
-            _shapeDataGridView.DataSource = _model.GetShapesDisplay();
             Cursor = Cursors.Default;
         }
 
+        //繪圖區重繪製
         public void CanvasPaint(object sender, PaintEventArgs e)
         {
             _presentationModel.Draw(e.Graphics);
         }
 
-        public void ModelChanged()
+        //模型改變
+        public void ChangeModel()
         {
-            Invalidate(true);
+            _canvas.Invalidate(true);
+        }
+
+        //表格改變
+        public void ChangeDataGridView()
+        {
+            _shapeDataGridView.DataSource = _model.GetShapesDisplay();
         }
     }
 }

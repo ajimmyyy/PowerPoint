@@ -27,6 +27,7 @@ namespace PowerPoint
             _shapeList.Add(newShape);
         }
 
+        //加入現有圖形
         public void AddShape(Shape shape)
         {
             _shapeList.Add(shape);
@@ -50,6 +51,7 @@ namespace PowerPoint
             return shapeListData;
         }
 
+        //畫出所有圖形
         public void Draw(IGraphics graphics)
         {
             foreach (Shape shape in _shapeList)

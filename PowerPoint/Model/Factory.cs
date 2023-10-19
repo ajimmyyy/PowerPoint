@@ -8,7 +8,7 @@ namespace PowerPoint
 {
     class Factory
     {
-        //創建新的形狀實體
+        //創建新的圖形實體
         public static Shape CreateShape(string shapeType)
         {
             switch (shapeType)
