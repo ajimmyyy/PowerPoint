@@ -12,13 +12,14 @@ namespace PowerPoint
         Coordinate _topLeft = new Coordinate();
         Coordinate _bottomRight = new Coordinate();
 
-        public Line()
+        public Line(double left, double top, double right, double bottom)
         {
             ShapeName = ShapeType.LINE_NAME;
+            SetPosition(left, top, right, bottom);
         }
 
-        //設定初始位置
-        public override void SetInitialPosition(double left, double top, double right, double bottom)
+        //設定位置
+        public override void SetPosition(double left, double top, double right, double bottom)
         {
             _topLeft._coordinateX = left;
             _topLeft._coordinateY = top;

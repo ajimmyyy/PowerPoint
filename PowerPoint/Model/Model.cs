@@ -58,7 +58,7 @@ namespace PowerPoint
         {
             if (_isPressed)
             {
-                _hint.SetInitialPosition(_firstPointX, _firstPointY, pointX, pointY);
+                _hint.SetPosition(_firstPointX, _firstPointY, pointX, pointY);
                 NotifyModelChanged();
             }
         }
@@ -70,7 +70,7 @@ namespace PowerPoint
             {
                 _isPressed = false;
                 _toolModePressed = "";
-                _hint.SetInitialPosition(_firstPointX, _firstPointY, pointX, pointY);
+                _hint.SetPosition(_firstPointX, _firstPointY, pointX, pointY);
                 _shapes.AddShape(_hint);
                 NotifyModelChanged();
             }

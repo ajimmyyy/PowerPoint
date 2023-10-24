@@ -43,8 +43,8 @@ namespace PowerPoint
             }
         }
 
-        //設定初始位置
-        public abstract void SetInitialPosition(double left, double top, double right, double bottom);
+        //設定位置
+        public abstract void SetPosition(double left, double top, double right, double bottom);
 
         //繪圖
         public abstract void Draw(IGraphics graphics);

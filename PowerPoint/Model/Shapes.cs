@@ -9,8 +9,6 @@ namespace PowerPoint
 {
     public class Shapes
     {
-        const int START_NUMBER = 200;
-        const int END_NUMBER = 600;
         private BindingList<Shape> _shapeList = new BindingList<Shape>();
 
         public BindingList<Shape> GetShapeList
@@ -24,14 +22,7 @@ namespace PowerPoint
         //創建圖形並加入到list裡
         public void AddNewShape(string shapeType)
         {
-            Random randomPosition = new Random();
-            int top = randomPosition.Next(START_NUMBER, END_NUMBER);
-            int left = randomPosition.Next(START_NUMBER, END_NUMBER);
-            int bottom = randomPosition.Next(START_NUMBER, END_NUMBER);
-            int right = randomPosition.Next(START_NUMBER, END_NUMBER);
-
             Shape newShape = Factory.CreateShape(shapeType);
-            newShape.SetInitialPosition(top, left, bottom, right);
             _shapeList.Add(newShape);
         }
 
