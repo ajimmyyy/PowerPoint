@@ -43,10 +43,11 @@ namespace PowerPoint
             this._infoColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._slideButton = new System.Windows.Forms.Button();
             this._toolBar = new System.Windows.Forms.ToolStrip();
-            this._lineToolButton = new PowerPoint.BindableToolStripButton();
-            this._rectangleToolButton = new PowerPoint.BindableToolStripButton();
-            this._circleToolButton = new PowerPoint.BindableToolStripButton();
-            this._selectToolButton = new PowerPoint.BindableToolStripButton();
+            this._lineToolButton = new PowerPoint.BindingToolStripButton();
+            this._rectangleToolButton = new PowerPoint.BindingToolStripButton();
+            this._circleToolButton = new PowerPoint.BindingToolStripButton();
+            this._selectToolButton = new PowerPoint.BindingToolStripButton();
+            this._backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this._functionMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._slideDataGridView)).BeginInit();
             this._dataGroupBox.SuspendLayout();
@@ -61,7 +62,7 @@ namespace PowerPoint
             this._illustrateMenuItem});
             this._functionMenu.Location = new System.Drawing.Point(0, 0);
             this._functionMenu.Name = "_functionMenu";
-            this._functionMenu.Size = new System.Drawing.Size(800, 31);
+            this._functionMenu.Size = new System.Drawing.Size(800, 32);
             this._functionMenu.TabIndex = 0;
             this._functionMenu.Text = "menuStrip1";
             // 
@@ -71,7 +72,7 @@ namespace PowerPoint
             this._aboutMenuItem});
             this._illustrateMenuItem.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
             this._illustrateMenuItem.Name = "_illustrateMenuItem";
-            this._illustrateMenuItem.Size = new System.Drawing.Size(62, 27);
+            this._illustrateMenuItem.Size = new System.Drawing.Size(62, 28);
             this._illustrateMenuItem.Text = "說明";
             // 
             // _aboutMenuItem
@@ -85,11 +86,11 @@ namespace PowerPoint
             this._slideDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._slideDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._slideDataGridView.Dock = System.Windows.Forms.DockStyle.Left;
-            this._slideDataGridView.Location = new System.Drawing.Point(0, 64);
+            this._slideDataGridView.Location = new System.Drawing.Point(0, 65);
             this._slideDataGridView.Name = "_slideDataGridView";
             this._slideDataGridView.RowHeadersWidth = 62;
             this._slideDataGridView.RowTemplate.Height = 31;
-            this._slideDataGridView.Size = new System.Drawing.Size(161, 439);
+            this._slideDataGridView.Size = new System.Drawing.Size(161, 438);
             this._slideDataGridView.TabIndex = 1;
             // 
             // _dataGroupBox
@@ -100,10 +101,10 @@ namespace PowerPoint
             this._dataGroupBox.Controls.Add(this._shapeDataGridView);
             this._dataGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
             this._dataGroupBox.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this._dataGroupBox.Location = new System.Drawing.Point(561, 64);
+            this._dataGroupBox.Location = new System.Drawing.Point(561, 65);
             this._dataGroupBox.Name = "_dataGroupBox";
             this._dataGroupBox.Padding = new System.Windows.Forms.Padding(3, 50, 3, 3);
-            this._dataGroupBox.Size = new System.Drawing.Size(239, 439);
+            this._dataGroupBox.Size = new System.Drawing.Size(239, 438);
             this._dataGroupBox.TabIndex = 4;
             this._dataGroupBox.TabStop = false;
             this._dataGroupBox.Text = "資料顯示";
@@ -147,7 +148,7 @@ namespace PowerPoint
             this._shapeDataGridView.RowHeadersVisible = false;
             this._shapeDataGridView.RowHeadersWidth = 62;
             this._shapeDataGridView.RowTemplate.Height = 31;
-            this._shapeDataGridView.Size = new System.Drawing.Size(233, 362);
+            this._shapeDataGridView.Size = new System.Drawing.Size(233, 361);
             this._shapeDataGridView.TabIndex = 2;
             // 
             // _deleteColumn
@@ -200,7 +201,7 @@ namespace PowerPoint
             this._rectangleToolButton,
             this._circleToolButton,
             this._selectToolButton});
-            this._toolBar.Location = new System.Drawing.Point(0, 31);
+            this._toolBar.Location = new System.Drawing.Point(0, 32);
             this._toolBar.Name = "_toolBar";
             this._toolBar.Size = new System.Drawing.Size(800, 33);
             this._toolBar.TabIndex = 7;
@@ -256,6 +257,7 @@ namespace PowerPoint
             this.Controls.Add(this._slideDataGridView);
             this.Controls.Add(this._toolBar);
             this.Controls.Add(this._functionMenu);
+            this.KeyPreview = true;
             this.MainMenuStrip = this._functionMenu;
             this.Name = "Form1";
             this.Text = "HW2";
@@ -287,10 +289,11 @@ namespace PowerPoint
         private System.Windows.Forms.DataGridViewButtonColumn _deleteColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn _shapeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn _infoColumn;
-        private BindableToolStripButton _lineToolButton;
-        private BindableToolStripButton _rectangleToolButton;
-        private BindableToolStripButton _circleToolButton;
-        private BindableToolStripButton _selectToolButton;
+        private BindingToolStripButton _lineToolButton;
+        private BindingToolStripButton _rectangleToolButton;
+        private BindingToolStripButton _circleToolButton;
+        private BindingToolStripButton _selectToolButton;
+        private System.ComponentModel.BackgroundWorker _backgroundWorker;
     }
 }
 

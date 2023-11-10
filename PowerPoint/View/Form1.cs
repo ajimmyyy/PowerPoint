@@ -12,6 +12,12 @@ namespace PowerPoint
 {
     public partial class Form1 : System.Windows.Forms.Form
     {
+        const string TOOL_BUTTON_CHECK = "Checked";
+        const string TOOL_BUTTON_LINE = "IsLinePressed";
+        const string TOOL_BUTTON_RECTANGLE = "IsRectanglePressed";
+        const string TOOL_BUTTON_CIRCLE = "IsCirclePressed";
+        const string TOOL_BUTTON_SELECT = "IsSelectPressed";
+
         private Model _model;
         private PresentationModel _presentationModel;
         Panel _canvas = new DoubleBufferedPanel();
@@ -24,19 +30,21 @@ namespace PowerPoint
             _canvas.MouseEnter += EnterFromMouse;
             _canvas.MouseLeave += LeaveFromMouse;
             _canvas.MouseDown += CanvasPressed;
-            _canvas.MouseUp += CanvasReleased;
+            _canvas.MouseUp += ReleasedCanvas;
             _canvas.MouseMove += CanvasMoved;
             _canvas.Paint += CanvasPaint;
+            _canvas.KeyDown += PressKeyboardKey;
             Controls.Add(_canvas);
 
+            this.KeyDown += PressKeyboardKey;
             _shapeDataGridView.CellClick += new DataGridViewCellEventHandler(DeleteCellClick);
 
             _model = new Model();
             _presentationModel = new PresentationModel(_model);
-            _lineToolButton.DataBindings.Add("Checked", _presentationModel, "IsLinePressed");
-            _rectangleToolButton.DataBindings.Add("Checked", _presentationModel, "IsRectanglePressed");
-            _circleToolButton.DataBindings.Add("Checked", _presentationModel, "IsCirclePressed");
-            _selectToolButton.DataBindings.Add("Checked", _presentationModel, "IsSelectPressed");
+            _lineToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_LINE);
+            _rectangleToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_RECTANGLE);
+            _circleToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_CIRCLE);
+            _selectToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_SELECT);
             _shapeDataGridView.DataSource = _model.ShapeList;
             _model._modelChanged += ChangeModel;
         }
@@ -89,20 +97,32 @@ namespace PowerPoint
         //滑鼠移動
         public void CanvasMoved(object sender, MouseEventArgs e)
         {
-            _model.MovePointer(e.X, e.Y);
+            _presentationModel.CanvasMoveHandler(e.X, e.Y);
         }
 
         //滑鼠釋放
-        public void CanvasReleased(object sender, MouseEventArgs e)
+        public void ReleasedCanvas(object sender, MouseEventArgs e)
         {
             _presentationModel.CanvasReleasedHandler(e.X, e.Y);
             Cursor = Cursors.Default;
         }
 
+        //鍵盤按下
+        private void PressKeyboardKey(object sender, KeyEventArgs e)
+        {
+            _presentationModel.PressKeyboardHandler(e.KeyCode);
+        }
+
         //繪圖區重繪製
         public void CanvasPaint(object sender, PaintEventArgs e)
         {
+            Bitmap bitmap = new Bitmap(this.Width, this.Height);
+            Graphics slideImage = Graphics.FromImage(bitmap);
+
             _presentationModel.Draw(e.Graphics);
+            _presentationModel.Draw(slideImage);
+
+            _slideButton.Image = new Bitmap(bitmap, _slideButton.Width, _slideButton.Height);
         }
 
         //模型改變

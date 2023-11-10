@@ -8,9 +8,7 @@ namespace PowerPoint
 {
     public class Rectangle : Shape
     {
-        const string INFO_FORMAT = "({0}, {1})";
-        Coordinate _topLeft = new Coordinate();
-        Coordinate _bottomRight = new Coordinate();
+        Coordinate _position = new Coordinate();
 
         public Rectangle(double left, double top, double right, double bottom)
         {
@@ -21,17 +19,23 @@ namespace PowerPoint
         //設定位置
         public override void SetPosition(double left, double top, double right, double bottom)
         {
-            _topLeft._coordinateX = left < right ? left : right;
-            _topLeft._coordinateY = top < bottom ? top : bottom;
-            _bottomRight._coordinateX = right < left ? left : right;
-            _bottomRight._coordinateY = bottom < top ? top : bottom;
-            Info = string.Format(INFO_FORMAT, _topLeft.ToString(), _bottomRight.ToString());
+            _position._left = Math.Min(left, right);
+            _position._top = Math.Min(top, bottom);
+            _position._right = Math.Max(left, right);
+            _position._bottom = Math.Max(top, bottom);
+            Info = _position.ToString();
+        }
+
+        //取的座標
+        public override Coordinate GetPosition()
+        {
+            return _position;
         }
 
         //繪圖
         public override void Draw(IGraphics graphics)
         {
-            graphics.DrawRectangle(_topLeft._coordinateX, _topLeft._coordinateY, _bottomRight._coordinateX, _bottomRight._coordinateY);
+            graphics.DrawRectangle(_position._left, _position._top, _position._right, _position._bottom);
         }
     }
 }

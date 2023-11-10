@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Border.cs" />
     <Compile Include="Model\DrawingState.cs" />
     <Compile Include="Model\IState.cs" />
     <Compile Include="Model\PointState.cs" />

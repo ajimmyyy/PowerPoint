@@ -9,39 +9,45 @@ using System.Windows.Forms.Design;
 namespace PowerPoint
 {
     [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.ToolStrip | ToolStripItemDesignerAvailability.StatusStrip)]
-    public class BindableToolStripButton : ToolStripButton, IBindableComponent
+    public class BindingToolStripButton : ToolStripButton, IBindableComponent
     {
-        public BindableToolStripButton()
-            : base() { }
-        public BindableToolStripButton(String text)
-            : base(text) { }
-        public BindableToolStripButton(System.Drawing.Image image)
-            : base(image) { }
-        public BindableToolStripButton(String text, System.Drawing.Image image)
-            : base(text, image) { }
-        public BindableToolStripButton(String text, System.Drawing.Image image, EventHandler onClick)
-            : base(text, image, onClick) { }
-        public BindableToolStripButton(String text, System.Drawing.Image image, EventHandler onClick, String name)
-            : base(text, image, onClick, name) { }
+        public BindingToolStripButton() : base() 
+        {
+        }
+        public BindingToolStripButton(String text) : base(text) 
+        { 
+        }
+        public BindingToolStripButton(System.Drawing.Image image) : base(image) 
+        { 
+        }
+        public BindingToolStripButton(String text, System.Drawing.Image image) : base(text, image) 
+        {
+        }
+        public BindingToolStripButton(String text, System.Drawing.Image image, EventHandler onClick) : base(text, image, onClick) 
+        {
+        }
+        public BindingToolStripButton(String text, System.Drawing.Image image, EventHandler onClick, String name) : base(text, image, onClick, name) 
+        {
+        }
 
         #region IBindableComponent Members
-        private BindingContext bindingContext;
-        private ControlBindingsCollection dataBindings;
+        private BindingContext _bindingContext;
+        private ControlBindingsCollection _dataBindings;
 
         [Browsable(false)]
         public BindingContext BindingContext
         {
             get
             {
-                if (bindingContext == null)
+                if (_bindingContext == null)
                 {
-                    bindingContext = new BindingContext();
+                    _bindingContext = new BindingContext();
                 }
-                return bindingContext;
+                return _bindingContext;
             }
             set
             {
-                bindingContext = value;
+                _bindingContext = value;
             }
         }
 
@@ -50,11 +56,11 @@ namespace PowerPoint
         {
             get
             {
-                if (dataBindings == null)
+                if (_dataBindings == null)
                 {
-                    dataBindings = new ControlBindingsCollection(this);
+                    _dataBindings = new ControlBindingsCollection(this);
                 }
-                return dataBindings;
+                return _dataBindings;
             }
         }
         #endregion

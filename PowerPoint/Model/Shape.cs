@@ -46,10 +46,13 @@ namespace PowerPoint
         //設定位置
         public abstract void SetPosition(double left, double top, double right, double bottom);
 
+        //取得位置
+        public abstract Coordinate GetPosition();
+
         //繪圖
         public abstract void Draw(IGraphics graphics);
 
-        //通知資料改變
+        //通知形狀資料改變
         void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)

@@ -74,10 +74,7 @@ namespace PowerPoint
         //設定繪圖模式
         public void SetDrawingMode(string shapeType)
         {
-            _isLinePressed = false;
-            _isRectanglePressed = false;
-            _isCirclePressed = false;
-            _isSelectPressed = false;
+            ToolButtonReset();
             _model.SetToolMode(shapeType);
             _shapePressed[shapeType]();
             NotifyPropertyChanged();
@@ -103,29 +100,72 @@ namespace PowerPoint
         {
             if (_isSelectPressed)
             {
-                _model.SelectPressPointer(pointX, pointY);
+                _model.PressPointer(new PointState(_model, pointX, pointY));
             }
             else if (IsToolButtonPressed())
             {
-                _model.PressPointer(pointX, pointY);
+                _model.PressPointer(new DrawingState(_model, pointX, pointY));
+            }
+        }
+
+        //當滑鼠移動
+        public void CanvasMoveHandler(int pointX, int pointY)
+        {
+            if (_isSelectPressed)
+            {
+                _model.MovePointer(new PointState(_model, pointX, pointY));
+            }
+            else if (IsToolButtonPressed())
+            {
+                _model.MovePointer(new DrawingState(_model, pointX, pointY));
             }
         }
 
         //當滑鼠釋放
         public void CanvasReleasedHandler(int pointX, int pointY)
         {
-            _isLinePressed = false;
-            _isRectanglePressed = false;
-            _isCirclePressed = false;
-            _isSelectPressed = false;
-            _model.ReleasePointer(pointX, pointY);
+            if (_isSelectPressed)
+            {
+                _model.ReleasePointer(new PointState(_model, pointX, pointY));
+            }
+            else if (IsToolButtonPressed())
+            {
+                _model.ReleasePointer(new DrawingState(_model, pointX, pointY));
+            }
+            ToolButtonReset();
+            _isSelectPressed = true;
             NotifyPropertyChanged();
+        }
+
+        //當鍵盤刪除按下
+        public void PressKeyboardHandler(Keys keyPress)
+        {
+            if (keyPress == Keys.Delete)
+            {
+                if (_isSelectPressed)
+                {
+                    _model.PressDelete(new PointState(_model));
+                }
+                else if (IsToolButtonPressed())
+                {
+                    _model.PressDelete(new DrawingState(_model));
+                }
+            }
         }
 
         //tool按鈕是否被按下
         private bool IsToolButtonPressed()
         {
             return _isLinePressed || _isRectanglePressed || _isCirclePressed;
+        }
+
+        //重置tool按鈕
+        private void ToolButtonReset()
+        {
+            _isLinePressed = false;
+            _isRectanglePressed = false;
+            _isCirclePressed = false;
+            _isSelectPressed = false;
         }
         
         //繪圖
@@ -134,6 +174,7 @@ namespace PowerPoint
             _model.Draw(new WindowsFormsGraphicsAdaptor(graphics));
         }
 
+        //通知tool按鈕屬性改變
         void NotifyPropertyChanged()
         {
             if (PropertyChanged != null)

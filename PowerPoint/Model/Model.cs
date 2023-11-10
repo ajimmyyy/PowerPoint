@@ -12,12 +12,13 @@ namespace PowerPoint
         public event ModelChangedEventHandler _modelChanged;
         public delegate void ModelChangedEventHandler();
         private string _toolModePressed = "";
+        private bool _isPressed = false;
         private double _firstPointX;
         private double _firstPointY;
         private Shape _hint;
-        private bool _isPressed = false;
+        private Border _border;
         private Shapes _shapes = new Shapes();
-        
+
         //當DataGridView新增按鈕被按下的處理
         public void AddButtonClickEvent(string shapeType)
         {
@@ -41,22 +42,107 @@ namespace PowerPoint
             NotifyModelChanged();
         }
 
-        //繪圖滑鼠被按下
-        public void PressPointer(double pointX, double pointY)
+        //滑鼠被按下
+        public void PressPointer(IState state)
         {
-            
+            _isPressed = true;
+            RemoveBorder();
+            state.MouseDown();
         }
 
-        //繪圖滑鼠移動
-        public void MovePointer(double pointX, double pointY)
+        //滑鼠移動
+        public void MovePointer(IState state)
         {
+            state.MouseMove();
             NotifyModelChanged();
         }
 
-        //繪圖滑鼠釋放
-        public void ReleasePointer(double pointX, double pointY)
+        //滑鼠釋放
+        public void ReleasePointer(IState state)
         {
+            state.MouseRelease();
+            _isPressed = false;
+            _toolModePressed = "";
             NotifyModelChanged();
+        }
+
+        //鍵盤刪除按下
+        public void PressDelete(IState state)
+        {
+            state.DeletePress();
+            NotifyModelChanged();
+        }
+
+        //創建即時形狀
+        public void CreateHint()
+        {
+            _hint = Factory.CreateShape(_toolModePressed);
+        }
+
+        //設定即時形狀位置
+        public void SetHintPosition(double pointX, double pointY)
+        {
+            if (_isPressed)
+            {
+                _hint.SetPosition(_firstPointX, _firstPointY, pointX, pointY);
+            }
+        }
+
+        //加入即時形狀
+        public void AddHint()
+        {
+            if (_isPressed)
+            {
+                _shapes.AddShape(_hint);
+                _hint = null;
+            }
+        }
+
+        //設定起始點
+        public void SetFirstPoint(double pointX, double pointY)
+        {
+            _firstPointX = pointX;
+            _firstPointY = pointY;
+        }
+
+        //選擇形狀
+        public void SelectShape(double pointX, double pointY)
+        {
+            _border = _shapes.FindShape(pointX, pointY);
+            SetFirstPoint(pointX, pointY);
+        }
+
+        //移動形狀
+        public void MoveShape(double pointX, double pointY)
+        {
+            if (_border != null && _isPressed)
+            {
+                double left = _border.GetPosition()._left;
+                double top = _border.GetPosition()._top;
+                double right = _border.GetPosition()._right;
+                double bottom = _border.GetPosition()._bottom;
+                double distanceX = pointX - _firstPointX;
+                double distanceY = pointY - _firstPointY;
+
+                _border.SetBorder(left + distanceX, top + distanceY, right + distanceX, bottom + distanceY);
+                SetFirstPoint(pointX, pointY);
+            }
+        }
+
+        //移除邊界
+        public void RemoveBorder()
+        {
+            if (_border != null)
+            {
+                _shapes.AddShape(_border.GetShape());
+                _border = null;
+            }
+        }
+
+        //刪除選取形狀
+        public void DeleteShape()
+        {
+            _border = null;
         }
 
         //畫出所有形狀和即時形狀
@@ -65,8 +151,10 @@ namespace PowerPoint
             graphics.ClearAll();
             _shapes.Draw(graphics);
 
-            if (_isPressed)
+            if (_isPressed && _hint != null)
                 _hint.Draw(graphics);
+            if (_border != null)
+                _border.Draw(graphics);
         }
 
         //通知模型改變
@@ -85,28 +173,16 @@ namespace PowerPoint
         public BindingList<Shape> ShapeList
         {
             get
-            { 
-                return _shapes.GetShapeList; 
+            {
+                return _shapes.GetShapeList;
             }
         }
 
-        public Shapes GetShapes
+        public bool IsPressed
         {
             get
             {
-                return _shapes;
-            }
-        }
-
-        public string GetToolMode
-        {
-            get
-            {
-                return _toolModePressed;
-            }
-            set
-            {
-                _toolModePressed = value;
+                return _isPressed;
             }
         }
     }

@@ -19,5 +19,8 @@ namespace PowerPoint
 
         //畫圓形
         void DrawCircle(double x1, double y1, double x2, double y2);
+
+        //畫小圓點
+        void DrawDot(double centerX, double centerY, double radius);
     }
 }
