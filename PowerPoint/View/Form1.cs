@@ -33,9 +33,12 @@ namespace PowerPoint
 
             _model = new Model();
             _presentationModel = new PresentationModel(_model);
+            _lineToolButton.DataBindings.Add("Checked", _presentationModel, "IsLinePressed");
+            _rectangleToolButton.DataBindings.Add("Checked", _presentationModel, "IsRectanglePressed");
+            _circleToolButton.DataBindings.Add("Checked", _presentationModel, "IsCirclePressed");
+            _selectToolButton.DataBindings.Add("Checked", _presentationModel, "IsSelectPressed");
             _shapeDataGridView.DataSource = _model.ShapeList;
             _model._modelChanged += ChangeModel;
-            _presentationModel._toolButtonClick += UpdateToolButtonState;
         }
 
         private BindingManagerBase BindingManager
@@ -63,14 +66,6 @@ namespace PowerPoint
         {
             ToolStripButton button = sender as ToolStripButton;
             _presentationModel.ToolButtonClickHandler(button.Text);
-        }
-
-        //圖形工具按鈕狀態更新
-        private void UpdateToolButtonState(bool lineChick, bool rectangleChick, bool circleChick)
-        {
-            _lineToolButton.Checked = lineChick;
-            _rectangleToolButton.Checked = rectangleChick;
-            _circleToolButton.Checked = circleChick;
         }
 
         //滑鼠進入繪圖區

@@ -14,7 +14,7 @@ namespace PowerPoint
 
         public Circle(double left, double top, double right, double bottom)
         {
-            ShapeName = ShapeType.CIRCLE_NAME;
+            ShapeName = ModeType.CIRCLE_NAME;
             SetPosition(left, top, right, bottom);
         }
 

@@ -10,6 +10,7 @@ namespace PowerPoint
     public class Shapes
     {
         private BindingList<Shape> _shapeList = new BindingList<Shape>();
+        private Shape _hint;
 
         public BindingList<Shape> GetShapeList
         {

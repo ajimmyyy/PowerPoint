@@ -22,10 +22,10 @@ namespace PowerPoint
             { 
                 return _info; 
             }
-            set 
+            set
             {
                 _info = value;
-                NotifyPropertyChanged(INFO);
+                NotifyPropertyChanged(SHAPE_NAME);
             }
         }
 

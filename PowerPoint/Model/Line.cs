@@ -14,7 +14,7 @@ namespace PowerPoint
 
         public Line(double left, double top, double right, double bottom)
         {
-            ShapeName = ShapeType.LINE_NAME;
+            ShapeName = ModeType.LINE_NAME;
             SetPosition(left, top, right, bottom);
         }
 

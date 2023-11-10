@@ -17,11 +17,11 @@ namespace PowerPoint
 
             switch (shapeType)
             {
-                case ShapeType.LINE_NAME:
+                case ModeType.LINE_NAME:
                     return new Line(random.Next(START, END), random.Next(START, END), random.Next(START, END), random.Next(START, END));
-                case ShapeType.RECTANGLE_NAME:
+                case ModeType.RECTANGLE_NAME:
                     return new Rectangle(random.Next(START, END), random.Next(START, END), random.Next(START, END), random.Next(START, END));
-                case ShapeType.CIRCLE_NAME:
+                case ModeType.CIRCLE_NAME:
                     return new Circle(random.Next(START, END), random.Next(START, END), random.Next(START, END), random.Next(START, END));
                 default:
                     return null;

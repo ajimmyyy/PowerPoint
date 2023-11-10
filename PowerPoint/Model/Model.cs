@@ -14,8 +14,8 @@ namespace PowerPoint
         private string _toolModePressed = "";
         private double _firstPointX;
         private double _firstPointY;
-        private bool _isPressed = false;
         private Shape _hint;
+        private bool _isPressed = false;
         private Shapes _shapes = new Shapes();
         
         //當DataGridView新增按鈕被按下的處理
@@ -44,36 +44,19 @@ namespace PowerPoint
         //繪圖滑鼠被按下
         public void PressPointer(double pointX, double pointY)
         {
-            if (pointX > 0 && pointY > 0)
-            {
-                _hint = Factory.CreateShape(_toolModePressed);
-                _firstPointX = pointX;
-                _firstPointY = pointY;
-                _isPressed = true;
-            }
+            
         }
 
         //繪圖滑鼠移動
         public void MovePointer(double pointX, double pointY)
         {
-            if (_isPressed)
-            {
-                _hint.SetPosition(_firstPointX, _firstPointY, pointX, pointY);
-                NotifyModelChanged();
-            }
+            NotifyModelChanged();
         }
 
         //繪圖滑鼠釋放
         public void ReleasePointer(double pointX, double pointY)
         {
-            if (_isPressed)
-            {
-                _isPressed = false;
-                _toolModePressed = "";
-                _hint.SetPosition(_firstPointX, _firstPointY, pointX, pointY);
-                _shapes.AddShape(_hint);
-                NotifyModelChanged();
-            }
+            NotifyModelChanged();
         }
 
         //畫出所有形狀和即時形狀
@@ -104,6 +87,26 @@ namespace PowerPoint
             get
             { 
                 return _shapes.GetShapeList; 
+            }
+        }
+
+        public Shapes GetShapes
+        {
+            get
+            {
+                return _shapes;
+            }
+        }
+
+        public string GetToolMode
+        {
+            get
+            {
+                return _toolModePressed;
+            }
+            set
+            {
+                _toolModePressed = value;
             }
         }
     }

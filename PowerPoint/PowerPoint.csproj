@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\DrawingState.cs" />
+    <Compile Include="Model\IState.cs" />
+    <Compile Include="Model\PointState.cs" />
+    <Compile Include="View\ToolStripBindableButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="View\DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -68,7 +74,7 @@
     <Compile Include="Model\Rectangle.cs" />
     <Compile Include="Model\Shape.cs" />
     <Compile Include="Model\Shapes.cs" />
-    <Compile Include="Model\ShapeType.cs" />
+    <Compile Include="Model\ModeType.cs" />
     <EmbeddedResource Include="View\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -14,7 +14,7 @@ namespace PowerPoint
 
         public Rectangle(double left, double top, double right, double bottom)
         {
-            ShapeName = ShapeType.RECTANGLE_NAME;
+            ShapeName = ModeType.RECTANGLE_NAME;
             SetPosition(left, top, right, bottom);
         }
 
