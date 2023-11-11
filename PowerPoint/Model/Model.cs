@@ -127,16 +127,13 @@ namespace PowerPoint
         //移動形狀
         public void MoveShape(double pointX, double pointY)
         {
-            if (_selection != null && _isPressed)
+            if (_isPressed)
             {
-                double left = _selection.ShapeRange._left;
-                double top = _selection.ShapeRange._top;
-                double right = _selection.ShapeRange._right;
-                double bottom = _selection.ShapeRange._bottom;
+                Coordinate range = _selection.ShapeRange;
                 double distanceX = pointX - _firstPointX;
                 double distanceY = pointY - _firstPointY;
 
-                _selection.ShapeSelect.SetPosition(left + distanceX, top + distanceY, right + distanceX, bottom + distanceY);
+                _selection.SetPosition(range._left + distanceX, range._top + distanceY, range._right + distanceX, range._bottom + distanceY);
                 _selection.UpdatePosition();
                 SetFirstPoint(pointX, pointY);
             }

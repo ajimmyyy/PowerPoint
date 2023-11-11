@@ -18,6 +18,15 @@ namespace PowerPoint
         }
 
         //設定位置
+        public void SetPosition(double left, double top, double right, double bottom)
+        {
+            if (_shapeSelect != null)
+            {
+                _shapeSelect.SetPosition(left, top, right, bottom);
+            }
+        }
+
+        //更新位置
         public void UpdatePosition()
         {
             if (_shapeSelect != null)
