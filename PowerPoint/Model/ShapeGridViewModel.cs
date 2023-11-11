@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PowerPoint.Model
+namespace PowerPoint
 {
-    class ShapeGridViewModel
+    public class ShapeGridViewModel
     {
         public string _column1
         {

@@ -45,16 +45,8 @@ namespace PowerPoint
             _rectangleToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_RECTANGLE);
             _circleToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_CIRCLE);
             _selectToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_SELECT);
-            _shapeDataGridView.DataSource = _model.ShapeList;
             _model._modelChanged += ChangeModel;
-        }
-
-        private BindingManagerBase BindingManager
-        {
-            get
-            { 
-                return BindingContext[_model.ShapeList]; 
-            }
+            _model._gridViewChanged += ChangeDataGridView;
         }
 
         //DataGridView新增按鈕被按下
@@ -129,6 +121,12 @@ namespace PowerPoint
         public void ChangeModel()
         {
             _canvas.Invalidate(true);
+        }
+
+        //表格改變
+        public void ChangeDataGridView()
+        {
+            _shapeDataGridView.DataSource = _model.GetShapesDisplay();
         }
     }
 }

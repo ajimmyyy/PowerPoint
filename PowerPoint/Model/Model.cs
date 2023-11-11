@@ -10,6 +10,7 @@ namespace PowerPoint
     public class Model
     {
         public event ModelChangedEventHandler _modelChanged;
+        public event ModelChangedEventHandler _gridViewChanged;
         public delegate void ModelChangedEventHandler();
         private string _toolModePressed = "";
         private bool _isPressed = false;
@@ -29,6 +30,7 @@ namespace PowerPoint
 
             _shapes.AddNewShape(shapeType);
             NotifyModelChanged();
+            NotifyGridViewChanged();
         }
 
         //當DataGridView刪除按鈕被按下的處理
@@ -42,6 +44,13 @@ namespace PowerPoint
             }
 
             NotifyModelChanged();
+            NotifyGridViewChanged();
+        }
+
+        //回傳list裡的資訊做顯示
+        public List<ShapeGridViewModel> GetShapesDisplay()
+        {
+            return _shapes.GetShapeListInfo();
         }
 
         //滑鼠被按下
@@ -65,6 +74,7 @@ namespace PowerPoint
             _isPressed = false;
             _toolModePressed = "";
             NotifyModelChanged();
+            NotifyGridViewChanged();
         }
 
         //鍵盤刪除按下
@@ -72,6 +82,7 @@ namespace PowerPoint
         {
             state.DeletePress();
             NotifyModelChanged();
+            NotifyGridViewChanged();
         }
 
         //創建即時形狀
@@ -126,7 +137,7 @@ namespace PowerPoint
                 double distanceY = pointY - _firstPointY;
 
                 _selection.ShapeSelect.SetPosition(left + distanceX, top + distanceY, right + distanceX, bottom + distanceY);
-                _selection.UpdataRange();
+                _selection.UpdatePosition();
                 SetFirstPoint(pointX, pointY);
             }
         }
@@ -156,26 +167,17 @@ namespace PowerPoint
                 _modelChanged();
         }
 
+        //通知DataGridView改變
+        void NotifyGridViewChanged()
+        {
+            if (_gridViewChanged != null)
+                _gridViewChanged();
+        }
+
         //設定繪圖模式
         public void SetToolMode(string shapeType)
         {
             _toolModePressed = shapeType;
-        }
-
-        public BindingList<Shape> ShapeList
-        {
-            get
-            {
-                return _shapes.GetShapeList;
-            }
-        }
-
-        public bool IsPressed
-        {
-            get
-            {
-                return _isPressed;
-            }
         }
     }
 }

@@ -9,15 +9,8 @@ namespace PowerPoint
 {
     public class Shapes
     {
-        private BindingList<Shape> _shapeList = new BindingList<Shape>();
-
-        public BindingList<Shape> GetShapeList
-        {
-            get
-            { 
-                return _shapeList; 
-            }
-        }
+        const string DELETE = "刪除";
+        private List<Shape> _shapeList = new List<Shape>();
 
         //創建形狀並加入到list裡
         public void AddNewShape(string shapeType)
@@ -62,6 +55,18 @@ namespace PowerPoint
                 }
             }
             return null;
+        }
+
+        //取得shapes資訊
+        public List<ShapeGridViewModel> GetShapeListInfo()
+        {
+            List<ShapeGridViewModel> shapeListData = _shapeList.Select(item => new ShapeGridViewModel
+            { 
+                _column1 = DELETE,
+                _column2 = item.GetShapeName(),
+                _column3 = item.GetInfo() }).ToList();
+
+            return shapeListData;
         }
 
         //畫出所有圖形

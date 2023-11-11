@@ -9,7 +9,7 @@ namespace PowerPoint
     public class Selection
     {
         const double DOT_RADIUS = 5;
-        Coordinate _shapeRange = new Coordinate();
+        Coordinate _shapePosition = new Coordinate();
         Shape _shapeSelect;
 
         public Selection(Shape shape)
@@ -18,14 +18,14 @@ namespace PowerPoint
         }
 
         //設定位置
-        public void UpdataRange()
+        public void UpdatePosition()
         {
             if (_shapeSelect != null)
             {
-                _shapeRange._left = _shapeSelect.GetPosition()._left;
-                _shapeRange._top = _shapeSelect.GetPosition()._top;
-                _shapeRange._right = _shapeSelect.GetPosition()._right;
-                _shapeRange._bottom = _shapeSelect.GetPosition()._bottom;
+                _shapePosition._left = _shapeSelect.GetPosition()._left;
+                _shapePosition._top = _shapeSelect.GetPosition()._top;
+                _shapePosition._right = _shapeSelect.GetPosition()._right;
+                _shapePosition._bottom = _shapeSelect.GetPosition()._bottom;
             }
         }
 
@@ -34,20 +34,21 @@ namespace PowerPoint
         {
             if (_shapeSelect != null)
             {
-                double middlePointX = _shapeRange.middleX;
-                double middlePointY = _shapeRange.middleY;
+                double middlePointX = _shapePosition.middleX;
+                double middlePointY = _shapePosition.middleY;
 
-                graphics.DrawDot(_shapeRange._left, _shapeRange._top, DOT_RADIUS);
-                graphics.DrawDot(_shapeRange._left, _shapeRange._bottom, DOT_RADIUS);
-                graphics.DrawDot(_shapeRange._right, _shapeRange._top, DOT_RADIUS);
-                graphics.DrawDot(_shapeRange._right, _shapeRange._bottom, DOT_RADIUS);
-                graphics.DrawDot(middlePointX, _shapeRange._top, DOT_RADIUS);
-                graphics.DrawDot(middlePointX, _shapeRange._bottom, DOT_RADIUS);
-                graphics.DrawDot(_shapeRange._right, middlePointY, DOT_RADIUS);
-                graphics.DrawDot(_shapeRange._left, middlePointY, DOT_RADIUS);
+                graphics.DrawDot(_shapePosition._left, _shapePosition._top, DOT_RADIUS);
+                graphics.DrawDot(_shapePosition._left, _shapePosition._bottom, DOT_RADIUS);
+                graphics.DrawDot(_shapePosition._right, _shapePosition._top, DOT_RADIUS);
+                graphics.DrawDot(_shapePosition._right, _shapePosition._bottom, DOT_RADIUS);
+                graphics.DrawDot(middlePointX, _shapePosition._top, DOT_RADIUS);
+                graphics.DrawDot(middlePointX, _shapePosition._bottom, DOT_RADIUS);
+                graphics.DrawDot(_shapePosition._right, middlePointY, DOT_RADIUS);
+                graphics.DrawDot(_shapePosition._left, middlePointY, DOT_RADIUS);
             }
         }
 
+        //清除選取
         public void Unselect()
         {
             _shapeSelect = null;
@@ -58,7 +59,7 @@ namespace PowerPoint
         {
             get
             {
-                return _shapeRange;
+                return _shapePosition;
             }
         }
 
@@ -72,7 +73,7 @@ namespace PowerPoint
             set
             {
                 _shapeSelect = value;
-                UpdataRange();
+                UpdatePosition();
             }
         }
     }
