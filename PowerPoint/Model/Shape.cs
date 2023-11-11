@@ -7,58 +7,21 @@ using System.ComponentModel;
 
 namespace PowerPoint
 {
-    public abstract class Shape : INotifyPropertyChanged
+    public interface Shape
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        const string INFO = "Info";
-        const string SHAPE_NAME = "ShapeName";
-        string _info;
-        string _shapeName;
-
         //取得圖形資訊
-        public string Info
-        {
-            get
-            { 
-                return _info; 
-            }
-            set
-            {
-                _info = value;
-                NotifyPropertyChanged(SHAPE_NAME);
-            }
-        }
+        string GetInfo();
 
         //取得圖形名稱
-        public string ShapeName
-        {
-            get
-            { 
-                return _shapeName; 
-            }
-            set
-            {
-                _shapeName = value;
-                NotifyPropertyChanged(SHAPE_NAME);
-            }
-        }
+        string GetShapeName();
 
         //設定位置
-        public abstract void SetPosition(double left, double top, double right, double bottom);
+        void SetPosition(double left, double top, double right, double bottom);
 
         //取得位置
-        public abstract Coordinate GetPosition();
+        Coordinate GetPosition();
 
         //繪圖
-        public abstract void Draw(IGraphics graphics);
-
-        //通知形狀資料改變
-        void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        void Draw(IGraphics graphics);
     }
 }

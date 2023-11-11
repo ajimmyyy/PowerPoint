@@ -16,7 +16,7 @@ namespace PowerPoint
         private double _firstPointX;
         private double _firstPointY;
         private Shape _hint;
-        private Border _border;
+        private Selection _selection = new Selection(null);
         private Shapes _shapes = new Shapes();
 
         //當DataGridView新增按鈕被按下的處理
@@ -34,6 +34,8 @@ namespace PowerPoint
         //當DataGridView刪除按鈕被按下的處理
         public void DeleteButtonClickEvent(int rowIndex, int columnIndex)
         {
+            _selection.Unselect();
+
             if (rowIndex >= 0 && columnIndex == 0)
             {
                 _shapes.DeleteShape(rowIndex);
@@ -46,7 +48,6 @@ namespace PowerPoint
         public void PressPointer(IState state)
         {
             _isPressed = true;
-            RemoveBorder();
             state.MouseDown();
         }
 
@@ -108,41 +109,33 @@ namespace PowerPoint
         //選擇形狀
         public void SelectShape(double pointX, double pointY)
         {
-            _border = _shapes.FindShape(pointX, pointY);
+            _selection.ShapeSelect = _shapes.FindShape(pointX, pointY);
             SetFirstPoint(pointX, pointY);
         }
 
         //移動形狀
         public void MoveShape(double pointX, double pointY)
         {
-            if (_border != null && _isPressed)
+            if (_selection != null && _isPressed)
             {
-                double left = _border.GetPosition()._left;
-                double top = _border.GetPosition()._top;
-                double right = _border.GetPosition()._right;
-                double bottom = _border.GetPosition()._bottom;
+                double left = _selection.ShapeRange._left;
+                double top = _selection.ShapeRange._top;
+                double right = _selection.ShapeRange._right;
+                double bottom = _selection.ShapeRange._bottom;
                 double distanceX = pointX - _firstPointX;
                 double distanceY = pointY - _firstPointY;
 
-                _border.SetBorder(left + distanceX, top + distanceY, right + distanceX, bottom + distanceY);
+                _selection.ShapeSelect.SetPosition(left + distanceX, top + distanceY, right + distanceX, bottom + distanceY);
+                _selection.UpdataRange();
                 SetFirstPoint(pointX, pointY);
-            }
-        }
-
-        //移除邊界
-        public void RemoveBorder()
-        {
-            if (_border != null)
-            {
-                _shapes.AddShape(_border.GetShape());
-                _border = null;
             }
         }
 
         //刪除選取形狀
         public void DeleteShape()
         {
-            _border = null;
+            _shapes.DeleteShape(_selection.ShapeSelect);
+            _selection.Unselect();
         }
 
         //畫出所有形狀和即時形狀
@@ -150,11 +143,10 @@ namespace PowerPoint
         {
             graphics.ClearAll();
             _shapes.Draw(graphics);
+            _selection.Draw(graphics);
 
             if (_isPressed && _hint != null)
-                _hint.Draw(graphics);
-            if (_border != null)
-                _border.Draw(graphics);
+                _hint.Draw(graphics);                
         }
 
         //通知模型改變

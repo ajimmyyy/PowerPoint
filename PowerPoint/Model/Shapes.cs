@@ -38,27 +38,27 @@ namespace PowerPoint
             _shapeList.RemoveAt(rowIndex);
         }
 
-        //public void DeleteShape(Shape shape)
-        //{
-        //    for (int i = 0; i < _shapeList.Count; i ++)
-        //    {
-        //        if (shape == _shapeList[i])
-        //        {
-        //            _shapeList.RemoveAt(i);
-        //        }
-        //    }
-        //}
+        //刪除list裡的形狀(by shape)
+        public void DeleteShape(Shape shape)
+        {
+            for (int i = 0; i < _shapeList.Count; i++)
+            {
+                if (shape == _shapeList[i])
+                {
+                    _shapeList.RemoveAt(i);
+                }
+            }
+        }
 
         //選取形狀
-        public Border FindShape(double pointX, double pointY)
+        public Shape FindShape(double pointX, double pointY)
         {
             for (int i = _shapeList.Count - 1; i >= 0; i --)
             {
                 Shape shape = _shapeList[i];
                 if (shape.GetPosition().IsInside(pointX, pointY))
                 {
-                    _shapeList.RemoveAt(i);
-                    return new Border(shape);
+                    return shape;
                 }
             }
             return null;
