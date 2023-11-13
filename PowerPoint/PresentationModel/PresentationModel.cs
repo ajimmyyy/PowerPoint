@@ -168,10 +168,16 @@ namespace PowerPoint
             _isSelectPressed = false;
         }
         
-        //繪圖
-        public void Draw(System.Drawing.Graphics graphics)
+        //繪畫區繪圖
+        public void CanvasDraw(System.Drawing.Graphics graphics)
         {
             _model.Draw(new WindowsFormsGraphicsAdaptor(graphics));
+        }
+
+        //縮圖區繪圖
+        public void SlideDraw(System.Drawing.Graphics graphics)
+        {
+            _model.Draw(new SlideFormsGraphicsAdaptor(graphics));
         }
 
         //通知tool按鈕屬性改變

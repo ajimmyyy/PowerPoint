@@ -306,6 +306,11 @@
                 <AnalysisFileType>Designer</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>View\SlideFormsGraphicsAdaptor.cs</RelativePath>
+                <ProjectName>PowerPoint</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>View\ToolStripBindableButton.cs</RelativePath>
                 <ProjectName>PowerPoint</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
@@ -317,7 +322,7 @@
               </AnalysisFile>
             </AnalysisFiles>
           </AnalysisFileManager>
-          <ProductionLoc>1627</ProductionLoc>
+          <ProductionLoc>1701</ProductionLoc>
           <TestLoc>0</TestLoc>
         </CodeReview>
       </Data>

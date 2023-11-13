@@ -70,6 +70,7 @@
     <Compile Include="Model\Line.cs" />
     <Compile Include="Model\Model.cs" />
     <Compile Include="PresentationModel\PresentationModel.cs" />
+    <Compile Include="View\SlideFormsGraphicsAdaptor.cs" />
     <Compile Include="View\WindowsFormsGraphicsAdaptor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

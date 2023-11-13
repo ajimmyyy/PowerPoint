@@ -25,7 +25,7 @@ namespace PowerPoint
         //取得圖形名稱
         public string GetShapeName()
         {
-            return ModeType.CIRCLE_NAME;
+            return ModeType.RECTANGLE_NAME;
         }
 
         //設定位置

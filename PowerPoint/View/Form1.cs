@@ -20,13 +20,11 @@ namespace PowerPoint
 
         private Model _model;
         private PresentationModel _presentationModel;
-        Panel _canvas = new DoubleBufferedPanel();
 
         public Form1()
         {
             InitializeComponent();
 
-            _canvas.Dock = DockStyle.Fill;
             _canvas.MouseEnter += EnterFromMouse;
             _canvas.MouseLeave += LeaveFromMouse;
             _canvas.MouseDown += CanvasPressed;
@@ -35,6 +33,8 @@ namespace PowerPoint
             _canvas.Paint += CanvasPaint;
             _canvas.KeyDown += PressKeyboardKey;
             Controls.Add(_canvas);
+
+            _slideButton.Paint += SlidePaint;
 
             this.KeyDown += PressKeyboardKey;
             _shapeDataGridView.CellClick += new DataGridViewCellEventHandler(DeleteCellClick);
@@ -108,19 +108,20 @@ namespace PowerPoint
         //繪圖區重繪製
         public void CanvasPaint(object sender, PaintEventArgs e)
         {
-            Bitmap bitmap = new Bitmap(this.Width, this.Height);
-            Graphics slideImage = Graphics.FromImage(bitmap);
+            _presentationModel.CanvasDraw(e.Graphics);
+        }
 
-            _presentationModel.Draw(e.Graphics);
-            _presentationModel.Draw(slideImage);
-
-            _slideButton.Image = new Bitmap(bitmap, _slideButton.Width, _slideButton.Height);
+        //縮圖區重繪製
+        public void SlidePaint(object sender, PaintEventArgs e)
+        {
+            _presentationModel.SlideDraw(e.Graphics);
         }
 
         //模型改變
         public void ChangeModel()
         {
             _canvas.Invalidate(true);
+            _slideButton.Invalidate(true);
         }
 
         //表格改變
