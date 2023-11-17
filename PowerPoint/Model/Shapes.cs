@@ -16,7 +16,11 @@ namespace PowerPoint
         public void AddNewShape(string shapeType)
         {
             Shape newShape = Factory.CreateShape(shapeType);
-            _shapeList.Add(newShape);
+
+            if (newShape != null)
+            {
+                _shapeList.Add(newShape);
+            }
         }
 
         //加入現有形狀
@@ -28,7 +32,10 @@ namespace PowerPoint
         //刪除list裡的形狀(by index)
         public void DeleteShape(int rowIndex)
         {
-            _shapeList.RemoveAt(rowIndex);
+            if (_shapeList.Count != 0)
+            {
+                _shapeList.RemoveAt(rowIndex);
+            }
         }
 
         //刪除list裡的形狀(by shape)

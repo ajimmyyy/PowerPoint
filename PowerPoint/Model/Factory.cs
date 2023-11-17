@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PowerPoint
 {
-    class Factory
+    public class Factory
     {
         //創建新的圖形實體
         public static Shape CreateShape(string shapeType)

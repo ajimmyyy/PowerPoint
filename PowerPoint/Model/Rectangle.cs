@@ -8,7 +8,6 @@ namespace PowerPoint
 {
     public class Rectangle : Shape
     {
-        const string INFO_FORMAT = "(({0}, {1}),({2}, {3}))";
         Coordinate _position = new Coordinate();
 
         public Rectangle(double left, double top, double right, double bottom)
@@ -19,7 +18,7 @@ namespace PowerPoint
         //取得圖形資訊
         public string GetInfo()
         {
-            return string.Format(INFO_FORMAT, _position._left, _position._top, _position._right, _position._bottom);
+            return _position.ToString();
         }
 
         //取得圖形名稱
