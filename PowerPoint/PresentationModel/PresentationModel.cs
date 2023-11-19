@@ -12,12 +12,20 @@ namespace PowerPoint
     public class PresentationModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        const string CURSOR_DEFAULT = "Default";
+        const string CURSOR_CROSS = "Cross";
         private bool _isLinePressed;
         private bool _isRectanglePressed;
         private bool _isCirclePressed;
         private bool _isSelectPressed;
         private Dictionary<string, Action> _shapePressed;
         Model _model;
+        string _cursorType = CURSOR_DEFAULT;
+        public Cursor CursorNow
+        {
+            get;
+            set;
+        }
 
         public bool IsLinePressed
         {
@@ -71,8 +79,8 @@ namespace PowerPoint
             };
         }
 
-        //設定繪圖模式
-        public void SetDrawingMode(string shapeType)
+        //當tool按鈕被按下
+        public void ToolButtonClickHandler(string shapeType)
         {
             ToolButtonReset();
             _model.SetToolMode(shapeType);
@@ -80,19 +88,19 @@ namespace PowerPoint
             NotifyPropertyChanged();
         }
 
-        //當tool按鈕被按下
-        public void ToolButtonClickHandler(string shapeType)
-        {
-            SetDrawingMode(shapeType);
-        }
-
         //更新鼠標
-        public Cursor UpdateCursor()
+        public void UpdateCursor()
         {
             if (IsToolButtonPressed())
-                return Cursors.Cross;
+            {
+                CursorNow = Cursors.Cross;
+                _cursorType = CURSOR_CROSS;
+            }
             else
-                return Cursors.Default;
+            {
+                CursorNow = Cursors.Default;
+                _cursorType = CURSOR_DEFAULT;
+            }  
         }
 
         //當滑鼠被按下
@@ -187,6 +195,12 @@ namespace PowerPoint
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(null));
             }
+        }
+
+        //取得鼠標樣式名
+        public string GetCursorType()
+        {
+            return _cursorType;
         }
     }
 }

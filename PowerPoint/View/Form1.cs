@@ -41,12 +41,12 @@ namespace PowerPoint
 
             _model = new Model();
             _presentationModel = new PresentationModel(_model);
+            _shapeDataGridView.DataSource = _model.ShapeList;
             _lineToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_LINE);
             _rectangleToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_RECTANGLE);
             _circleToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_CIRCLE);
             _selectToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_SELECT);
             _model._modelChanged += ChangeModel;
-            _model._gridViewChanged += ChangeDataGridView;
         }
 
         //DataGridView新增按鈕被按下
@@ -71,7 +71,8 @@ namespace PowerPoint
         //滑鼠進入繪圖區
         private void EnterFromMouse(object sender, EventArgs e)
         {
-            Cursor = _presentationModel.UpdateCursor();
+            _presentationModel.UpdateCursor();
+            Cursor = _presentationModel.CursorNow;
         }
 
         //滑鼠離開繪圖區
@@ -122,12 +123,6 @@ namespace PowerPoint
         {
             _canvas.Invalidate(true);
             _slideButton.Invalidate(true);
-        }
-
-        //表格改變
-        public void ChangeDataGridView()
-        {
-            _shapeDataGridView.DataSource = _model.GetShapesDisplay();
         }
     }
 }

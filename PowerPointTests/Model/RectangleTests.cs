@@ -17,26 +17,14 @@ namespace PowerPoint.Tests
         const double INIT_BOTTOM = 100;
         Rectangle _rectangle;
 
+        //測試矩形初始化
         [TestInitialize()]
         public void Initialize()
         {
             _rectangle = new Rectangle(INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM);
         }
 
-        [TestMethod()]
-        public void TestGetInfo()
-        {
-            string expected = string.Format("(({0}, {1}), ({2}, {3}))", INIT_LEFT, INIT_BOTTOM, INIT_RIGHT, INIT_TOP);
-
-            Assert.AreEqual(expected, _rectangle.GetInfo());
-        }
-
-        [TestMethod()]
-        public void TestGetShapeName()
-        {
-            Assert.AreEqual(ModeType.RECTANGLE_NAME, _rectangle.GetShapeName());
-        }
-
+        //測試矩形設定位置
         [TestMethod()]
         public void TestSetPosition()
         {
@@ -48,6 +36,7 @@ namespace PowerPoint.Tests
             Assert.AreEqual(INIT_BOTTOM + 200, _rectangle.GetPosition()._bottom);
         }
 
+        //測試矩形繪圖
         [TestMethod()]
         public void TestDraw()
         {

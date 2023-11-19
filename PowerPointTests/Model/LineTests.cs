@@ -17,26 +17,14 @@ namespace PowerPoint.Tests
         const double INIT_BOTTOM = 100;
         Line _line;
 
+        //測試線初始化
         [TestInitialize()]
         public void Initialize()
         {
             _line = new Line(INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM);
         }
 
-        [TestMethod()]
-        public void TestGetInfo()
-        {
-            string expected = string.Format("(({0}, {1}), ({2}, {3}))", INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM);
-
-            Assert.AreEqual(expected, _line.GetInfo());
-        }
-
-        [TestMethod()]
-        public void TestGetShapeName()
-        {
-            Assert.AreEqual(ModeType.LINE_NAME, _line.GetShapeName());
-        }
-
+        //測試線設定位置
         [TestMethod()]
         public void TestSetPosition()
         {
@@ -48,6 +36,7 @@ namespace PowerPoint.Tests
             Assert.AreEqual(INIT_BOTTOM + 1, _line.GetPosition()._bottom);
         }
 
+        //測試線繪圖
         [TestMethod()]
         public void TestDraw()
         {

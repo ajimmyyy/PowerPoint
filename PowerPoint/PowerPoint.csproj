@@ -50,7 +50,6 @@
     <Compile Include="Model\DrawingState.cs" />
     <Compile Include="Model\IState.cs" />
     <Compile Include="Model\PointState.cs" />
-    <Compile Include="Model\ShapeGridViewModel.cs" />
     <Compile Include="View\ToolStripBindableButton.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PowerPoint
 {
-    class DrawingState : IState
+    public class DrawingState : IState
     {
         Model _model;
         double _pointX;

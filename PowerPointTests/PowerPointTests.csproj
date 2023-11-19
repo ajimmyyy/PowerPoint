@@ -58,10 +58,16 @@
   <ItemGroup>
     <Compile Include="Model\CircleTests.cs" />
     <Compile Include="Model\CoordinateTests.cs" />
+    <Compile Include="Model\DrawingStateTests.cs" />
     <Compile Include="Model\FactoryTests.cs" />
     <Compile Include="Model\LineTests.cs" />
+    <Compile Include="Model\ModelTests.cs" />
+    <Compile Include="Model\PointStateTests.cs" />
     <Compile Include="Model\RectangleTests.cs" />
+    <Compile Include="Model\SelectionTests.cs" />
     <Compile Include="Model\ShapesTests.cs" />
+    <Compile Include="Model\ShapeTests.cs" />
+    <Compile Include="PresentationModel\PresentationModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

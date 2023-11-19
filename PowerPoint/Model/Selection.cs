@@ -12,17 +12,25 @@ namespace PowerPoint
         Coordinate _shapePosition = new Coordinate();
         Shape _shapeSelect;
 
-        public Selection(Shape shape)
-        {
-            this._shapeSelect = shape;
-        }
-
         //設定位置
         public void SetPosition(double left, double top, double right, double bottom)
         {
             if (_shapeSelect != null)
             {
-                _shapeSelect.SetPosition(left, top, right, bottom);
+                _shapeSelect.GetPosition()._left = left;
+                _shapeSelect.GetPosition()._top = top;
+                _shapeSelect.GetPosition()._right = right;
+                _shapeSelect.GetPosition()._bottom = bottom;
+                UpdatePosition();
+            }
+        }
+
+        //更新資訊
+        public void UpdateInfo()
+        {
+            if (_shapeSelect != null)
+            {
+                _shapeSelect.SetPosition(_shapePosition._left, _shapePosition._top, _shapePosition._right, _shapePosition._bottom);
             }
         }
 

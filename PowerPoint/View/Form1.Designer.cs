@@ -58,6 +58,7 @@ namespace PowerPoint
             // 
             // _functionMenu
             // 
+            this._functionMenu.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this._functionMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this._functionMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._illustrateMenuItem});
@@ -169,7 +170,7 @@ namespace PowerPoint
             // _shapeColumn
             // 
             this._shapeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this._shapeColumn.DataPropertyName = "_column2";
+            this._shapeColumn.DataPropertyName = "ShapeName";
             this._shapeColumn.HeaderText = "形狀";
             this._shapeColumn.MinimumWidth = 8;
             this._shapeColumn.Name = "_shapeColumn";
@@ -180,7 +181,7 @@ namespace PowerPoint
             // _infoColumn
             // 
             this._infoColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this._infoColumn.DataPropertyName = "_column3";
+            this._infoColumn.DataPropertyName = "Info";
             this._infoColumn.HeaderText = "資訊";
             this._infoColumn.MinimumWidth = 8;
             this._infoColumn.Name = "_infoColumn";
@@ -307,10 +308,10 @@ namespace PowerPoint
         private BindingToolStripButton _circleToolButton;
         private BindingToolStripButton _selectToolButton;
         private System.ComponentModel.BackgroundWorker _backgroundWorker;
+        private DoubleBufferedPanel _canvas;
         private System.Windows.Forms.DataGridViewButtonColumn _deleteColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn _shapeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn _infoColumn;
-        private DoubleBufferedPanel _canvas;
     }
 }
 

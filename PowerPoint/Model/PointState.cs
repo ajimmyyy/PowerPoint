@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PowerPoint
 {
-    class PointState : IState
+    public class PointState : IState
     {
         Model _model;
         double _pointX;
@@ -37,7 +37,7 @@ namespace PowerPoint
         //滑鼠釋放
         public void MouseRelease()
         {
-
+            _model.StopMoveShape();
         }
 
         //鍵盤刪除按下

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace PowerPoint.Tests
 {
@@ -14,6 +15,7 @@ namespace PowerPoint.Tests
         Shapes _shapes;
         PrivateObject _shapePrivate;
 
+        //測試Shapes初始化
         [TestInitialize()]
         public void Initialize()
         {
@@ -21,37 +23,37 @@ namespace PowerPoint.Tests
             _shapePrivate = new PrivateObject(_shapes);
         }
 
+        //測試Shapes創建形狀並加入到list裡
         [TestMethod()]
         public void AddNewShapeTest()
         {
             List<string> testShapeName = new List<string> { ModeType.LINE_NAME, ModeType.CIRCLE_NAME, ModeType.RECTANGLE_NAME };
             List<Type> testShapeType = new List<Type> { typeof(Line), typeof(Circle), typeof(Rectangle) };
-            List<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as List<Shape>;
+            BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
 
             for (int i = 0; i < testShapeName.Count; i ++)
             {
                 _shapes.AddNewShape(testShapeName[i]);
                 Assert.IsInstanceOfType(shapeList[i], testShapeType[i]);
             }
-
-            _shapes.AddNewShape("");
-            Assert.AreEqual(testShapeName.Count, shapeList.Count);
         }
 
+        //測試Shapes加入現有形狀
         [TestMethod()]
         public void AddShapeTest()
         {
             Shape testShape = Factory.CreateShape(ModeType.LINE_NAME);
-            List<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as List<Shape>;
+            BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
 
             _shapes.AddShape(testShape);
             Assert.AreEqual(1, shapeList.Count);
         }
 
+        //測試Shapes刪除list裡的形狀(by index)
         [TestMethod()]
-        public void DeleteShapeTest()
+        public void DeleteShapeByIndexTest()
         {
-            List<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as List<Shape>;
+            BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
 
             _shapes.AddNewShape(ModeType.LINE_NAME);
             _shapes.AddNewShape(ModeType.CIRCLE_NAME);
@@ -65,10 +67,11 @@ namespace PowerPoint.Tests
             Assert.AreEqual(0, shapeList.Count);
         }
 
+        //測試Shapes刪除list裡的形狀(by shape)
         [TestMethod()]
         public void DeleteShapeByShapeTest()
         {
-            List<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as List<Shape>;
+            BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
             Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
             Shape testCircle = Factory.CreateShape(ModeType.CIRCLE_NAME);
 
@@ -84,19 +87,34 @@ namespace PowerPoint.Tests
             Assert.AreEqual(0, shapeList.Count);
         }
 
+        //測試Shapes選取形狀
         [TestMethod()]
-        public void FindShapeTest()
+        [DataRow(0, 100, true)]
+        [DataRow(200, 300, true)]
+        [DataRow(1, 301, false)]
+        public void FindShapeTest(double pointX, double pointY, bool expected)
         {
             Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
             testLine.SetPosition(0, 100, 200, 300);
+
+            _shapes.AddShape(testLine);
+
+            Assert.AreEqual(expected, _shapes.FindShape(pointX, pointY) != null);
         }
 
+        //測試Shapes取得形狀數量
         [TestMethod()]
-        public void GetShapeListInfoTest()
+        public void CountTest()
         {
-            Assert.Fail();
+            int expected = 1;
+            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
+
+            _shapes.AddShape(testLine);
+
+            Assert.AreEqual(expected, _shapes.GetCount());
         }
 
+        //測試Shapes繪圖
         [TestMethod()]
         public void DrawTest()
         {

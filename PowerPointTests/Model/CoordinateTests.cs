@@ -17,6 +17,7 @@ namespace PowerPoint.Tests
         const double INIT_BOTTOM = 200;
         Coordinate _coordinate;
 
+        //測試座標初始化
         [TestInitialize()]
         public void Initialize()
         {
@@ -27,18 +28,21 @@ namespace PowerPoint.Tests
             _coordinate._bottom = INIT_BOTTOM;
         }
 
+        //測試座標計算X軸中點
         [TestMethod()]
         public void TestMiddleX()
         {
             Assert.AreEqual((INIT_LEFT + INIT_RIGHT) / 2, _coordinate.middleX);
         }
 
+        //測試座標計算Y軸中點
         [TestMethod()]
         public void TestMiddleY()
         {
             Assert.AreEqual((INIT_BOTTOM + INIT_TOP) / 2, _coordinate.middleY);
         }
 
+        //測試座標判斷是否在範圍內
         [TestMethod()]
         [DataRow(1, 200, true)]
         [DataRow(0, 200, false)]
@@ -49,6 +53,7 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expected, _coordinate.IsInside(pointX, pointY));
         }
 
+        //測試座標字串化
         [TestMethod()]
         public void TestToString()
         {

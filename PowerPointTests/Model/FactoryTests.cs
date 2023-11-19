@@ -11,6 +11,7 @@ namespace PowerPoint.Tests
     [TestClass()]
     public class FactoryTests
     {
+        //測試工廠創建線實體
         [TestMethod()]
         public void CreateShapeLineTest()
         {
@@ -19,6 +20,7 @@ namespace PowerPoint.Tests
             Assert.IsInstanceOfType(shape, typeof(Line));
         }
 
+        //測試工廠創建圓形實體
         [TestMethod()]
         public void CreateShapeCircleTest()
         {
@@ -27,6 +29,7 @@ namespace PowerPoint.Tests
             Assert.IsInstanceOfType(shape, typeof(Circle));
         }
 
+        //測試工廠創建矩形實體
         [TestMethod()]
         public void CreateShapeRectangleTest()
         {
@@ -35,6 +38,7 @@ namespace PowerPoint.Tests
             Assert.IsInstanceOfType(shape, typeof(Rectangle));
         }
 
+        //測試工廠創建圖形實體(輸入空字串)
         [TestMethod()]
         public void CreateShapeNullTest()
         {

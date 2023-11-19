@@ -12,38 +12,28 @@ namespace PowerPoint
 
         public Line(double left, double top, double right, double bottom)
         {
+            ShapeName = ModeType.LINE_NAME;
             SetPosition(left, top, right, bottom);
         }
 
-        //取得圖形資訊
-        public string GetInfo()
-        {
-            return _position.ToString();
-        }
-
-        //取得圖形名稱
-        public string GetShapeName()
-        {
-            return ModeType.LINE_NAME;
-        }
-
         //設定位置
-        public void SetPosition(double left, double top, double right, double bottom)
+        public override void SetPosition(double left, double top, double right, double bottom)
         {
             _position._left = left;
             _position._top = top;
             _position._right = right;
             _position._bottom = bottom;
+            Info = _position.ToString();
         }
 
         //取的座標
-        public Coordinate GetPosition()
+        public override Coordinate GetPosition()
         {
             return _position;
         }
 
         //繪圖
-        public void Draw(IGraphics graphics)
+        public override void Draw(IGraphics graphics)
         {
             graphics.DrawLine(_position._left, _position._top, _position._right, _position._bottom);
         }
