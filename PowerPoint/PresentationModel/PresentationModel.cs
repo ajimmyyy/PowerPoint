@@ -12,12 +12,18 @@ namespace PowerPoint
     public class PresentationModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event CursorChangedEventHandler _cursorChanged;
+        public delegate void CursorChangedEventHandler();
         const string CURSOR_DEFAULT = "Default";
         const string CURSOR_CROSS = "Cross";
+        const string CURSOR_SLASH = "SizeNWSE";
+        const string DELETE = "Delete";
         private bool _isLinePressed;
         private bool _isRectanglePressed;
         private bool _isCirclePressed;
         private bool _isSelectPressed;
+        private bool _isInScaleArea;
+        private bool _isScaleMode;
         private Dictionary<string, Action> _shapePressed;
         Model _model;
         string _cursorType = CURSOR_DEFAULT;
@@ -91,7 +97,12 @@ namespace PowerPoint
         //更新鼠標
         public void UpdateCursor()
         {
-            if (IsToolButtonPressed())
+            if (_isInScaleArea)
+            {
+                CursorNow = Cursors.SizeNWSE;
+                _cursorType = CURSOR_SLASH;
+            }
+            else if (IsToolButtonPressed())
             {
                 CursorNow = Cursors.Cross;
                 _cursorType = CURSOR_CROSS;
@@ -100,13 +111,19 @@ namespace PowerPoint
             {
                 CursorNow = Cursors.Default;
                 _cursorType = CURSOR_DEFAULT;
-            }  
+            }
+            NotifyCursorChanged();
         }
 
         //當滑鼠被按下
         public void CanvasPressedHandler(int pointX, int pointY)
         {
-            if (_isSelectPressed)
+            if (_isInScaleArea)
+            {
+                _isScaleMode = true;
+                _model.PressPointer(new ScaleState(_model, pointX, pointY));      
+            }
+            else if (_isSelectPressed)
             {
                 _model.PressPointer(new PointState(_model, pointX, pointY));
             }
@@ -119,7 +136,14 @@ namespace PowerPoint
         //當滑鼠移動
         public void CanvasMoveHandler(int pointX, int pointY)
         {
-            if (_isSelectPressed)
+            _isInScaleArea = _model.IsInScaleArea(pointX, pointY);
+            UpdateCursor();
+
+            if (_isScaleMode)
+            {
+                _model.MovePointer(new ScaleState(_model, pointX, pointY));
+            }
+            else if (_isSelectPressed)
             {
                 _model.MovePointer(new PointState(_model, pointX, pointY));
             }
@@ -132,7 +156,12 @@ namespace PowerPoint
         //當滑鼠釋放
         public void CanvasReleasedHandler(int pointX, int pointY)
         {
-            if (_isSelectPressed)
+            if (_isScaleMode)
+            {
+                _isScaleMode = false;
+                _model.ReleasePointer(new ScaleState(_model, pointX, pointY));
+            }
+            else if (_isSelectPressed)
             {
                 _model.ReleasePointer(new PointState(_model, pointX, pointY));
             }
@@ -146,9 +175,9 @@ namespace PowerPoint
         }
 
         //當鍵盤刪除按下
-        public void PressKeyboardHandler(Keys keyPress)
+        public void PressKeyboardHandler(string keyPress)
         {
-            if (keyPress == Keys.Delete)
+            if (keyPress == DELETE)
             {
                 if (_isSelectPressed)
                 {
@@ -194,6 +223,15 @@ namespace PowerPoint
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(null));
+            }
+        }
+
+        //通知鼠標屬性改變
+        void NotifyCursorChanged()
+        {
+            if (_cursorChanged != null)
+            {
+                _cursorChanged();
             }
         }
 

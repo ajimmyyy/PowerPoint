@@ -9,6 +9,7 @@ namespace PowerPoint
     public class Selection
     {
         const double DOT_RADIUS = 5;
+        const int SQUARE = 2;
         Coordinate _shapePosition = new Coordinate();
         Shape _shapeSelect;
 
@@ -17,10 +18,7 @@ namespace PowerPoint
         {
             if (_shapeSelect != null)
             {
-                _shapeSelect.GetPosition()._left = left;
-                _shapeSelect.GetPosition()._top = top;
-                _shapeSelect.GetPosition()._right = right;
-                _shapeSelect.GetPosition()._bottom = bottom;
+                _shapeSelect.SetCoordinate(left, top, right, bottom);
                 UpdatePosition();
             }
         }
@@ -78,6 +76,25 @@ namespace PowerPoint
             {
                 return _shapePosition;
             }
+        }
+
+        //是否在拉選區域
+        public bool IsScaleArea(double pointX, double pointY)
+        {
+            if (_shapeSelect == null)
+                return false;
+
+            double distanceX = pointX - Math.Max(_shapePosition._left, _shapePosition._right);
+            double distanceY = pointY - Math.Max(_shapePosition._top, _shapePosition._bottom);
+            double distanceSquareX = Math.Pow(distanceX, SQUARE);
+            double distanceSquareY = Math.Pow(distanceY, SQUARE);
+
+            if (Math.Sqrt(distanceSquareX + distanceSquareY) <= DOT_RADIUS)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         //取得形狀

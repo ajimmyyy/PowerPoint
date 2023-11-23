@@ -36,11 +36,28 @@ namespace PowerPoint.Tests
             Assert.AreEqual(INIT_BOTTOM + 1, _line.GetPosition()._bottom);
         }
 
+        //測試線設定座標
+        [TestMethod()]
+        public void SetCoordinateTest()
+        {
+            _line.SetCoordinate(INIT_LEFT + 1, INIT_TOP + 1, INIT_RIGHT + 1, INIT_BOTTOM + 1);
+
+            Assert.AreEqual(INIT_LEFT + 1, _line.GetPosition()._left);
+            Assert.AreEqual(INIT_TOP + 1, _line.GetPosition()._top);
+            Assert.AreEqual(INIT_RIGHT + 1, _line.GetPosition()._right);
+            Assert.AreEqual(INIT_BOTTOM + 1, _line.GetPosition()._bottom);
+        }
+
         //測試線繪圖
         [TestMethod()]
         public void TestDraw()
         {
-            
+            int expected = 1;
+            IGraphicsMock graphics = new IGraphicsMock();
+
+            _line.Draw(graphics);
+
+            Assert.AreEqual(expected, graphics.DrawLineCount);
         }
     }
 }

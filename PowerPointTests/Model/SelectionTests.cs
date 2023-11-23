@@ -12,9 +12,9 @@ namespace PowerPoint.Tests
     public class SelectionTests
     {
         const double INIT_LEFT = 1;
-        const double INIT_TOP = 300;
+        const double INIT_TOP = 200;
         const double INIT_RIGHT = 400;
-        const double INIT_BOTTOM = 200;
+        const double INIT_BOTTOM = 300;
         Selection _selection;
         PrivateObject _selectionPrivate;
         Shape _shape;
@@ -74,7 +74,12 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void DrawTest()
         {
-            
+            int expected = 8;
+            IGraphicsMock graphics = new IGraphicsMock();
+
+            _selection.Draw(graphics);
+
+            Assert.AreEqual(expected, graphics.DrawDotCount);
         }
 
         //測試選取清除選取
@@ -84,6 +89,28 @@ namespace PowerPoint.Tests
             _selection.Unselect();
 
             Assert.IsNull(_selection.ShapeSelect);
+        }
+
+        //測試選取是否在拉選區域
+        [TestMethod()]
+        [DataRow(400, 300, true)]
+        [DataRow(395, 295, false)]
+        [DataRow(405, 305, false)]
+        public void IsScaleAreaTest(double pointX, double pointY, bool expected)
+        {
+            _selection.UpdatePosition();
+
+            Assert.AreEqual(expected, _selection.IsScaleArea(pointX, pointY));
+        }
+
+        //測試選取是否在拉選區域(無選取物件)
+        [TestMethod()]
+        [DataRow(400, 300, false)]
+        public void IsScaleAreaNullSelectTest(double pointX, double pointY, bool expected)
+        {
+            _selection.Unselect();
+
+            Assert.AreEqual(expected, _selection.IsScaleArea(pointX, pointY));
         }
     }
 }

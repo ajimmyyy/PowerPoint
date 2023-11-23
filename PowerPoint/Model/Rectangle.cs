@@ -19,11 +19,17 @@ namespace PowerPoint
         //設定位置
         public override void SetPosition(double left, double top, double right, double bottom)
         {
+            SetCoordinate(left, top, right, bottom);
+            Info = _position.ToString();
+        }
+
+        //設定座標(不改變Info)
+        public override void SetCoordinate(double left, double top, double right, double bottom)
+        {
             _position._left = Math.Min(left, right);
             _position._top = Math.Min(top, bottom);
             _position._right = Math.Max(left, right);
             _position._bottom = Math.Max(top, bottom);
-            Info = _position.ToString();
         }
 
         //取的座標

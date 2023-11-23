@@ -134,6 +134,22 @@ namespace PowerPoint
             }
         }
 
+        //設定縮放固定點
+        public void PinScalePoint()
+        {
+            _firstPointX = _selection.ShapeRange._left;
+            _firstPointY = _selection.ShapeRange._top;
+        }
+
+        //縮放圖形
+        public void ScaleShape(double pointX, double pointY)
+        {
+            if (_isPressed)
+            {
+                _selection.SetPosition(_firstPointX, _firstPointY, pointX, pointY);
+            }
+        }
+
         //刪除選取形狀
         public void DeleteShape()
         {
@@ -165,6 +181,13 @@ namespace PowerPoint
             _toolModePressed = shapeType;
         }
 
+        //是否在縮放區域
+        public bool IsInScaleArea(double pointX, double pointY)
+        {
+            return _selection.IsScaleArea(pointX, pointY);
+        }
+
+        //取得binding List
         public BindingList<Shape> ShapeList
         {
             get

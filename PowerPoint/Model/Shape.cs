@@ -46,6 +46,9 @@ namespace PowerPoint
         //設定位置
         public abstract void SetPosition(double left, double top, double right, double bottom);
 
+        //設定座標(不改變Info)
+        public abstract void SetCoordinate(double left, double top, double right, double bottom);
+
         //取得位置
         public abstract Coordinate GetPosition();
 

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\ScaleState.cs" />
     <Compile Include="Model\Selection.cs" />
     <Compile Include="Model\DrawingState.cs" />
     <Compile Include="Model\IState.cs" />

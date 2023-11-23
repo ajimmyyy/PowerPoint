@@ -64,7 +64,7 @@ namespace PowerPoint
             this._illustrateMenuItem});
             this._functionMenu.Location = new System.Drawing.Point(0, 0);
             this._functionMenu.Name = "_functionMenu";
-            this._functionMenu.Size = new System.Drawing.Size(800, 31);
+            this._functionMenu.Size = new System.Drawing.Size(800, 36);
             this._functionMenu.TabIndex = 0;
             this._functionMenu.Text = "menuStrip1";
             // 
@@ -74,7 +74,7 @@ namespace PowerPoint
             this._aboutMenuItem});
             this._illustrateMenuItem.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
             this._illustrateMenuItem.Name = "_illustrateMenuItem";
-            this._illustrateMenuItem.Size = new System.Drawing.Size(62, 27);
+            this._illustrateMenuItem.Size = new System.Drawing.Size(62, 30);
             this._illustrateMenuItem.Text = "說明";
             // 
             // _aboutMenuItem
@@ -88,12 +88,12 @@ namespace PowerPoint
             this._slideDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this._slideDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this._slideDataGridView.Dock = System.Windows.Forms.DockStyle.Left;
-            this._slideDataGridView.Location = new System.Drawing.Point(0, 64);
+            this._slideDataGridView.Location = new System.Drawing.Point(0, 74);
             this._slideDataGridView.Margin = new System.Windows.Forms.Padding(0);
             this._slideDataGridView.Name = "_slideDataGridView";
             this._slideDataGridView.RowHeadersWidth = 62;
             this._slideDataGridView.RowTemplate.Height = 31;
-            this._slideDataGridView.Size = new System.Drawing.Size(161, 439);
+            this._slideDataGridView.Size = new System.Drawing.Size(161, 429);
             this._slideDataGridView.TabIndex = 1;
             // 
             // _dataGroupBox
@@ -104,10 +104,10 @@ namespace PowerPoint
             this._dataGroupBox.Controls.Add(this._shapeDataGridView);
             this._dataGroupBox.Dock = System.Windows.Forms.DockStyle.Right;
             this._dataGroupBox.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this._dataGroupBox.Location = new System.Drawing.Point(561, 64);
+            this._dataGroupBox.Location = new System.Drawing.Point(561, 74);
             this._dataGroupBox.Name = "_dataGroupBox";
             this._dataGroupBox.Padding = new System.Windows.Forms.Padding(3, 50, 3, 3);
-            this._dataGroupBox.Size = new System.Drawing.Size(239, 439);
+            this._dataGroupBox.Size = new System.Drawing.Size(239, 429);
             this._dataGroupBox.TabIndex = 4;
             this._dataGroupBox.TabStop = false;
             this._dataGroupBox.Text = "資料顯示";
@@ -153,7 +153,7 @@ namespace PowerPoint
             this._shapeDataGridView.RowHeadersVisible = false;
             this._shapeDataGridView.RowHeadersWidth = 62;
             this._shapeDataGridView.RowTemplate.Height = 31;
-            this._shapeDataGridView.Size = new System.Drawing.Size(233, 362);
+            this._shapeDataGridView.Size = new System.Drawing.Size(233, 352);
             this._shapeDataGridView.TabIndex = 2;
             // 
             // _deleteColumn
@@ -195,7 +195,7 @@ namespace PowerPoint
             this._slideButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._slideButton.Location = new System.Drawing.Point(12, 67);
             this._slideButton.Name = "_slideButton";
-            this._slideButton.Size = new System.Drawing.Size(131, 95);
+            this._slideButton.Size = new System.Drawing.Size(133, 97);
             this._slideButton.TabIndex = 5;
             this._slideButton.UseVisualStyleBackColor = true;
             // 
@@ -208,9 +208,9 @@ namespace PowerPoint
             this._rectangleToolButton,
             this._circleToolButton,
             this._selectToolButton});
-            this._toolBar.Location = new System.Drawing.Point(0, 31);
+            this._toolBar.Location = new System.Drawing.Point(0, 36);
             this._toolBar.Name = "_toolBar";
-            this._toolBar.Size = new System.Drawing.Size(800, 33);
+            this._toolBar.Size = new System.Drawing.Size(800, 38);
             this._toolBar.TabIndex = 7;
             this._toolBar.Text = "toolStrip1";
             // 
@@ -220,7 +220,7 @@ namespace PowerPoint
             this._lineToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_lineToolButton.Image")));
             this._lineToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._lineToolButton.Name = "_lineToolButton";
-            this._lineToolButton.Size = new System.Drawing.Size(34, 28);
+            this._lineToolButton.Size = new System.Drawing.Size(34, 33);
             this._lineToolButton.Text = "線";
             this._lineToolButton.Click += new System.EventHandler(this.ToolButtonClick);
             // 
@@ -230,7 +230,7 @@ namespace PowerPoint
             this._rectangleToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_rectangleToolButton.Image")));
             this._rectangleToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._rectangleToolButton.Name = "_rectangleToolButton";
-            this._rectangleToolButton.Size = new System.Drawing.Size(34, 28);
+            this._rectangleToolButton.Size = new System.Drawing.Size(34, 33);
             this._rectangleToolButton.Text = "矩形";
             this._rectangleToolButton.Click += new System.EventHandler(this.ToolButtonClick);
             // 
@@ -240,7 +240,7 @@ namespace PowerPoint
             this._circleToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_circleToolButton.Image")));
             this._circleToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._circleToolButton.Name = "_circleToolButton";
-            this._circleToolButton.Size = new System.Drawing.Size(34, 28);
+            this._circleToolButton.Size = new System.Drawing.Size(34, 33);
             this._circleToolButton.Text = "圓形";
             this._circleToolButton.Click += new System.EventHandler(this.ToolButtonClick);
             // 
@@ -250,17 +250,17 @@ namespace PowerPoint
             this._selectToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_selectToolButton.Image")));
             this._selectToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._selectToolButton.Name = "_selectToolButton";
-            this._selectToolButton.Size = new System.Drawing.Size(34, 28);
+            this._selectToolButton.Size = new System.Drawing.Size(34, 33);
             this._selectToolButton.Text = "選取";
             this._selectToolButton.Click += new System.EventHandler(this.ToolButtonClick);
             // 
             // _canvas
             // 
             this._canvas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._canvas.Location = new System.Drawing.Point(161, 64);
+            this._canvas.Location = new System.Drawing.Point(0, 0);
             this._canvas.Margin = new System.Windows.Forms.Padding(0);
             this._canvas.Name = "_canvas";
-            this._canvas.Size = new System.Drawing.Size(400, 439);
+            this._canvas.Size = new System.Drawing.Size(800, 503);
             this._canvas.TabIndex = 0;
             // 
             // Form1
@@ -268,12 +268,12 @@ namespace PowerPoint
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(800, 503);
-            this.Controls.Add(this._canvas);
             this.Controls.Add(this._dataGroupBox);
             this.Controls.Add(this._slideButton);
             this.Controls.Add(this._slideDataGridView);
             this.Controls.Add(this._toolBar);
             this.Controls.Add(this._functionMenu);
+            this.Controls.Add(this._canvas);
             this.KeyPreview = true;
             this.MainMenuStrip = this._functionMenu;
             this.Name = "Form1";

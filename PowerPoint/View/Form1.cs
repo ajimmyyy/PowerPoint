@@ -24,7 +24,6 @@ namespace PowerPoint
         public Form1()
         {
             InitializeComponent();
-
             _canvas.MouseEnter += EnterFromMouse;
             _canvas.MouseLeave += LeaveFromMouse;
             _canvas.MouseDown += CanvasPressed;
@@ -34,10 +33,10 @@ namespace PowerPoint
             _canvas.KeyDown += PressKeyboardKey;
             Controls.Add(_canvas);
 
-            _slideButton.Paint += SlidePaint;
-
             this.KeyDown += PressKeyboardKey;
             _shapeDataGridView.CellClick += new DataGridViewCellEventHandler(DeleteCellClick);
+
+            _slideButton.Paint += SlidePaint;
 
             _model = new Model();
             _presentationModel = new PresentationModel(_model);
@@ -47,6 +46,7 @@ namespace PowerPoint
             _circleToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_CIRCLE);
             _selectToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_SELECT);
             _model._modelChanged += ChangeModel;
+            _presentationModel._cursorChanged += ChangeCursor;
         }
 
         //DataGridView新增按鈕被按下
@@ -72,7 +72,6 @@ namespace PowerPoint
         private void EnterFromMouse(object sender, EventArgs e)
         {
             _presentationModel.UpdateCursor();
-            Cursor = _presentationModel.CursorNow;
         }
 
         //滑鼠離開繪圖區
@@ -97,13 +96,15 @@ namespace PowerPoint
         public void ReleasedCanvas(object sender, MouseEventArgs e)
         {
             _presentationModel.CanvasReleasedHandler(e.X, e.Y);
-            Cursor = Cursors.Default;
+            _presentationModel.UpdateCursor();
         }
 
         //鍵盤按下
         private void PressKeyboardKey(object sender, KeyEventArgs e)
         {
-            _presentationModel.PressKeyboardHandler(e.KeyCode);
+            string keyCode = e.KeyCode.ToString();
+
+            _presentationModel.PressKeyboardHandler(keyCode);
         }
 
         //繪圖區重繪製
@@ -123,6 +124,12 @@ namespace PowerPoint
         {
             _canvas.Invalidate(true);
             _slideButton.Invalidate(true);
+        }
+
+        //屬標改變
+        public void ChangeCursor()
+        {
+            Cursor = _presentationModel.CursorNow;
         }
     }
 }

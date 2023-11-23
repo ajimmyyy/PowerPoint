@@ -58,46 +58,102 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expected, _presentationModel.GetCursorType());
         }
 
+        //測試PresentationModel更新鼠標(在縮放區域)
+        [TestMethod()]
+        public void UpdateCursorInScaleAreaTest()
+        {
+            string expected = "SizeNWSE";
+            _presentationModelPrivate.SetField("_isInScaleArea", true);
+
+            _presentationModel.UpdateCursor();
+
+            Assert.AreEqual(expected, _presentationModel.GetCursorType());
+        }
+
         //測試PresentationModel當滑鼠被按下
         [TestMethod()]
         public void CanvasPressedHandlerTest()
         {
-            Assert.Fail();
+            _presentationModelPrivate.SetField("_isInScaleArea", true);
+            _presentationModel.CanvasPressedHandler(0, 0);
+
+            Assert.AreEqual(true, _presentationModelPrivate.GetField("_isScaleMode"));
+            _presentationModelPrivate.SetField("_isInScaleArea", false);
+
+            _presentationModelPrivate.SetField("_isSelectPressed", true);
+            _presentationModel.CanvasPressedHandler(0, 0);
+            _presentationModelPrivate.SetField("_isSelectPressed", false);
+
+            _presentationModelPrivate.SetField("_isLinePressed", true);
+            _presentationModel.CanvasPressedHandler(0, 0);
+            _presentationModelPrivate.SetField("_isLinePressed", false);
         }
 
         //測試PresentationModel當滑鼠移動
         [TestMethod()]
         public void CanvasMoveHandlerTest()
         {
-            Assert.Fail();
+            _presentationModelPrivate.SetField("_isScaleMode", true);
+            _presentationModel.CanvasMoveHandler(0, 0);
+
+            Assert.AreEqual(false, _presentationModelPrivate.GetField("_isInScaleArea"));
+            _presentationModelPrivate.SetField("_isScaleMode", false);
+
+            _presentationModelPrivate.SetField("_isSelectPressed", true);
+            _presentationModel.CanvasMoveHandler(0, 0);
+            _presentationModelPrivate.SetField("_isSelectPressed", false);
+
+            _presentationModelPrivate.SetField("_isLinePressed", true);
+            _presentationModel.CanvasMoveHandler(0, 0);
+            _presentationModelPrivate.SetField("_isLinePressed", false);
         }
 
         //測試PresentationModel當滑鼠釋放
         [TestMethod()]
         public void CanvasReleasedHandlerTest()
         {
-            Assert.Fail();
+            _presentationModelPrivate.SetField("_isScaleMode", true);
+            _presentationModel.CanvasReleasedHandler(0, 0);
+
+            Assert.AreEqual(true, _presentationModelPrivate.GetField("_isSelectPressed"));
+            _presentationModelPrivate.SetField("_isScaleMode", false);
+
+            _presentationModelPrivate.SetField("_isSelectPressed", true);
+            _presentationModel.CanvasReleasedHandler(0, 0);
+            _presentationModelPrivate.SetField("_isSelectPressed", false);
+
+            _presentationModelPrivate.SetField("_isLinePressed", true);
+            _presentationModel.CanvasReleasedHandler(0, 0);
+            _presentationModelPrivate.SetField("_isLinePressed", false);
         }
 
         //測試PresentationModel當鍵盤刪除按下
         [TestMethod()]
         public void PressKeyboardHandlerTest()
         {
-            Assert.Fail();
+            _presentationModel.PressKeyboardHandler("");
+
+            _presentationModelPrivate.SetField("_isSelectPressed", true);
+            _presentationModel.PressKeyboardHandler("Delete");
+            _presentationModelPrivate.SetField("_isSelectPressed", false);
+
+            _presentationModelPrivate.SetField("_isLinePressed", true);
+            _presentationModel.PressKeyboardHandler("Delete");
+            _presentationModelPrivate.SetField("_isLinePressed", false);
         }
 
         //測試PresentationModel繪畫區繪圖
         [TestMethod()]
         public void CanvasDrawTest()
         {
-            Assert.Fail();
+
         }
 
         //測試PresentationModel縮圖區繪圖
         [TestMethod()]
         public void SlideDrawTest()
         {
-            Assert.Fail();
+
         }
 
         //測試PresentationModel通知tool按鈕屬性改變
@@ -108,6 +164,17 @@ namespace PowerPoint.Tests
             _presentationModel.PropertyChanged += (sender, args) => { eventRaised = true; };
 
             _presentationModelPrivate.Invoke("NotifyPropertyChanged");
+            Assert.IsTrue(eventRaised);
+        }
+
+        //測試PresentationModel通知鼠標屬性改變
+        [TestMethod()]
+        public void NotifyCursorChanged()
+        {
+            bool eventRaised = false;
+            _presentationModel._cursorChanged += () => { eventRaised = true; };
+
+            _presentationModelPrivate.Invoke("NotifyCursorChanged");
             Assert.IsTrue(eventRaised);
         }
     }

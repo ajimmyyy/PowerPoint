@@ -246,6 +246,11 @@
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>Model\ScaleState.cs</RelativePath>
+                <ProjectName>PowerPoint</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>Model\Selection.cs</RelativePath>
                 <ProjectName>PowerPoint</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
@@ -336,6 +341,16 @@
                 <AnalysisFileType>Test</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>Model\IGraphicsMock.cs</RelativePath>
+                <ProjectName>PowerPointTests</ProjectName>
+                <AnalysisFileType>Test</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Model\IStateMock.cs</RelativePath>
+                <ProjectName>PowerPointTests</ProjectName>
+                <AnalysisFileType>Test</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>Model\LineTests.cs</RelativePath>
                 <ProjectName>PowerPointTests</ProjectName>
                 <AnalysisFileType>Test</AnalysisFileType>
@@ -352,6 +367,11 @@
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Model\RectangleTests.cs</RelativePath>
+                <ProjectName>PowerPointTests</ProjectName>
+                <AnalysisFileType>Test</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Model\ScaleStateTests.cs</RelativePath>
                 <ProjectName>PowerPointTests</ProjectName>
                 <AnalysisFileType>Test</AnalysisFileType>
               </AnalysisFile>
@@ -382,8 +402,8 @@
               </AnalysisFile>
             </AnalysisFiles>
           </AnalysisFileManager>
-          <ProductionLoc>1732</ProductionLoc>
-          <TestLoc>1198</TestLoc>
+          <ProductionLoc>1952</ProductionLoc>
+          <TestLoc>1667</TestLoc>
         </CodeReview>
       </Data>
     </div>

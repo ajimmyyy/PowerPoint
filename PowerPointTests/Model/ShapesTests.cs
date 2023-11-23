@@ -23,6 +23,15 @@ namespace PowerPoint.Tests
             _shapePrivate = new PrivateObject(_shapes);
         }
 
+        //測試Shapes取得binding List
+        [TestMethod()]
+        public void GetShapeListTest()
+        {
+            BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
+
+            Assert.AreSame(shapeList, _shapes.GetShapeList);
+        }
+
         //測試Shapes創建形狀並加入到list裡
         [TestMethod()]
         public void AddNewShapeTest()
@@ -31,7 +40,7 @@ namespace PowerPoint.Tests
             List<Type> testShapeType = new List<Type> { typeof(Line), typeof(Circle), typeof(Rectangle) };
             BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
 
-            for (int i = 0; i < testShapeName.Count; i ++)
+            for (int i = 0; i < testShapeName.Count; i++)
             {
                 _shapes.AddNewShape(testShapeName[i]);
                 Assert.IsInstanceOfType(shapeList[i], testShapeType[i]);
@@ -102,6 +111,27 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expected, _shapes.FindShape(pointX, pointY) != null);
         }
 
+        //測試Shapes繪圖
+        [TestMethod()]
+        public void DrawTest()
+        {
+            int expectedLine = 2;
+            int expectedCircle = 1;
+            int expectedRectengle = 1;
+            IGraphicsMock graphics = new IGraphicsMock();
+
+            _shapes.AddNewShape(ModeType.LINE_NAME);
+            _shapes.AddNewShape(ModeType.LINE_NAME);
+            _shapes.AddNewShape(ModeType.CIRCLE_NAME);
+            _shapes.AddNewShape(ModeType.RECTANGLE_NAME);
+
+            _shapes.Draw(graphics);
+
+            Assert.AreEqual(expectedLine, graphics.DrawLineCount);
+            Assert.AreEqual(expectedCircle, graphics.DrawCircleCount);
+            Assert.AreEqual(expectedRectengle, graphics.DrawRectangleCount);
+        }
+
         //測試Shapes取得形狀數量
         [TestMethod()]
         public void CountTest()
@@ -112,13 +142,6 @@ namespace PowerPoint.Tests
             _shapes.AddShape(testLine);
 
             Assert.AreEqual(expected, _shapes.GetCount());
-        }
-
-        //測試Shapes繪圖
-        [TestMethod()]
-        public void DrawTest()
-        {
-            
         }
     }
 }

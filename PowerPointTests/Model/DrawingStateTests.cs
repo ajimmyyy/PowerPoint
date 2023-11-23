@@ -36,8 +36,8 @@ namespace PowerPoint.Tests
             _drawingState.MouseDown();
 
             Assert.IsInstanceOfType(_modelPrivate.GetField("_hint"), typeof(Line));
-            Assert.AreEqual(_modelPrivate.GetField("_firstPointX"), pointX);
-            Assert.AreEqual(_modelPrivate.GetField("_firstPointY"), pointY);
+            Assert.AreEqual(pointX, _modelPrivate.GetField("_firstPointX"));
+            Assert.AreEqual(pointY, _modelPrivate.GetField("_firstPointY"));
         }
 
         //測試繪圖模式滑鼠被按下(超出範圍)
