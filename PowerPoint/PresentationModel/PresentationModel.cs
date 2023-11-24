@@ -14,10 +14,6 @@ namespace PowerPoint
         public event PropertyChangedEventHandler PropertyChanged;
         public event CursorChangedEventHandler _cursorChanged;
         public delegate void CursorChangedEventHandler();
-        const string CURSOR_DEFAULT = "Default";
-        const string CURSOR_CROSS = "Cross";
-        const string CURSOR_SLASH = "SizeNWSE";
-        const string DELETE = "Delete";
         private bool _isLinePressed;
         private bool _isRectanglePressed;
         private bool _isCirclePressed;
@@ -26,7 +22,6 @@ namespace PowerPoint
         private bool _isScaleMode;
         private Dictionary<string, Action> _shapePressed;
         Model _model;
-        string _cursorType = CURSOR_DEFAULT;
         public Cursor CursorNow
         {
             get;
@@ -100,17 +95,14 @@ namespace PowerPoint
             if (_isInScaleArea)
             {
                 CursorNow = Cursors.SizeNWSE;
-                _cursorType = CURSOR_SLASH;
             }
             else if (IsToolButtonPressed())
             {
                 CursorNow = Cursors.Cross;
-                _cursorType = CURSOR_CROSS;
             }
             else
             {
                 CursorNow = Cursors.Default;
-                _cursorType = CURSOR_DEFAULT;
             }
             NotifyCursorChanged();
         }
@@ -175,9 +167,9 @@ namespace PowerPoint
         }
 
         //當鍵盤刪除按下
-        public void PressKeyboardHandler(string keyPress)
+        public void PressKeyboardHandler(Keys keyPress)
         {
-            if (keyPress == DELETE)
+            if (keyPress == Keys.Delete)
             {
                 if (_isSelectPressed)
                 {
@@ -233,12 +225,6 @@ namespace PowerPoint
             {
                 _cursorChanged();
             }
-        }
-
-        //取得鼠標樣式名
-        public string GetCursorType()
-        {
-            return _cursorType;
         }
     }
 }

@@ -102,9 +102,7 @@ namespace PowerPoint
         //鍵盤按下
         private void PressKeyboardKey(object sender, KeyEventArgs e)
         {
-            string keyCode = e.KeyCode.ToString();
-
-            _presentationModel.PressKeyboardHandler(keyCode);
+            _presentationModel.PressKeyboardHandler(e.KeyCode);
         }
 
         //繪圖區重繪製

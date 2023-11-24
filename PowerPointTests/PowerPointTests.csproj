@@ -46,6 +46,8 @@
       <HintPath>..\packages\MSTest.TestFramework.2.1.1\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -63,6 +65,7 @@
     <Compile Include="Model\IGraphicsMock.cs" />
     <Compile Include="Model\IStateMock.cs" />
     <Compile Include="Model\LineTests.cs" />
+    <Compile Include="Model\ModelMock.cs" />
     <Compile Include="Model\ModelTests.cs" />
     <Compile Include="Model\PointStateTests.cs" />
     <Compile Include="Model\RectangleTests.cs" />

@@ -43,21 +43,21 @@ namespace PowerPoint
         }
 
         //滑鼠被按下
-        public void PressPointer(IState state)
+        public virtual void PressPointer(IState state)
         {
             _isPressed = true;
             state.MouseDown();
         }
 
         //滑鼠移動
-        public void MovePointer(IState state)
+        public virtual void MovePointer(IState state)
         {
             state.MouseMove();
             NotifyModelChanged();
         }
 
         //滑鼠釋放
-        public void ReleasePointer(IState state)
+        public virtual void ReleasePointer(IState state)
         {
             state.MouseRelease();
             _isPressed = false;
@@ -66,7 +66,7 @@ namespace PowerPoint
         }
 
         //鍵盤刪除按下
-        public void PressDelete(IState state)
+        public virtual void PressDelete(IState state)
         {
             state.DeletePress();
             NotifyModelChanged();
@@ -158,7 +158,7 @@ namespace PowerPoint
         }
 
         //畫出所有形狀和即時形狀
-        public void Draw(IGraphics graphics)
+        public virtual void Draw(IGraphics graphics)
         {
             graphics.ClearAll();
             _shapes.Draw(graphics);

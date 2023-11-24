@@ -364,6 +364,30 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expectedDot, graphics.DrawDotCount);
         }
 
+        //測試Model繪圖(無即時形狀)
+        [TestMethod()]
+        public void DrawTestNoHint()
+        {
+            int expectedClear = 1;
+            int expectedLine = 1;
+            int expectedCircle = 0;
+            int expectedRectangle = 0;
+            int expectedDot = 8;
+            IGraphicsMock graphics = new IGraphicsMock();
+            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
+            _modelPrivate.SetField("_isPressed", false);
+
+            shapes.AddShape(_shape);
+            _model.SelectShape(INIT_LEFT, INIT_TOP);
+            _model.Draw(graphics);
+
+            Assert.AreEqual(expectedClear, graphics.ClearAllCount);
+            Assert.AreEqual(expectedLine, graphics.DrawLineCount);
+            Assert.AreEqual(expectedCircle, graphics.DrawCircleCount);
+            Assert.AreEqual(expectedRectangle, graphics.DrawRectangleCount);
+            Assert.AreEqual(expectedDot, graphics.DrawDotCount);
+        }
+
         //測試Model通知模型改變
         [TestMethod()]
         public void NotifyModelChangedTest()

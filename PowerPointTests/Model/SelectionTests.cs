@@ -46,12 +46,39 @@ namespace PowerPoint.Tests
             Assert.AreEqual(bottom, _selection.ShapeRange._bottom);
         }
 
+        //測試選取設定位置(無選取)
+        [TestMethod()]
+        [DataRow(1, 1, 1, 1)]
+        public void SetPositionNoSelectTest(double left, double top, double right, double bottom)
+        {
+            _selection.Unselect();
+            _selection.SetPosition(left, top, right, bottom);
+
+            Assert.AreEqual(INIT_LEFT, _shape.GetPosition()._left);
+            Assert.AreEqual(INIT_TOP, _shape.GetPosition()._top);
+            Assert.AreEqual(INIT_RIGHT, _shape.GetPosition()._right);
+            Assert.AreEqual(INIT_BOTTOM, _shape.GetPosition()._bottom);
+        }
+
         //測試選取更新資訊
         [TestMethod()]
         [DataRow(1, 1, 1, 1)]
         public void UpdateInfoTest(double left, double top, double right, double bottom)
         {
             string expected = "((1, 1), (1, 1))";
+            _selection.SetPosition(left, top, right, bottom);
+            _selection.UpdateInfo();
+
+            Assert.AreEqual(expected, _shape.Info);
+        }
+
+        //測試選取更新資訊(無選取)
+        [TestMethod()]
+        [DataRow(1, 1, 1, 1)]
+        public void UpdateInfoNoSelectTest(double left, double top, double right, double bottom)
+        {
+            string expected = _shape.Info;
+            _selection.Unselect();
             _selection.SetPosition(left, top, right, bottom);
             _selection.UpdateInfo();
 
@@ -77,6 +104,19 @@ namespace PowerPoint.Tests
             int expected = 8;
             IGraphicsMock graphics = new IGraphicsMock();
 
+            _selection.Draw(graphics);
+
+            Assert.AreEqual(expected, graphics.DrawDotCount);
+        }
+
+        //測試選取繪圖(無選取)
+        [TestMethod()]
+        public void DrawNoSelectTest()
+        {
+            int expected = 0;
+            IGraphicsMock graphics = new IGraphicsMock();
+
+            _selection.Unselect();
             _selection.Draw(graphics);
 
             Assert.AreEqual(expected, graphics.DrawDotCount);
