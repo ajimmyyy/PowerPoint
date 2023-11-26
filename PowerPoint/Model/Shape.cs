@@ -64,16 +64,15 @@ namespace PowerPoint
         }
 
         //是否被選取
-        public bool IsSelect
+        public bool IsSelect()
         {
-            get
-            {
-                return _isSelect;
-            }
-            set
-            {
-                _isSelect = value;
-            }
+            return _isSelect;
+        }
+
+        //設定是否被選取
+        public void SetIsSelect(bool value)
+        {
+            _isSelect = value;
         }
 
         //通知資料改變

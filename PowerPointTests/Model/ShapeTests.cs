@@ -56,7 +56,7 @@ namespace PowerPoint.Tests
         {
             bool expected = false;
 
-            Assert.AreEqual(expected, _shape.IsSelect);
+            Assert.AreEqual(expected, _shape.IsSelect());
         }
 
         //測試圖形通知資料改變

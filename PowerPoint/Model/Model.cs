@@ -108,7 +108,7 @@ namespace PowerPoint
         {
             if (_selection != null)
             {
-                _selection.IsSelect = false;
+                _selection.SetIsSelect(false);
             }
 
             _selection = _shapes.FindShape(pointX, pointY);

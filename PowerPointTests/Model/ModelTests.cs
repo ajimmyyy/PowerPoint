@@ -209,7 +209,7 @@ namespace PowerPoint.Tests
         {
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
 
-            _shape.IsSelect = true;
+            _shape.SetIsSelect(true);
             _modelPrivate.SetField("_selection", _shape);
             
             shapes.AddShape(_shape);
@@ -218,7 +218,7 @@ namespace PowerPoint.Tests
             Shape selection = _modelPrivate.GetField("_selection") as Shape;
 
             Assert.AreEqual(expected, selection != null);
-            Assert.AreEqual(false, _shape.IsSelect);
+            Assert.AreEqual(false, _shape.IsSelect());
         }
 
         //測試Model選取圖形(已選取)
@@ -255,7 +255,7 @@ namespace PowerPoint.Tests
             _modelPrivate.SetField("_isPressed", true);
 
             shapes.AddShape(_shape);
-            _shape.IsSelect = true;
+            _shape.SetIsSelect(true);
             _modelPrivate.SetField("_hint", hint);
 
             _model.Draw(graphics);
@@ -283,7 +283,7 @@ namespace PowerPoint.Tests
             _modelPrivate.SetField("_isPressed", false);
 
             shapes.AddShape(_shape);
-            _shape.IsSelect = true;
+            _shape.SetIsSelect(true);
 
             _model.Draw(graphics);
 

@@ -38,7 +38,7 @@ namespace PowerPoint.Tests
             _pointState.MouseDown();
 
             Assert.IsInstanceOfType(selection, typeof(Line));
-            Assert.IsTrue(selection.IsSelect);
+            Assert.IsTrue(selection.IsSelect());
             Assert.AreEqual(INIT_POINT_X, _pointStatePrivate.GetField("_firstPointX"));
             Assert.AreEqual(INIT_POINT_Y, _pointStatePrivate.GetField("_firstPointY"));
         }
@@ -49,7 +49,7 @@ namespace PowerPoint.Tests
         {
             _pointStatePrivate.SetField("_selection", null);
             _pointState.MouseDown();
-            Assert.IsFalse(_shape.IsSelect);
+            Assert.IsFalse(_shape.IsSelect());
         }
 
         //測試選取模式滑鼠移動
