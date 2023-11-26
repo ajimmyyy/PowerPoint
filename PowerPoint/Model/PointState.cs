@@ -8,42 +8,49 @@ namespace PowerPoint
 {
     public class PointState : IState
     {
-        Model _model;
-        double _pointX;
-        double _pointY;
+        Shape _selection;
+        double _firstPointX;
+        double _firstPointY;
 
-        public PointState(Model model, double pointX = 0, double pointY = 0)
+        public PointState(double pointX, double pointY, Shape selection)
         {
-            this._model = model;
-            this._pointX = pointX;
-            this._pointY = pointY;
+            this._firstPointX = pointX;
+            this._firstPointY = pointY;
+            _selection = selection;
         }
 
         //滑鼠被按下
         public void MouseDown()
         {
-            if (_pointX > 0 && _pointY > 0)
+            if (_selection != null)
             {
-                _model.SelectShape(_pointX, _pointY);
+                _selection.IsSelect = true;
             }
         }
 
         //滑鼠移動
-        public void MouseMove()
+        public void MouseMove(double pointX, double pointY)
         {
-            _model.MoveShape(_pointX, _pointY);
+            if (_selection != null)
+            {
+                Coordinate range = _selection.GetPosition();
+                double distanceX = pointX - _firstPointX;
+                double distanceY = pointY - _firstPointY;
+
+                _selection.SetCoordinate(range._left + distanceX, range._top + distanceY, range._right + distanceX, range._bottom + distanceY);
+                this._firstPointX = pointX;
+                this._firstPointY = pointY;
+            }
         }
 
         //滑鼠釋放
         public void MouseRelease()
         {
-            _model.StopMoveShape();
-        }
-
-        //鍵盤刪除按下
-        public void DeletePress()
-        {
-            _model.DeleteShape();
+            if (_selection != null)
+            {
+                Coordinate range = _selection.GetPosition();
+                _selection.SetPosition(range._left, range._top, range._right, range._bottom);
+            }
         }
     }
 }

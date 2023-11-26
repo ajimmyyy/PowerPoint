@@ -8,41 +8,30 @@ namespace PowerPoint
 {
     public class DrawingState : IState
     {
-        Model _model;
-        double _pointX;
-        double _pointY;
+        Shape _hint = null;
+        double _firstPointX;
+        double _firstPointY;
 
-        public DrawingState(Model model, double pointX = 0, double pointY = 0)
+        public DrawingState(double pointX, double pointY, Shape hint)
         {
-            this._model = model;
-            this._pointX = pointX;
-            this._pointY = pointY;
+            this._firstPointX = pointX;
+            this._firstPointY = pointY;
+            _hint = hint;
         }
 
         //滑鼠被按下
         public void MouseDown()
         {
-            if (_pointX > 0 && _pointY > 0)
-            {
-                _model.CreateHint();
-                _model.SetFirstPoint(_pointX, _pointY);
-            }
         }
 
         //滑鼠移動
-        public void MouseMove()
+        public void MouseMove(double pointX, double pointY)
         {
-            _model.SetHintPosition(_pointX, _pointY);
+            _hint.SetPosition(_firstPointX, _firstPointY, pointX, pointY);
         }
 
         //滑鼠釋放
         public void MouseRelease()
-        {
-            _model.AddHint();
-        }
-
-        //鍵盤刪除按下
-        public void DeletePress()
         {
         }
     }

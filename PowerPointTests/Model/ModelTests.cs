@@ -67,7 +67,9 @@ namespace PowerPoint.Tests
             bool expectedIsPressed = true;
             int expectedPressPointer = 1;
             IStateMock state = new IStateMock();
-            _model.PressPointer(state);
+            _modelPrivate.SetField("_state", state);
+
+            _model.PressPointer();
 
             Assert.AreEqual(expectedIsPressed, _modelPrivate.GetField("_isPressed"));
             Assert.AreEqual(expectedPressPointer, state.MouseDownCount);
@@ -79,7 +81,24 @@ namespace PowerPoint.Tests
         {
             int expectedMovePointer = 1;
             IStateMock state = new IStateMock();
-            _model.MovePointer(state);
+            _modelPrivate.SetField("_state", state);
+            _modelPrivate.SetField("_isPressed", true);
+
+            _model.MovePointer(0, 0);
+
+            Assert.AreEqual(expectedMovePointer, state.MouseMoveCount);
+        }
+
+        //測試Model滑鼠移動(未按下)
+        [TestMethod()]
+        public void MovePointerNullPressTest()
+        {
+            int expectedMovePointer = 0;
+            IStateMock state = new IStateMock();
+            _modelPrivate.SetField("_state", state);
+            _modelPrivate.SetField("_isPressed", false);
+
+            _model.MovePointer(0, 0);
 
             Assert.AreEqual(expectedMovePointer, state.MouseMoveCount);
         }
@@ -92,8 +111,28 @@ namespace PowerPoint.Tests
             bool expectedIsPressed = false;
             String expectedToolModePressed = "";
             IStateMock state = new IStateMock();
+            _modelPrivate.SetField("_state", state);
+            _modelPrivate.SetField("_isPressed", true);
 
-            _model.ReleasePointer(state);
+            _model.ReleasePointer();
+
+            Assert.AreEqual(expectedIsPressed, _modelPrivate.GetField("_isPressed"));
+            Assert.AreEqual(expectedToolModePressed, _modelPrivate.GetField("_toolModePressed"));
+            Assert.AreEqual(expectedReleasePointer, state.MouseReleaseCount);
+        }
+
+        //測試Model滑鼠釋放(未按下)
+        [TestMethod()]
+        public void ReleasePointerNullPressTest()
+        {
+            int expectedReleasePointer = 0;
+            bool expectedIsPressed = false;
+            String expectedToolModePressed = "";
+            IStateMock state = new IStateMock();
+            _modelPrivate.SetField("_state", state);
+            _modelPrivate.SetField("_isPressed", false);
+
+            _model.ReleasePointer();
 
             Assert.AreEqual(expectedIsPressed, _modelPrivate.GetField("_isPressed"));
             Assert.AreEqual(expectedToolModePressed, _modelPrivate.GetField("_toolModePressed"));
@@ -104,238 +143,99 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void PressDeleteTest()
         {
-            int expectedPressDelete = 1;
-            IStateMock state = new IStateMock();
-            _model.PressDelete(state);
-
-            Assert.AreEqual(expectedPressDelete, state.DeletePressCount);
-        }
-
-        //測試Model創建即時形狀
-        [TestMethod()]
-        [DataRow(ModeType.LINE_NAME, typeof(Line))]
-        [DataRow(ModeType.CIRCLE_NAME, typeof(Circle))]
-        [DataRow(ModeType.RECTANGLE_NAME, typeof(Rectangle))]
-        public void CreateHintTest(string shapeName, Type type)
-        {
-            _modelPrivate.SetField("_toolModePressed", shapeName);
-            _model.CreateHint();
-
-            Assert.IsInstanceOfType(_modelPrivate.GetFieldOrProperty("_hint"), type);
-        }
-
-        //測試Model創建即時形狀(輸入空字串)
-        [TestMethod()]
-        public void CreateHintNullTypeTest()
-        {
-            _modelPrivate.SetField("_toolModePressed", "");
-            _model.CreateHint();
-
-            Assert.IsNull(_modelPrivate.GetFieldOrProperty("_hint"));
-        }
-
-        //測試Model設定即時形狀位置
-        [TestMethod()]
-        [DataRow(0, 0, 0, 0)]
-        public void SetHintPositionTest(double firstPointX, double firstPointY, double pointX, double pointY)
-        {
-            _modelPrivate.SetField("_hint", _shape);
-            _modelPrivate.SetField("_isPressed", true);
-
-            _model.SetFirstPoint(firstPointX, firstPointY);
-            _model.SetHintPosition(pointX, pointY);
-
-            Assert.AreEqual(firstPointX, _shape.GetPosition()._left);
-            Assert.AreEqual(firstPointY, _shape.GetPosition()._top);
-            Assert.AreEqual(pointX, _shape.GetPosition()._right);
-            Assert.AreEqual(pointY, _shape.GetPosition()._bottom);
-        }
-
-        //測試Model設定即時形狀位置(未按下)
-        [TestMethod()]
-        [DataRow(0, 0, 0, 0)]
-        public void SetHintPositionNullPressedTest(double firstPointX, double firstPointY, double pointX, double pointY)
-        {
-            _modelPrivate.SetField("_hint", _shape);
-            _modelPrivate.SetField("_isPressed", false);
-
-            _model.SetFirstPoint(firstPointX, firstPointY);
-            _model.SetHintPosition(pointX, pointY);
-
-            Assert.AreEqual(INIT_LEFT, _shape.GetPosition()._left);
-            Assert.AreEqual(INIT_TOP, _shape.GetPosition()._top);
-            Assert.AreEqual(INIT_RIGHT, _shape.GetPosition()._right);
-            Assert.AreEqual(INIT_BOTTOM, _shape.GetPosition()._bottom);
-        }
-
-        //測試Model加入即時形狀
-        [TestMethod()]
-        public void AddHintTest()
-        {
-            int expected = 1;
-            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
-
-            _modelPrivate.SetField("_hint", _shape);
-            _modelPrivate.SetField("_isPressed", true);
-
-            _model.AddHint();
-
-            Assert.AreEqual(expected, shapes.GetCount());
-            Assert.IsNull(_modelPrivate.GetField("_hint"));
-        }
-
-        //測試Model加入即時形狀(未按下)
-        [TestMethod()]
-        public void AddHintNullPressedTest()
-        {
             int expected = 0;
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
 
-            _modelPrivate.SetField("_hint", _shape);
-            _modelPrivate.SetField("_isPressed", false);
+            shapes.AddShape(_shape);
 
-            _model.AddHint();
+            _modelPrivate.SetField("_selection", _shape);
+            _model.PressDelete();
 
             Assert.AreEqual(expected, shapes.GetCount());
-            Assert.IsNotNull(_modelPrivate.GetField("_hint"));
+            Assert.IsNull(_modelPrivate.GetField("_selection"));
         }
 
-        //測試Model設定起始點
+        //測試Model改變操作模式(縮放模式)
         [TestMethod()]
-        [DataRow(0, 0)]
-        public void SetFirstPointTest(double pointX, double pointY)
+        public void ChangeStateScaleTest()
         {
-            _model.SetFirstPoint(pointX, pointY);
+            _modelPrivate.SetField("_selection", _shape);
+            _modelPrivate.SetField("_isInScaleArea", true);
+            _model.ChangeState(0, 0);
 
-            Assert.AreEqual(pointX, _modelPrivate.GetField("_firstPointX"));
-            Assert.AreEqual(pointY, _modelPrivate.GetField("_firstPointY"));
+            IState state = _modelPrivate.GetField("_state") as IState;
+
+            Assert.IsNotNull(state);
         }
 
-        //測試Model選擇形狀
+        //測試Model改變操作模式(圖形模式)
         [TestMethod()]
-        [DataRow(1, 300, true)]
-        [DataRow(400, 200, true)]
-        [DataRow(401, 301, false)]
+        public void ChangeStateToolTest()
+        {
+            _modelPrivate.SetField("_selection", _shape);
+            _modelPrivate.SetField("_toolModePressed", ModeType.LINE_NAME);
+            _model.ChangeState(0, 0);
+
+            IState state = _modelPrivate.GetField("_state") as IState;
+            Shape hint = _modelPrivate.GetField("_hint") as Shape;
+
+            Assert.IsNotNull(state);
+            Assert.IsNotNull(hint);
+        }
+
+        //測試Model改變操作模式(選取模式)
+        [TestMethod()]
+        public void ChangeStateSelectTest()
+        {
+            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
+
+            shapes.AddShape(_shape);
+            _modelPrivate.SetField("_selection", _shape);
+            _modelPrivate.SetField("_toolModePressed", ModeType.SELECT_NAME);
+            _model.ChangeState(INIT_LEFT, INIT_TOP);
+
+            IState state = _modelPrivate.GetField("_state") as IState;
+            Shape selection = _modelPrivate.GetField("_selection") as Shape;
+
+            Assert.IsNotNull(state);
+            Assert.IsNotNull(selection);
+        }
+
+        //測試Model選取圖形
+        [TestMethod()]
+        [DataRow(0, 0, false)]
+        [DataRow(INIT_LEFT, INIT_TOP, true)]
         public void SelectShapeTest(double pointX, double pointY, bool expected)
         {
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
-            Selection selection = _modelPrivate.GetFieldOrProperty("_selection") as Selection;
 
+            _shape.IsSelect = true;
+            _modelPrivate.SetField("_selection", _shape);
+            
             shapes.AddShape(_shape);
-
             _model.SelectShape(pointX, pointY);
 
-            Assert.AreEqual(expected, selection.ShapeSelect != null);
-            Assert.AreEqual(pointX, _modelPrivate.GetField("_firstPointX"));
-            Assert.AreEqual(pointY, _modelPrivate.GetField("_firstPointY"));
+            Shape selection = _modelPrivate.GetField("_selection") as Shape;
+
+            Assert.AreEqual(expected, selection != null);
+            Assert.AreEqual(false, _shape.IsSelect);
         }
 
-        //測試Model移動形狀
+        //測試Model選取圖形(已選取)
         [TestMethod()]
-        [DataRow(400, 300, 500, 400)]
-        [DataRow(400, 300, 300, 200)]
-        public void MoveShapeTest(double firstPointX, double firstPointY, double pointX, double pointY)
+        [DataRow(0, 0, false)]
+        [DataRow(INIT_LEFT, INIT_TOP, true)]
+        public void SelectShapeHadSelectTest(double pointX, double pointY, bool expected)
         {
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
-            Selection selection = _modelPrivate.GetFieldOrProperty("_selection") as Selection;
 
-            _modelPrivate.SetField("_isPressed", true);
-            shapes.AddShape(_shape);
-
-            _model.SelectShape(firstPointX, firstPointY);
-            _model.MoveShape(pointX, pointY);
-
-            Assert.AreEqual(INIT_LEFT + (pointX - firstPointX), selection.ShapeRange._left);
-            Assert.AreEqual(INIT_TOP + (pointY - firstPointY), selection.ShapeRange._top);
-            Assert.AreEqual(INIT_RIGHT + (pointX - firstPointX), selection.ShapeRange._right);
-            Assert.AreEqual(INIT_BOTTOM + (pointY - firstPointY), selection.ShapeRange._bottom);
-            Assert.AreEqual(pointX, _modelPrivate.GetField("_firstPointX"));
-            Assert.AreEqual(pointY, _modelPrivate.GetField("_firstPointY"));
-        }
-
-        //測試Model移動形狀(未按下)
-        [TestMethod()]
-        [DataRow(400, 300, 500, 400)]
-        public void MoveShapeNullPressedTest(double firstPointX, double firstPointY, double pointX, double pointY)
-        {
-            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
-            Selection selection = _modelPrivate.GetFieldOrProperty("_selection") as Selection;
-
-            _modelPrivate.SetField("_isPressed", false);
-            shapes.AddShape(_shape);
-
-            _model.SelectShape(firstPointX, firstPointY);
-            _model.MoveShape(pointX, pointY);
-
-            Assert.AreEqual(INIT_LEFT, selection.ShapeRange._left);
-            Assert.AreEqual(INIT_TOP, selection.ShapeRange._top);
-            Assert.AreEqual(INIT_RIGHT, selection.ShapeRange._right);
-            Assert.AreEqual(INIT_BOTTOM, selection.ShapeRange._bottom);
-            Assert.AreEqual(firstPointX, _modelPrivate.GetField("_firstPointX"));
-            Assert.AreEqual(firstPointY, _modelPrivate.GetField("_firstPointY"));
-        }
-
-        //測試Model停止移動形狀
-        [TestMethod()]
-        [DataRow(400, 300, 500, 400)]
-        public void StopMoveShapeTest(double firstPointX, double firstPointY, double pointX, double pointY)
-        {
-            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
-            Selection selection = _modelPrivate.GetFieldOrProperty("_selection") as Selection;
-
-            _modelPrivate.SetField("_isPressed", true);
-            shapes.AddShape(_shape);
-
-            _model.SelectShape(firstPointX, firstPointY);
-            _model.MoveShape(pointX, pointY);
-            _model.StopMoveShape();
-
-            Assert.AreEqual(INIT_LEFT + (pointX - firstPointX), selection.ShapeRange._left);
-            Assert.AreEqual(INIT_TOP + (pointY - firstPointY), selection.ShapeRange._top);
-            Assert.AreEqual(INIT_RIGHT + (pointX - firstPointX), selection.ShapeRange._right);
-            Assert.AreEqual(INIT_BOTTOM + (pointY - firstPointY), selection.ShapeRange._bottom);
-            Assert.AreEqual(pointX, _modelPrivate.GetField("_firstPointX"));
-            Assert.AreEqual(pointY, _modelPrivate.GetField("_firstPointY"));
-        }
-
-        //測試Model停止移動形狀(未按下)
-        [TestMethod()]
-        [DataRow(400, 300, 500, 400)]
-        public void StopMoveShapeNullPressedTest(double firstPointX, double firstPointY, double pointX, double pointY)
-        {
-            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
-            Selection selection = _modelPrivate.GetFieldOrProperty("_selection") as Selection;
-
-            _modelPrivate.SetField("_isPressed", false);
-            shapes.AddShape(_shape);
-
-            _model.SelectShape(firstPointX, firstPointY);
-            _model.MoveShape(pointX, pointY);
-            _model.StopMoveShape();
-
-            Assert.AreEqual(INIT_LEFT, selection.ShapeRange._left);
-            Assert.AreEqual(INIT_TOP, selection.ShapeRange._top);
-            Assert.AreEqual(INIT_RIGHT, selection.ShapeRange._right);
-            Assert.AreEqual(INIT_BOTTOM, selection.ShapeRange._bottom);
-            Assert.AreEqual(firstPointX, _modelPrivate.GetField("_firstPointX"));
-            Assert.AreEqual(firstPointY, _modelPrivate.GetField("_firstPointY"));
-        }
-
-        //測試Model刪除選取形狀
-        [TestMethod()]
-        public void DeleteShapeTest()
-        {
-            int excepted = 0;
-            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
-            Selection selection = _modelPrivate.GetFieldOrProperty("_selection") as Selection;
 
             shapes.AddShape(_shape);
+            _model.SelectShape(pointX, pointY);
 
-            _model.SelectShape(INIT_LEFT, INIT_TOP);
-            _model.DeleteShape();
+            Shape selection = _modelPrivate.GetField("_selection") as Shape;
 
-            Assert.AreEqual(excepted, shapes.GetCount());
-            Assert.IsNull(selection.ShapeSelect);
+            Assert.AreEqual(expected, selection != null);
         }
 
         //測試Model繪圖
@@ -348,13 +248,16 @@ namespace PowerPoint.Tests
             int expectedRectangle = 0;
             int expectedDot = 8;
             IGraphicsMock graphics = new IGraphicsMock();
+            Shape hint = Factory.CreateShape(ModeType.CIRCLE_NAME);
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
+
             _modelPrivate.SetField("_toolModePressed", ModeType.CIRCLE_NAME);
             _modelPrivate.SetField("_isPressed", true);
 
             shapes.AddShape(_shape);
-            _model.SelectShape(INIT_LEFT, INIT_TOP);
-            _model.CreateHint();
+            _shape.IsSelect = true;
+            _modelPrivate.SetField("_hint", hint);
+
             _model.Draw(graphics);
 
             Assert.AreEqual(expectedClear, graphics.ClearAllCount);
@@ -375,10 +278,13 @@ namespace PowerPoint.Tests
             int expectedDot = 8;
             IGraphicsMock graphics = new IGraphicsMock();
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
+
+            _modelPrivate.SetField("_toolModePressed", ModeType.CIRCLE_NAME);
             _modelPrivate.SetField("_isPressed", false);
 
             shapes.AddShape(_shape);
-            _model.SelectShape(INIT_LEFT, INIT_TOP);
+            _shape.IsSelect = true;
+
             _model.Draw(graphics);
 
             Assert.AreEqual(expectedClear, graphics.ClearAllCount);
@@ -411,66 +317,6 @@ namespace PowerPoint.Tests
             Assert.AreEqual(shapeType, _modelPrivate.GetField("_toolModePressed"));
         }
 
-        //測試Model設定縮放固定點
-        [TestMethod()]
-        public void PinScalePointTest()
-        {
-            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
-            Selection selection = _modelPrivate.GetFieldOrProperty("_selection") as Selection;
-
-            shapes.AddShape(_shape);
-
-            _model.SelectShape(INIT_LEFT, INIT_TOP);
-            _model.PinScalePoint();
-
-            Assert.AreEqual(INIT_LEFT, _modelPrivate.GetField("_firstPointX"));
-            Assert.AreEqual(INIT_TOP, _modelPrivate.GetField("_firstPointY"));
-        }
-
-        //測試Model縮放圖形
-        [TestMethod()]
-        [DataRow(400, 400)]
-        [DataRow(1, 300)]
-        public void ScaleShapeTest(double pointX, double pointY)
-        {
-            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
-            Selection selection = _modelPrivate.GetFieldOrProperty("_selection") as Selection;
-
-            shapes.AddShape(_shape);
-            _modelPrivate.SetField("_isPressed", true);
-
-            _model.SelectShape(INIT_LEFT, INIT_TOP);
-            _model.PinScalePoint();
-            _model.ScaleShape(pointX, pointY);
-
-            Assert.AreEqual(INIT_LEFT, selection.ShapeRange._left);
-            Assert.AreEqual(INIT_TOP, selection.ShapeRange._top);
-            Assert.AreEqual(pointX, selection.ShapeRange._right);
-            Assert.AreEqual(pointY, selection.ShapeRange._bottom);
-        }
-
-        //測試Model縮放圖形(未按下)
-        [TestMethod()]
-        [DataRow(400, 400)]
-        [DataRow(1, 300)]
-        public void ScaleShapeNullPressedTest(double pointX, double pointY)
-        {
-            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
-            Selection selection = _modelPrivate.GetFieldOrProperty("_selection") as Selection;
-
-            shapes.AddShape(_shape);
-            _modelPrivate.SetField("_isPressed", false);
-
-            _model.SelectShape(INIT_LEFT, INIT_TOP);
-            _model.PinScalePoint();
-            _model.ScaleShape(pointX, pointY);
-
-            Assert.AreEqual(INIT_LEFT, selection.ShapeRange._left);
-            Assert.AreEqual(INIT_TOP, selection.ShapeRange._top);
-            Assert.AreEqual(INIT_RIGHT, selection.ShapeRange._right);
-            Assert.AreEqual(INIT_BOTTOM, selection.ShapeRange._bottom);
-        }
-
         //測試Model是否在縮放區域
         [TestMethod()]
         [DataRow(0, 0, false)]
@@ -480,11 +326,27 @@ namespace PowerPoint.Tests
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
 
             shapes.AddShape(_shape);
-            _modelPrivate.SetField("_isPressed", true);
+            _modelPrivate.SetField("_selection", _shape);
 
-            _model.SelectShape(INIT_LEFT, INIT_TOP);
+            _model.IsInScaleArea(pointX, pointY);
 
-            Assert.AreEqual(expected, _model.IsInScaleArea(pointX, pointY));
+            Assert.AreEqual(expected, _modelPrivate.GetField("_isInScaleArea"));
+        }
+
+        //測試Model是否在縮放區域(無選取)
+        [TestMethod()]
+        [DataRow(0, 0, false)]
+        [DataRow(400, 300, false)]
+        public void IsInScaleAreaNullSelectTest(double pointX, double pointY, bool expected)
+        {
+            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
+
+            shapes.AddShape(_shape);
+            _modelPrivate.SetField("_selection", null);
+
+            _model.IsInScaleArea(pointX, pointY);
+
+            Assert.AreEqual(expected, _modelPrivate.GetField("_isInScaleArea"));
         }
 
         //測試Model取得binding List

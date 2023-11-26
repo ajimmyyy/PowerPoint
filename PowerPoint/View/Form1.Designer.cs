@@ -43,12 +43,12 @@ namespace PowerPoint
             this._infoColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._slideButton = new System.Windows.Forms.Button();
             this._toolBar = new System.Windows.Forms.ToolStrip();
+            this._backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this._canvas = new PowerPoint.DoubleBufferedPanel();
             this._lineToolButton = new PowerPoint.BindingToolStripButton();
             this._rectangleToolButton = new PowerPoint.BindingToolStripButton();
             this._circleToolButton = new PowerPoint.BindingToolStripButton();
             this._selectToolButton = new PowerPoint.BindingToolStripButton();
-            this._backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this._canvas = new PowerPoint.DoubleBufferedPanel();
             this._functionMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._slideDataGridView)).BeginInit();
             this._dataGroupBox.SuspendLayout();
@@ -193,7 +193,7 @@ namespace PowerPoint
             // 
             this._slideButton.FlatAppearance.BorderSize = 0;
             this._slideButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._slideButton.Location = new System.Drawing.Point(12, 67);
+            this._slideButton.Location = new System.Drawing.Point(12, 77);
             this._slideButton.Name = "_slideButton";
             this._slideButton.Size = new System.Drawing.Size(133, 97);
             this._slideButton.TabIndex = 5;
@@ -213,6 +213,15 @@ namespace PowerPoint
             this._toolBar.Size = new System.Drawing.Size(800, 38);
             this._toolBar.TabIndex = 7;
             this._toolBar.Text = "toolStrip1";
+            // 
+            // _canvas
+            // 
+            this._canvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._canvas.Location = new System.Drawing.Point(161, 74);
+            this._canvas.Margin = new System.Windows.Forms.Padding(0);
+            this._canvas.Name = "_canvas";
+            this._canvas.Size = new System.Drawing.Size(400, 429);
+            this._canvas.TabIndex = 0;
             // 
             // _lineToolButton
             // 
@@ -254,26 +263,17 @@ namespace PowerPoint
             this._selectToolButton.Text = "選取";
             this._selectToolButton.Click += new System.EventHandler(this.ToolButtonClick);
             // 
-            // _canvas
-            // 
-            this._canvas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._canvas.Location = new System.Drawing.Point(0, 0);
-            this._canvas.Margin = new System.Windows.Forms.Padding(0);
-            this._canvas.Name = "_canvas";
-            this._canvas.Size = new System.Drawing.Size(800, 503);
-            this._canvas.TabIndex = 0;
-            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(800, 503);
+            this.Controls.Add(this._canvas);
             this.Controls.Add(this._dataGroupBox);
             this.Controls.Add(this._slideButton);
             this.Controls.Add(this._slideDataGridView);
             this.Controls.Add(this._toolBar);
             this.Controls.Add(this._functionMenu);
-            this.Controls.Add(this._canvas);
             this.KeyPreview = true;
             this.MainMenuStrip = this._functionMenu;
             this.Name = "Form1";

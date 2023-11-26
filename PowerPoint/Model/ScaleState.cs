@@ -8,38 +8,39 @@ namespace PowerPoint
 {
     public class ScaleState : IState
     {
-        Model _model;
-        double _pointX;
-        double _pointY;
+        Shape _selection;
+        double _firstPointX;
+        double _firstPointY;
 
-        public ScaleState(Model model, double pointX = 0, double pointY = 0)
+        public ScaleState(double pointX, double pointY, Shape selection)
         {
-            this._model = model;
-            this._pointX = pointX;
-            this._pointY = pointY;
+            this._firstPointX = pointX;
+            this._firstPointY = pointY;
+            _selection = selection;
         }
 
         //滑鼠被按下
         public void MouseDown()
         {
-            _model.PinScalePoint();
         }
 
         //滑鼠移動
-        public void MouseMove()
+        public void MouseMove(double pointX, double pointY)
         {
-            _model.ScaleShape(_pointX, _pointY);
+            if (_selection != null)
+            {
+                _selection.SetCoordinate(_firstPointX, _firstPointY, pointX, pointY);
+            }
         }
 
         //滑鼠釋放
         public void MouseRelease()
         {
-            _model.StopMoveShape();
-        }
-
-        //鍵盤刪除按下
-        public void DeletePress()
-        {
+            if (_selection != null)
+            {
+                Coordinate range = _selection.GetPosition();
+                _selection.SetPosition(range._left, range._top, range._right, range._bottom);
+            }
         }
     }
 }

@@ -96,18 +96,17 @@ namespace PowerPoint.Tests
             _presentationModelPrivate.SetField("_model", modelmock);
 
             _presentationModelPrivate.SetField("_isInScaleArea", true);
-            _presentationModel.CanvasPressedHandler(0, 0);
-            Assert.AreEqual(true, _presentationModelPrivate.GetField("_isScaleMode"));
+            _presentationModel.CanvasPressedHandler(1, 1);
             Assert.AreEqual(expectedCount++, modelmock.PressCount);
             _presentationModelPrivate.SetField("_isInScaleArea", false);
 
             _presentationModelPrivate.SetField("_isSelectPressed", true);
-            _presentationModel.CanvasPressedHandler(0, 0);
+            _presentationModel.CanvasPressedHandler(1, 1);
             Assert.AreEqual(expectedCount++, modelmock.PressCount);
             _presentationModelPrivate.SetField("_isSelectPressed", false);
 
             _presentationModelPrivate.SetField("_isLinePressed", true);
-            _presentationModel.CanvasPressedHandler(0, 0);
+            _presentationModel.CanvasPressedHandler(1, 1);
             Assert.AreEqual(expectedCount, modelmock.PressCount);
             _presentationModelPrivate.SetField("_isLinePressed", false);
 
@@ -119,57 +118,34 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void CanvasMoveHandlerTest()
         {
-            int expectedCount = 1;
+            int expectedMoveCount = 1;
+            int expectedInAreaCount = 1;
             ModelMock modelmock = new ModelMock();
             _presentationModelPrivate.SetField("_model", modelmock);
 
-            _presentationModelPrivate.SetField("_isScaleMode", true);
-            _presentationModel.CanvasMoveHandler(0, 0);
-            Assert.AreEqual(false, _presentationModelPrivate.GetField("_isInScaleArea"));
-            Assert.AreEqual(expectedCount++, modelmock.MoveCount);
-            _presentationModelPrivate.SetField("_isScaleMode", false);
+            _presentationModel.CanvasMoveHandler(1, 1);
 
-            _presentationModelPrivate.SetField("_isSelectPressed", true);
-            _presentationModel.CanvasMoveHandler(0, 0);
-            Assert.AreEqual(expectedCount++, modelmock.MoveCount);
-            _presentationModelPrivate.SetField("_isSelectPressed", false);
-
-            _presentationModelPrivate.SetField("_isLinePressed", true);
-            _presentationModel.CanvasMoveHandler(0, 0);
-            Assert.AreEqual(expectedCount, modelmock.MoveCount);
-            _presentationModelPrivate.SetField("_isLinePressed", false);
-
-            _presentationModel.CanvasMoveHandler(0, 0);
-            Assert.AreEqual(expectedCount, modelmock.MoveCount);
+            Assert.AreEqual(expectedMoveCount, modelmock.MoveCount);
+            Assert.AreEqual(expectedInAreaCount, modelmock.InScaleAreaCount);
         }
 
         //測試PresentationModel當滑鼠釋放
         [TestMethod()]
         public void CanvasReleasedHandlerTest()
         {
-            int expectedCount = 1;
+            int expectedReleaseCount = 1;
+            int expectedSetToolCount = 1;
             ModelMock modelmock = new ModelMock();
             _presentationModelPrivate.SetField("_model", modelmock);
 
-            _presentationModelPrivate.SetField("_isScaleMode", true);
-            _presentationModel.CanvasReleasedHandler(0, 0);
-            Assert.AreEqual(false, _presentationModelPrivate.GetField("_isScaleMode"));
-            Assert.AreEqual(expectedCount++, modelmock.ReleaseCount);
-            _presentationModelPrivate.SetField("_isScaleMode", false);
+            _presentationModel.CanvasReleasedHandler(1, 1);
 
-            _presentationModelPrivate.SetField("_isSelectPressed", true);
-            _presentationModel.CanvasReleasedHandler(0, 0);
-            Assert.AreEqual(expectedCount++, modelmock.ReleaseCount);
-            _presentationModelPrivate.SetField("_isSelectPressed", false);
-
-            _presentationModelPrivate.SetField("_isLinePressed", true);
-            _presentationModel.CanvasReleasedHandler(0, 0);
-            Assert.AreEqual(expectedCount, modelmock.ReleaseCount);
-            _presentationModelPrivate.SetField("_isLinePressed", false);
-
-            _presentationModelPrivate.SetField("_isSelectPressed", false);
-            _presentationModel.CanvasReleasedHandler(0, 0);
-            Assert.AreEqual(expectedCount, modelmock.ReleaseCount);
+            Assert.AreEqual(expectedReleaseCount, modelmock.ReleaseCount);
+            Assert.AreEqual(false, _presentationModel.IsLinePressed);
+            Assert.AreEqual(false, _presentationModel.IsCirclePressed);
+            Assert.AreEqual(false, _presentationModel.IsRectanglePressed);
+            Assert.AreEqual(true, _presentationModel.IsSelectPressed);
+            Assert.AreEqual(expectedSetToolCount, modelmock.SetToolCount);
         }
 
         //測試PresentationModel當鍵盤刪除按下
@@ -180,16 +156,6 @@ namespace PowerPoint.Tests
             ModelMock modelmock = new ModelMock();
             _presentationModelPrivate.SetField("_model", modelmock);
             _presentationModel.PressKeyboardHandler(Keys.None);
-
-            _presentationModelPrivate.SetField("_isSelectPressed", true);
-            _presentationModel.PressKeyboardHandler(Keys.Delete);
-            Assert.AreEqual(expectedCount++, modelmock.DeleteCount);
-            _presentationModelPrivate.SetField("_isSelectPressed", false);
-
-            _presentationModelPrivate.SetField("_isLinePressed", true);
-            _presentationModel.PressKeyboardHandler(Keys.Delete);
-            Assert.AreEqual(expectedCount, modelmock.DeleteCount);
-            _presentationModelPrivate.SetField("_isLinePressed", false);
 
             _presentationModel.PressKeyboardHandler(Keys.Delete);
             Assert.AreEqual(expectedCount, modelmock.DeleteCount);

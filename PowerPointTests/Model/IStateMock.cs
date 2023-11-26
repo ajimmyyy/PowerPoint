@@ -11,7 +11,6 @@ namespace PowerPoint
         int _mouseDownCount = 0;
         int _mouseMoveCount = 0;
         int _mouseReleaseCount = 0;
-        int _deletePressCount = 0;
 
         //滑鼠被按下
         public void MouseDown()
@@ -20,7 +19,7 @@ namespace PowerPoint
         }
 
         //滑鼠移動
-        public void MouseMove()
+        public void MouseMove(double pointX, double pointY)
         {
             _mouseMoveCount++;
         }
@@ -29,12 +28,6 @@ namespace PowerPoint
         public void MouseRelease()
         {
             _mouseReleaseCount++;
-        }
-
-        //鍵盤刪除按下
-        public void DeletePress()
-        {
-            _deletePressCount++;
         }
 
         public int MouseDownCount
@@ -56,13 +49,6 @@ namespace PowerPoint
             get
             {
                 return _mouseReleaseCount;
-            }
-        }
-        public int DeletePressCount
-        {
-            get
-            {
-                return _deletePressCount;
             }
         }
     }

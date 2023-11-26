@@ -51,11 +51,24 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void AddShapeTest()
         {
+            int expected = 1;
             Shape testShape = Factory.CreateShape(ModeType.LINE_NAME);
             BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
 
             _shapes.AddShape(testShape);
-            Assert.AreEqual(1, shapeList.Count);
+            Assert.AreEqual(expected, shapeList.Count);
+        }
+
+        //測試Shapes加入現有形狀(無形狀)
+        [TestMethod()]
+        public void AddShapeNullShapeTest()
+        {
+            int expected = 0;
+            Shape testShape = null;
+            BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
+
+            _shapes.AddShape(testShape);
+            Assert.AreEqual(expected, shapeList.Count);
         }
 
         //測試Shapes刪除list裡的形狀(by index)

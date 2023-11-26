@@ -14,6 +14,8 @@ namespace PowerPoint
         const string SHAPE_NAME = "ShapeName";
         string _info;
         string _shapeName;
+        protected bool _isSelect = false;
+        protected Selection _selection = new Selection();
 
         //取得圖形資訊
         public string Info
@@ -54,6 +56,25 @@ namespace PowerPoint
 
         //繪圖
         public abstract void Draw(IGraphics graphics);
+        
+        //取得選取框資訊
+        public Selection GetSelection()
+        {
+            return _selection;
+        }
+
+        //是否被選取
+        public bool IsSelect
+        {
+            get
+            {
+                return _isSelect;
+            }
+            set
+            {
+                _isSelect = value;
+            }
+        }
 
         //通知資料改變
         protected void NotifyPropertyChanged(string propertyName)

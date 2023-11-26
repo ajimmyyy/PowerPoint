@@ -29,6 +29,9 @@ namespace PowerPoint
         //加入現有形狀
         public void AddShape(Shape shape)
         {
+            if (shape == null)
+                return;
+
             _shapeList.Add(shape);
         }
 

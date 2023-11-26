@@ -43,6 +43,22 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expected, _shape.ShapeName);
         }
 
+        //測試圖形取得選取框資訊
+        [TestMethod()]
+        public void GetSelectionTest()
+        {
+            Assert.AreSame(_shapePrivate.GetField("_selection"), _shape.GetSelection());
+        }
+
+        //測試圖形是否被選取
+        [TestMethod()]
+        public void IsSelectTest()
+        {
+            bool expected = false;
+
+            Assert.AreEqual(expected, _shape.IsSelect);
+        }
+
         //測試圖形通知資料改變
         [TestMethod()]
         public void NotifyPropertyChangedTest()

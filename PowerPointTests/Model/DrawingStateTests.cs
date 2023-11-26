@@ -11,20 +11,19 @@ namespace PowerPoint.Tests
     [TestClass()]
     public class DrawingStateTests
     {
-        Model _model;
-        Shape _hint;
+        const double INIT_POINT_X = 100;
+        const double INIT_POINT_Y = 100;
+        Shape _shape;
         DrawingState _drawingState;
-        PrivateObject _modelPrivate;
+        PrivateObject _drawingStatePrivate;
 
         //測試繪圖模式初始化
         [TestInitialize()]
         public void Initialize()
         {
-            _model = new Model();
-            _model.SetToolMode(ModeType.LINE_NAME);
-            _hint = new Line(0, 0, 0, 0);
-            _modelPrivate = new PrivateObject(_model);
-            _modelPrivate.SetField("_isPressed", true);
+            _shape = new Line(0, 0, 0, 0);
+            _drawingState = new DrawingState(INIT_POINT_X, INIT_POINT_Y, _shape);
+            _drawingStatePrivate = new PrivateObject(_drawingState);
         }
 
         //測試繪圖模式滑鼠被按下
@@ -32,65 +31,37 @@ namespace PowerPoint.Tests
         [DataRow(1, 1)]
         public void MouseDownTest(double pointX, double pointY)
         {
-            _drawingState = new DrawingState(_model, pointX, pointY);
             _drawingState.MouseDown();
 
-            Assert.IsInstanceOfType(_modelPrivate.GetField("_hint"), typeof(Line));
-            Assert.AreEqual(pointX, _modelPrivate.GetField("_firstPointX"));
-            Assert.AreEqual(pointY, _modelPrivate.GetField("_firstPointY"));
-        }
-
-        //測試繪圖模式滑鼠被按下(超出範圍)
-        [TestMethod()]
-        [DataRow(0, 0)]
-        public void MouseDownOutRangeTest(double pointX, double pointY)
-        {
-            _drawingState = new DrawingState(_model, pointX, pointY);
-            _drawingState.MouseDown();
-
-            Assert.AreEqual(_modelPrivate.GetField("_hint"), null);
+            Assert.IsInstanceOfType(_drawingStatePrivate.GetField("_hint"), typeof(Line));
+            Assert.AreEqual(INIT_POINT_X, _drawingStatePrivate.GetField("_firstPointX"));
+            Assert.AreEqual(INIT_POINT_Y, _drawingStatePrivate.GetField("_firstPointY"));
         }
 
         //測試繪圖模式滑鼠移動
         [TestMethod()]
-        [DataRow(1, 1, 100, 100)]
-        [DataRow(100, 100, 1, 1)]
-        public void MouseMoveTest(double firstPointX, double firstPointY, double pointX, double pointY)
+        [DataRow(1, 1)]
+        [DataRow(200, 200)]
+        public void MouseMoveTest(double pointX, double pointY)
         {
-            _modelPrivate.SetField("_hint", _hint);
-            _modelPrivate.SetField("_firstPointX", firstPointX);
-            _modelPrivate.SetField("_firstPointY", firstPointY);
+            Shape hint = _drawingStatePrivate.GetField("_hint") as Shape;
+            _drawingState.MouseMove(pointX, pointY);
 
-            _drawingState = new DrawingState(_model, pointX, pointY);
-            _drawingState.MouseMove();
-
-            Assert.AreEqual(firstPointX, _hint.GetPosition()._left);
-            Assert.AreEqual(firstPointY, _hint.GetPosition()._top);
-            Assert.AreEqual(pointX, _hint.GetPosition()._right);
-            Assert.AreEqual(pointY, _hint.GetPosition()._bottom);
+            Assert.AreEqual(INIT_POINT_X, hint.GetPosition()._left);
+            Assert.AreEqual(INIT_POINT_Y, hint.GetPosition()._top);
+            Assert.AreEqual(pointX, hint.GetPosition()._right);
+            Assert.AreEqual(pointY, hint.GetPosition()._bottom);
         }
 
         //測試繪圖模式滑鼠釋放
         [TestMethod()]
         public void MouseReleaseTest()
         {
-            int expected = 1;
-            Shapes shapes = _modelPrivate.GetField("_shapes") as Shapes;
-
-            _modelPrivate.SetField("_hint", _hint);
-
-            _drawingState = new DrawingState(_model);
             _drawingState.MouseRelease();
 
-            Assert.AreEqual(expected, shapes.GetCount());
-        }
-
-        //測試繪圖模式鍵盤刪除按下
-        [TestMethod()]
-        public void DeletePressTest()
-        {
-            _drawingState = new DrawingState(_model);
-            _drawingState.DeletePress();
+            Assert.IsInstanceOfType(_drawingStatePrivate.GetField("_hint"), typeof(Line));
+            Assert.AreEqual(INIT_POINT_X, _drawingStatePrivate.GetField("_firstPointX"));
+            Assert.AreEqual(INIT_POINT_Y, _drawingStatePrivate.GetField("_firstPointY"));
         }
     }
 }

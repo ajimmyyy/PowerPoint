@@ -10,11 +10,11 @@ namespace PowerPoint
     {
         //滑鼠被按下
         void MouseDown();
+
         //滑鼠移動
-        void MouseMove();
+        void MouseMove(double pointX, double pointY);
+
         //滑鼠釋放
         void MouseRelease();
-        //鍵盤刪除按下
-        void DeletePress();
     }
 }

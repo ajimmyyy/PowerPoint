@@ -11,95 +11,103 @@ namespace PowerPoint.Tests
     [TestClass()]
     public class PointStateTests
     {
-        const double INIT_LEFT = 1;
-        const double INIT_TOP = 200;
-        const double INIT_RIGHT = 400;
+        const double INIT_POINT_X = 100;
+        const double INIT_POINT_Y = 100;
+        const double INIT_LEFT = 0;
+        const double INIT_TOP = 0;
+        const double INIT_RIGHT = 100;
         const double INIT_BOTTOM = 100;
-        Model _model;
         Shape _shape;
-        Shapes _shapes;
         PointState _pointState;
-        PrivateObject _modelPrivate;
+        PrivateObject _pointStatePrivate;
 
         //測試選取模式初始化
         [TestInitialize()]
         public void Initialize()
         {
-            _model = new Model();
             _shape = new Line(INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM);
-            _shapes = new Shapes();
-            _shapes.AddShape(_shape);
-            _modelPrivate = new PrivateObject(_model);
-            _modelPrivate.SetField("_isPressed", true);
-            _modelPrivate.SetField("_shapes", _shapes);
+            _pointState = new PointState(INIT_POINT_X, INIT_POINT_Y, _shape);
+            _pointStatePrivate = new PrivateObject(_pointState);
         }
 
         //測試選取模式滑鼠被按下
         [TestMethod()]
-        [DataRow(0, 0, false)]
-        [DataRow(1, 1, false)]
-        [DataRow(1, 100, true)]
-        [DataRow(400, 200, true)]
-        public void MouseDownTest(double pointX, double pointY, bool expected)
+        public void MouseDownTest()
         {
-            Selection selection = _modelPrivate.GetField("_selection") as Selection;
-            _pointState = new PointState(_model, pointX, pointY);
-
+            Shape selection = _pointStatePrivate.GetField("_selection") as Shape;
             _pointState.MouseDown();
 
-            Assert.AreEqual(expected, selection.ShapeSelect != null);
+            Assert.IsInstanceOfType(selection, typeof(Line));
+            Assert.IsTrue(selection.IsSelect);
+            Assert.AreEqual(INIT_POINT_X, _pointStatePrivate.GetField("_firstPointX"));
+            Assert.AreEqual(INIT_POINT_Y, _pointStatePrivate.GetField("_firstPointY"));
+        }
+
+        //測試選取模式滑鼠被按下(無選取)
+        [TestMethod()]
+        public void MouseDownNullSelectTest()
+        {
+            _pointStatePrivate.SetField("_selection", null);
+            _pointState.MouseDown();
+            Assert.IsFalse(_shape.IsSelect);
         }
 
         //測試選取模式滑鼠移動
         [TestMethod()]
-        [DataRow(1, 100, 100, 200)]
-        [DataRow(400, 200, 300, 100)]
-        public void MouseMoveTest(double firstPointX, double firstPointY, double pointX, double pointY)
+        [DataRow(1, 1)]
+        [DataRow(200, 200)]
+        public void MouseMoveTest(double pointX, double pointY)
         {
-            Selection selection = _modelPrivate.GetField("_selection") as Selection;
+            Shape selection = _pointStatePrivate.GetField("_selection") as Shape;
+            _pointState.MouseMove(pointX, pointY);
 
-            _pointState = new PointState(_model, firstPointX, firstPointY);
-            _pointState.MouseDown();
-            _pointState = new PointState(_model, pointX, pointY);
-            _pointState.MouseMove();
+            Assert.AreEqual(INIT_LEFT + (pointX - INIT_POINT_X), selection.GetPosition()._left);
+            Assert.AreEqual(INIT_TOP + (pointY - INIT_POINT_Y), selection.GetPosition()._top);
+            Assert.AreEqual(INIT_RIGHT + (pointX - INIT_POINT_X), selection.GetPosition()._right);
+            Assert.AreEqual(INIT_BOTTOM + (pointY - INIT_POINT_Y), selection.GetPosition()._bottom);
+        }
 
-            Assert.AreEqual(INIT_LEFT + (pointX - firstPointX), selection.ShapeRange._left);
-            Assert.AreEqual(INIT_TOP + (pointY - firstPointY), selection.ShapeRange._top);
-            Assert.AreEqual(INIT_RIGHT + (pointX - firstPointX), selection.ShapeRange._right);
-            Assert.AreEqual(INIT_BOTTOM + (pointY - firstPointY), selection.ShapeRange._bottom);
+        //測試選取模式滑鼠移動(無選取)
+        [TestMethod()]
+        [DataRow(1, 1)]
+        public void MouseMoveNullSelectTest(double pointX, double pointY)
+        {
+            _pointStatePrivate.SetField("_selection", null);
+            _pointState.MouseMove(pointX, pointY);
+
+            Assert.AreEqual(INIT_LEFT, _shape.GetPosition()._left);
+            Assert.AreEqual(INIT_TOP, _shape.GetPosition()._top);
+            Assert.AreEqual(INIT_RIGHT, _shape.GetPosition()._right);
+            Assert.AreEqual(INIT_BOTTOM, _shape.GetPosition()._bottom);
         }
 
         //測試選取模式滑鼠釋放
         [TestMethod()]
-        [DataRow(1, 100, 100, 200)]
-        public void MouseReleaseTest(double firstPointX, double firstPointY, double pointX, double pointY)
+        [DataRow(200, 200)]
+        public void MouseReleaseTest(double pointX, double pointY)
         {
-            string expected = "((100, 300), (499, 200))";
-            Selection selection = _modelPrivate.GetField("_selection") as Selection;
+            Shape selection = _pointStatePrivate.GetField("_selection") as Shape;
+            String expected = "((100, 100), (200, 200))";
 
-            _pointState = new PointState(_model, firstPointX, firstPointY);
-            _pointState.MouseDown();
-            _pointState = new PointState(_model, pointX, pointY);
-            _pointState.MouseMove();
-            _pointState = new PointState(_model);
+            _pointState.MouseMove(pointX, pointY);
             _pointState.MouseRelease();
 
-            Assert.AreEqual(expected, selection.ShapeSelect.Info);
+            Assert.AreEqual(expected, selection.Info);
         }
 
-        //測試選取模式鍵盤刪除按下
+        //測試選取模式滑鼠釋放(無選取)
         [TestMethod()]
-        public void DeletePressTest()
+        [DataRow(200, 200)]
+        public void MouseReleaseNullSelectTest(double pointX, double pointY)
         {
-            int expected = 0;
-            Selection selection = _modelPrivate.GetField("_selection") as Selection;
-            selection.ShapeSelect = _shape;
+            Shape selection = _pointStatePrivate.GetField("_selection") as Shape;
+            String expected = "((0, 0), (100, 100))";
 
-            _pointState = new PointState(_model);
-            _pointState.DeletePress();
+            _pointStatePrivate.SetField("_selection", null);
+            _pointState.MouseMove(pointX, pointY);
+            _pointState.MouseRelease();
 
-            Assert.AreEqual(expected, _shapes.GetCount());
-            Assert.IsNull(selection.ShapeSelect);
+            Assert.AreEqual(expected, selection.Info);
         }
     }
 }

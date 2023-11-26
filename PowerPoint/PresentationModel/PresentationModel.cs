@@ -19,7 +19,6 @@ namespace PowerPoint
         private bool _isCirclePressed;
         private bool _isSelectPressed;
         private bool _isInScaleArea;
-        private bool _isScaleMode;
         private Dictionary<string, Action> _shapePressed;
         Model _model;
         public Cursor CursorNow
@@ -110,18 +109,10 @@ namespace PowerPoint
         //當滑鼠被按下
         public void CanvasPressedHandler(int pointX, int pointY)
         {
-            if (_isInScaleArea)
+            if (pointX > 0 && pointY > 0)
             {
-                _isScaleMode = true;
-                _model.PressPointer(new ScaleState(_model, pointX, pointY));      
-            }
-            else if (_isSelectPressed)
-            {
-                _model.PressPointer(new PointState(_model, pointX, pointY));
-            }
-            else if (IsToolButtonPressed())
-            {
-                _model.PressPointer(new DrawingState(_model, pointX, pointY));
+                _model.ChangeState(pointX, pointY);
+                _model.PressPointer();
             }
         }
 
@@ -130,39 +121,17 @@ namespace PowerPoint
         {
             _isInScaleArea = _model.IsInScaleArea(pointX, pointY);
             UpdateCursor();
-
-            if (_isScaleMode)
-            {
-                _model.MovePointer(new ScaleState(_model, pointX, pointY));
-            }
-            else if (_isSelectPressed)
-            {
-                _model.MovePointer(new PointState(_model, pointX, pointY));
-            }
-            else if (IsToolButtonPressed())
-            {
-                _model.MovePointer(new DrawingState(_model, pointX, pointY));
-            }
+            _model.MovePointer(pointX, pointY);
         }
 
         //當滑鼠釋放
         public void CanvasReleasedHandler(int pointX, int pointY)
         {
-            if (_isScaleMode)
-            {
-                _isScaleMode = false;
-                _model.ReleasePointer(new ScaleState(_model, pointX, pointY));
-            }
-            else if (_isSelectPressed)
-            {
-                _model.ReleasePointer(new PointState(_model, pointX, pointY));
-            }
-            else if (IsToolButtonPressed())
-            {
-                _model.ReleasePointer(new DrawingState(_model, pointX, pointY));
-            }
+            _model.ReleasePointer();
+
             ToolButtonReset();
             _isSelectPressed = true;
+            _model.SetToolMode(ModeType.SELECT_NAME);
             NotifyPropertyChanged();
         }
 
@@ -171,14 +140,7 @@ namespace PowerPoint
         {
             if (keyPress == Keys.Delete)
             {
-                if (_isSelectPressed)
-                {
-                    _model.PressDelete(new PointState(_model));
-                }
-                else if (IsToolButtonPressed())
-                {
-                    _model.PressDelete(new DrawingState(_model));
-                }
+                _model.PressDelete();
             }
         }
 

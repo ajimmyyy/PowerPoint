@@ -13,11 +13,11 @@ namespace PowerPoint
         public delegate void ModelChangedEventHandler();
         private string _toolModePressed = "";
         private bool _isPressed = false;
-        private double _firstPointX;
-        private double _firstPointY;
+        private bool _isInScaleArea = false;
         private Shape _hint;
-        private Selection _selection = new Selection();
+        private Shape _selection;
         private Shapes _shapes = new Shapes();
+        private IState _state;
 
         //當DataGridView新增按鈕被按下的處理
         public void AddButtonClickEvent(string shapeType)
@@ -32,7 +32,7 @@ namespace PowerPoint
         //當DataGridView刪除按鈕被按下的處理
         public void DeleteButtonClickEvent(int rowIndex, int columnIndex)
         {
-            _selection.Unselect();
+            _selection = null;
 
             if (rowIndex >= 0 && columnIndex == 0)
             {
@@ -43,118 +43,75 @@ namespace PowerPoint
         }
 
         //滑鼠被按下
-        public virtual void PressPointer(IState state)
+        public virtual void PressPointer()
         {
             _isPressed = true;
-            state.MouseDown();
+            _state.MouseDown();
         }
 
         //滑鼠移動
-        public virtual void MovePointer(IState state)
+        public virtual void MovePointer(double pointX, double pointY)
         {
-            state.MouseMove();
-            NotifyModelChanged();
+            if (_isPressed)
+            {
+                _state.MouseMove(pointX, pointY);
+                NotifyModelChanged();
+            }
         }
 
         //滑鼠釋放
-        public virtual void ReleasePointer(IState state)
+        public virtual void ReleasePointer()
         {
-            state.MouseRelease();
-            _isPressed = false;
-            _toolModePressed = "";
-            NotifyModelChanged();
+            if (_isPressed)
+            {
+                _state.MouseRelease();
+
+                _shapes.AddShape(_hint);
+
+                _hint = null;
+                _state = null;
+                _isPressed = false;
+                _toolModePressed = "";
+                NotifyModelChanged();
+            }
         }
 
         //鍵盤刪除按下
-        public virtual void PressDelete(IState state)
+        public virtual void PressDelete()
         {
-            state.DeletePress();
+            _shapes.DeleteShape(_selection);
+            _selection = null;
             NotifyModelChanged();
         }
 
-        //創建即時形狀
-        public void CreateHint()
+        //改變操作模式
+        public void ChangeState(double pointX, double pointY)
         {
-            _hint = Factory.CreateShape(_toolModePressed);
-        }
-
-        //設定即時形狀位置
-        public void SetHintPosition(double pointX, double pointY)
-        {
-            if (_isPressed)
+            if (_isInScaleArea)
             {
-                _hint.SetPosition(_firstPointX, _firstPointY, pointX, pointY);
+                _state = new ScaleState(_selection.GetPosition()._left, _selection.GetPosition()._top, _selection);
             }
-        }
-
-        //加入即時形狀
-        public void AddHint()
-        {
-            if (_isPressed)
+            else if (_toolModePressed != ModeType.SELECT_NAME)
             {
-                _shapes.AddShape(_hint);
-                _hint = null;
+                _hint = Factory.CreateShape(_toolModePressed);
+                _state = new DrawingState(pointX, pointY, _hint);
             }
+            else
+            {
+                SelectShape(pointX, pointY);
+                _state = new PointState(pointX, pointY, _selection);
+            } 
         }
 
-        //設定起始點
-        public void SetFirstPoint(double pointX, double pointY)
-        {
-            _firstPointX = pointX;
-            _firstPointY = pointY;
-        }
-
-        //選擇形狀
+        //選取圖形
         public void SelectShape(double pointX, double pointY)
         {
-            _selection.ShapeSelect = _shapes.FindShape(pointX, pointY);
-            SetFirstPoint(pointX, pointY);
-        }
-
-        //移動形狀
-        public void MoveShape(double pointX, double pointY)
-        {
-            if (_isPressed)
+            if (_selection != null)
             {
-                Coordinate range = _selection.ShapeRange;
-                double distanceX = pointX - _firstPointX;
-                double distanceY = pointY - _firstPointY;
-
-                _selection.SetPosition(range._left + distanceX, range._top + distanceY, range._right + distanceX, range._bottom + distanceY);
-                SetFirstPoint(pointX, pointY);
+                _selection.IsSelect = false;
             }
-        }
 
-        //停止移動形狀
-        public void StopMoveShape()
-        {
-            if (_isPressed)
-            {
-                _selection.UpdateInfo();
-            }
-        }
-
-        //設定縮放固定點
-        public void PinScalePoint()
-        {
-            _firstPointX = _selection.ShapeRange._left;
-            _firstPointY = _selection.ShapeRange._top;
-        }
-
-        //縮放圖形
-        public void ScaleShape(double pointX, double pointY)
-        {
-            if (_isPressed)
-            {
-                _selection.SetPosition(_firstPointX, _firstPointY, pointX, pointY);
-            }
-        }
-
-        //刪除選取形狀
-        public void DeleteShape()
-        {
-            _shapes.DeleteShape(_selection.ShapeSelect);
-            _selection.Unselect();
+            _selection = _shapes.FindShape(pointX, pointY);
         }
 
         //畫出所有形狀和即時形狀
@@ -162,7 +119,6 @@ namespace PowerPoint
         {
             graphics.ClearAll();
             _shapes.Draw(graphics);
-            _selection.Draw(graphics);
 
             if (_isPressed && _hint != null)
                 _hint.Draw(graphics);                
@@ -176,15 +132,20 @@ namespace PowerPoint
         }
 
         //設定繪圖模式
-        public void SetToolMode(string shapeType)
+        public virtual void SetToolMode(string shapeType)
         {
             _toolModePressed = shapeType;
         }
 
         //是否在縮放區域
-        public bool IsInScaleArea(double pointX, double pointY)
+        public virtual bool IsInScaleArea(double pointX, double pointY)
         {
-            return _selection.IsScaleArea(pointX, pointY);
+            if (_selection == null)
+            {
+                return _isInScaleArea = false;
+            }
+            
+            return _isInScaleArea = _selection.GetSelection().IsScaleArea(pointX, pointY);
         }
 
         //取得binding List

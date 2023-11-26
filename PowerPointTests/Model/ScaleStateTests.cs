@@ -12,83 +12,89 @@ namespace PowerPoint.Tests
     public class ScaleStateTests
     {
         const double INIT_LEFT = 0;
-        const double INIT_TOP = 100;
-        const double INIT_RIGHT = 400;
-        const double INIT_BOTTOM = 200;
-        Model _model;
+        const double INIT_TOP = 0;
+        const double INIT_RIGHT = 100;
+        const double INIT_BOTTOM = 100;
         Shape _shape;
         ScaleState _scaleState;
-        PrivateObject _modelPrivate;
+        PrivateObject _scaleStatePrivate;
 
         //測試縮放模式初始化
         [TestInitialize()]
         public void Initialize()
         {
-            _model = new Model();
             _shape = new Line(INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM);
-            _modelPrivate = new PrivateObject(_model);
-            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
-
-            _modelPrivate.SetField("_isPressed", true);
-            shapes.AddShape(_shape);
-            _model.SelectShape(INIT_LEFT, INIT_TOP);
+            _scaleState = new ScaleState(INIT_LEFT, INIT_TOP, _shape);
+            _scaleStatePrivate = new PrivateObject(_scaleState);
         }
 
         //測試縮放模式滑鼠被按下
         [TestMethod()]
         public void MouseDownTest()
         {
-            _scaleState = new ScaleState(_model);
             _scaleState.MouseDown();
 
-            Assert.AreEqual(INIT_LEFT, _modelPrivate.GetField("_firstPointX"));
-            Assert.AreEqual(INIT_TOP, _modelPrivate.GetField("_firstPointY"));
+            Assert.IsInstanceOfType(_scaleStatePrivate.GetField("_selection"), typeof(Line));
+            Assert.AreEqual(INIT_LEFT, _scaleStatePrivate.GetField("_firstPointX"));
+            Assert.AreEqual(INIT_TOP, _scaleStatePrivate.GetField("_firstPointY"));
         }
 
         //測試縮放模式滑鼠移動
         [TestMethod()]
-        [DataRow(500, 300)]
-        [DataRow(0, 100)]
+        [DataRow(1, 1)]
+        [DataRow(200, 200)]
         public void MouseMoveTest(double pointX, double pointY)
         {
-            Selection selection = _modelPrivate.GetFieldOrProperty("_selection") as Selection;
+            Shape selection = _scaleStatePrivate.GetField("_selection") as Shape;
+            _scaleState.MouseMove(pointX, pointY);
 
-            _scaleState = new ScaleState(_model);
-            _scaleState.MouseDown();
-            _scaleState = new ScaleState(_model, pointX, pointY);
-            _scaleState.MouseMove();
+            Assert.AreEqual(Math.Min(INIT_LEFT, pointX), selection.GetPosition()._left);
+            Assert.AreEqual(Math.Min(INIT_TOP, pointY), selection.GetPosition()._top);
+            Assert.AreEqual(Math.Max(INIT_LEFT, pointX), selection.GetPosition()._right);
+            Assert.AreEqual(Math.Max(INIT_TOP, pointY), selection.GetPosition()._bottom);
+        }
 
-            Assert.AreEqual(INIT_LEFT, _modelPrivate.GetField("_firstPointX"));
-            Assert.AreEqual(INIT_TOP, _modelPrivate.GetField("_firstPointY"));
-            Assert.AreEqual(pointX, selection.ShapeRange._right);
-            Assert.AreEqual(pointY, selection.ShapeRange._bottom);
+        //測試縮放模式滑鼠移動(無選取)
+        [TestMethod()]
+        [DataRow(1, 1)]
+        public void MouseMoveNullSelectTest(double pointX, double pointY)
+        {
+            _scaleStatePrivate.SetField("_selection", null);
+            _scaleState.MouseMove(pointX, pointY);
+
+            Assert.AreEqual(INIT_LEFT, _shape.GetPosition()._left);
+            Assert.AreEqual(INIT_TOP, _shape.GetPosition()._top);
+            Assert.AreEqual(INIT_RIGHT, _shape.GetPosition()._right);
+            Assert.AreEqual(INIT_BOTTOM, _shape.GetPosition()._bottom);
         }
 
         //測試縮放模式滑鼠釋放
         [TestMethod()]
-        [DataRow(500, 300)]
-        [DataRow(0, 100)]
+        [DataRow(200, 200)]
         public void MouseReleaseTest(double pointX, double pointY)
         {
-            string expected = string.Format("(({0}, {1}), ({2}, {3}))", INIT_LEFT, INIT_TOP, pointX, pointY);
-            Selection selection = _modelPrivate.GetFieldOrProperty("_selection") as Selection;
+            Shape selection = _scaleStatePrivate.GetField("_selection") as Shape;
+            String expected = "((0, 0), (200, 200))";
 
-            _scaleState = new ScaleState(_model);
-            _scaleState.MouseDown();
-            _scaleState = new ScaleState(_model, pointX, pointY);
-            _scaleState.MouseMove();
-            _scaleState = new ScaleState(_model);
+            _scaleState.MouseMove(pointX, pointY);
             _scaleState.MouseRelease();
 
-            Assert.AreEqual(expected, selection.ShapeSelect.Info);
+            Assert.AreEqual(expected, selection.Info);
         }
 
-        //測試縮放模式鍵盤刪除按下
+        //測試縮放模式滑鼠釋放(無選取)
         [TestMethod()]
-        public void DeletePressTest()
+        [DataRow(200, 200)]
+        public void MouseReleaseNullSelectTest(double pointX, double pointY)
         {
-            _scaleState = new ScaleState(_model);
-            _scaleState.DeletePress();
+            Shape selection = _scaleStatePrivate.GetField("_selection") as Shape;
+            String expected = "((0, 0), (100, 100))";
+
+            _scaleStatePrivate.SetField("_selection", null);
+            _scaleState.MouseMove(pointX, pointY);
+            _scaleState.MouseRelease();
+
+            Assert.AreEqual(expected, selection.Info);
         }
     }
 }

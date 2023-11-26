@@ -14,6 +14,7 @@ namespace PowerPoint
         {
             ShapeName = ModeType.RECTANGLE_NAME;
             SetPosition(left, top, right, bottom);
+            _selection.SetPosition(_position);
         }
 
         //設定位置
@@ -42,6 +43,11 @@ namespace PowerPoint
         public override void Draw(IGraphics graphics)
         {
             graphics.DrawRectangle(_position._left, _position._top, _position._right, _position._bottom);
+
+            if (_isSelect)
+            {
+                _selection.Draw(graphics);
+            }
         }
     }
 }
