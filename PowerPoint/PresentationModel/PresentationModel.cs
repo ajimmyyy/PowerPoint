@@ -19,8 +19,10 @@ namespace PowerPoint
         private bool _isCirclePressed;
         private bool _isSelectPressed;
         private bool _isInScaleArea;
+        private int _lastDrawWindowWidth = 1;
         private Dictionary<string, Action> _shapePressed;
         Model _model;
+
         public Cursor CursorNow
         {
             get;
@@ -143,6 +145,17 @@ namespace PowerPoint
                 _model.PressDelete();
             }
         }
+            
+        public int WindowResize(int width)
+        {
+            return width * 9 / 16;
+        }
+
+        public void DrawWindowResize(int width)
+        {
+            _model.ShapeResize((double)width / _lastDrawWindowWidth);
+            _lastDrawWindowWidth = width;
+        }
 
         //tool按鈕是否被按下
         private bool IsToolButtonPressed()
@@ -158,7 +171,15 @@ namespace PowerPoint
             _isCirclePressed = false;
             _isSelectPressed = false;
         }
-        
+
+        public int DrawWindowWidth
+        {
+            set
+            {
+                _lastDrawWindowWidth = value;
+            }
+        }
+
         //繪畫區繪圖
         public void CanvasDraw(System.Drawing.Graphics graphics)
         {
@@ -166,9 +187,9 @@ namespace PowerPoint
         }
 
         //縮圖區繪圖
-        public void SlideDraw(System.Drawing.Graphics graphics)
+        public void SlideDraw(System.Drawing.Graphics graphics, float drawWidth, float slideWidth)
         {
-            _model.Draw(new SlideFormsGraphicsAdaptor(graphics));
+            _model.Draw(new SlideFormsGraphicsAdaptor(graphics, slideWidth / drawWidth));
         }
 
         //通知tool按鈕屬性改變

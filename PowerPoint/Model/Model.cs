@@ -11,7 +11,7 @@ namespace PowerPoint
     {
         public event ModelChangedEventHandler _modelChanged;
         public delegate void ModelChangedEventHandler();
-        private string _toolModePressed = "";
+        private string _toolModePressed = ModeType.SELECT_NAME;
         private bool _isPressed = false;
         private bool _isInScaleArea = false;
         private Shape _hint;
@@ -146,6 +146,12 @@ namespace PowerPoint
             }
             
             return _isInScaleArea = _selection.GetSelection().IsScaleArea(pointX, pointY);
+        }
+
+        public void ShapeResize(double resize)
+        {
+            _shapes.ShapeResize(resize);
+            NotifyModelChanged();
         }
 
         //取得binding List

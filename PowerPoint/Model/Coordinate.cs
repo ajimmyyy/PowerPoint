@@ -58,7 +58,7 @@ namespace PowerPoint
         //重載ToString()，將座標轉為字串
         public override string ToString()
         {
-            return string.Format(TO_STRING_FORMAT, _left, _top, _right, _bottom);
+            return string.Format(TO_STRING_FORMAT, Math.Floor(_left), Math.Floor(_top), Math.Floor(_right), Math.Floor(_bottom));
         }
     }
 }

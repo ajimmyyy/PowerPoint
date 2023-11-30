@@ -31,12 +31,14 @@ namespace PowerPoint
             _canvas.MouseMove += CanvasMoved;
             _canvas.Paint += CanvasPaint;
             _canvas.KeyDown += PressKeyboardKey;
-            Controls.Add(_canvas);
+            _slideButton.Paint += SlidePaint;
 
             this.KeyDown += PressKeyboardKey;
+            this.Load += SetInitialWindow;
+            this.Resize += WindowResize;
             _shapeDataGridView.CellClick += new DataGridViewCellEventHandler(DeleteCellClick);
-
-            _slideButton.Paint += SlidePaint;
+            _windowSplitContainer.SplitterMoved += WindowResize;
+            _drawSplitContainer.SplitterMoved += WindowResize;
 
             _model = new Model();
             _presentationModel = new PresentationModel(_model);
@@ -105,6 +107,20 @@ namespace PowerPoint
             _presentationModel.PressKeyboardHandler(e.KeyCode);
         }
 
+        private void SetInitialWindow(object sender, EventArgs e)
+        {
+            _slideButton.Size = new Size(_slideButton.Width, _presentationModel.WindowResize(_slideButton.Width));
+            _canvas.Size = new Size(_canvas.Width, _presentationModel.WindowResize(_canvas.Width));
+            _presentationModel.DrawWindowWidth = _canvas.Width;
+        }
+
+        private void WindowResize(object sender, EventArgs e)
+        {
+            _slideButton.Size = new Size(_slideButton.Width, _presentationModel.WindowResize(_slideButton.Width));
+            _canvas.Size = new Size(_canvas.Width, _presentationModel.WindowResize(_canvas.Width));
+            _presentationModel.DrawWindowResize(_canvas.Width);
+        }
+
         //繪圖區重繪製
         public void CanvasPaint(object sender, PaintEventArgs e)
         {
@@ -114,7 +130,7 @@ namespace PowerPoint
         //縮圖區重繪製
         public void SlidePaint(object sender, PaintEventArgs e)
         {
-            _presentationModel.SlideDraw(e.Graphics);
+            _presentationModel.SlideDraw(e.Graphics, _canvas.Width, _slideButton.Width);
         }
 
         //模型改變

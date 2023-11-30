@@ -70,6 +70,19 @@ namespace PowerPoint
             return null;
         }
 
+        public void ShapeResize(double resize)
+        {
+            foreach (Shape shape in _shapeList)
+            {
+                double left = shape.GetPosition()._left * resize;
+                double top = shape.GetPosition()._top * resize;
+                double right = shape.GetPosition()._right * resize;
+                double bottom = shape.GetPosition()._bottom * resize;
+
+                shape.SetPosition(left, top, right, bottom);
+            }
+        }
+
         //畫出所有圖形
         public void Draw(IGraphics graphics)
         {

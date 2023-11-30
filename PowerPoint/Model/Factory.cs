@@ -11,20 +11,18 @@ namespace PowerPoint
         //創建新的圖形實體
         public static Shape CreateShape(string shapeType)
         {
-            const int LEFT = 161;
-            const int TOP = 74;
-            const int RIGHT = 1040;
-            const int BOTTOM = 695;
+            const int RIGHT = 826;
+            const int BOTTOM = 464;
             Random random = new Random();
 
             switch (shapeType)
             {
                 case ModeType.LINE_NAME:
-                    return new Line(random.Next(LEFT, RIGHT), random.Next(TOP, BOTTOM), random.Next(LEFT, RIGHT), random.Next(TOP, BOTTOM));
+                    return new Line(random.Next(RIGHT), random.Next(BOTTOM), random.Next(RIGHT), random.Next(BOTTOM));
                 case ModeType.RECTANGLE_NAME:
-                    return new Rectangle(random.Next(LEFT, RIGHT), random.Next(TOP, BOTTOM), random.Next(LEFT, RIGHT), random.Next(TOP, BOTTOM));
+                    return new Rectangle(random.Next(RIGHT), random.Next(BOTTOM), random.Next(RIGHT), random.Next(BOTTOM));
                 case ModeType.CIRCLE_NAME:
-                    return new Circle(random.Next(LEFT, RIGHT), random.Next(TOP, BOTTOM), random.Next(LEFT, RIGHT), random.Next(TOP, BOTTOM));
+                    return new Circle(random.Next(RIGHT), random.Next(BOTTOM), random.Next(RIGHT), random.Next(BOTTOM));
                 default:
                     return null;
             }
