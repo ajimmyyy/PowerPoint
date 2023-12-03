@@ -18,6 +18,7 @@ namespace PowerPoint
         private Shape _selection;
         private Shapes _shapes = new Shapes();
         private IState _state;
+        private CommandManager commandManager = new CommandManager();
 
         //當DataGridView新增按鈕被按下的處理
         public void AddButtonClickEvent(string shapeType)
@@ -79,9 +80,23 @@ namespace PowerPoint
         //鍵盤刪除按下
         public virtual void PressDelete()
         {
-            _shapes.DeleteShape(_selection);
-            _selection = null;
-            NotifyModelChanged();
+            if(_selection != null)
+            {
+                commandManager.Execute(
+                    new DeleteCommand(this, _selection));
+                _selection = null;
+                NotifyModelChanged();
+            }
+        }
+
+        public void DeleteShape(Shape shape)
+        {
+            _shapes.DeleteShape(shape);
+        }
+
+        public void AddShape(Shape shape)
+        {
+            _shapes.AddShape(shape);
         }
 
         //改變操作模式
@@ -108,10 +123,22 @@ namespace PowerPoint
         {
             if (_selection != null)
             {
-                _selection.SetIsSelect(false);
+                _selection.SetSelect(false);
             }
 
             _selection = _shapes.FindShape(pointX, pointY);
+        }
+
+        public void Undo()
+        {
+            commandManager.Undo();
+            NotifyModelChanged();
+        }
+
+        public void Redo()
+        {
+            commandManager.Redo();
+            NotifyModelChanged();
         }
 
         //畫出所有形狀和即時形狀
@@ -146,6 +173,22 @@ namespace PowerPoint
             }
             
             return _isInScaleArea = _selection.GetSelection().IsScaleArea(pointX, pointY);
+        }
+
+        public bool IsUndoEnabled
+        {
+            get
+            {
+                return commandManager.IsUndoEnabled;
+            }
+        }
+
+        public bool IsRedoEnabled
+        {
+            get
+            {
+                return commandManager.IsRedoEnabled;
+            }
         }
 
         public void ShapeResize(double resize)

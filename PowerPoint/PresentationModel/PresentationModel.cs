@@ -19,6 +19,8 @@ namespace PowerPoint
         private bool _isCirclePressed;
         private bool _isSelectPressed;
         private bool _isInScaleArea;
+        private bool _isUndoEnabled;
+        private bool _isRedoEnabled;
         private int _lastDrawWindowWidth = 1;
         private Dictionary<string, Action> _shapePressed;
         Model _model;
@@ -61,6 +63,21 @@ namespace PowerPoint
             }
         }
 
+        public bool IsUndoEnabled
+        {
+            get
+            {
+                return _isUndoEnabled;
+            }
+        }
+        public bool IsRedoEnabled
+        {
+            get
+            {
+                return _isRedoEnabled;
+            }
+        }
+
         public PresentationModel(Model model)
         {
             this._model = model;
@@ -84,10 +101,11 @@ namespace PowerPoint
         //當tool按鈕被按下
         public void ToolButtonClickHandler(string shapeType)
         {
-            ToolButtonReset();
             _model.SetToolMode(shapeType);
+
+            ToolButtonReset();
             _shapePressed[shapeType]();
-            NotifyPropertyChanged();
+            ToolButtonEnabledCheck();
         }
 
         //更新鼠標
@@ -133,8 +151,8 @@ namespace PowerPoint
 
             ToolButtonReset();
             _isSelectPressed = true;
+            ToolButtonEnabledCheck();
             _model.SetToolMode(ModeType.SELECT_NAME);
-            NotifyPropertyChanged();
         }
 
         //當鍵盤刪除按下
@@ -143,9 +161,31 @@ namespace PowerPoint
             if (keyPress == Keys.Delete)
             {
                 _model.PressDelete();
+
+                ToolButtonEnabledCheck();
             }
         }
-            
+
+        public void UndoToolButtonClickHandler()
+        {
+            if (_isUndoEnabled)
+            {
+                _model.Undo();
+
+                ToolButtonEnabledCheck();
+            }
+        }
+
+        public void RedoToolButtonClickHandler()
+        {
+            if (_isRedoEnabled)
+            {
+                _model.Redo();
+
+                ToolButtonEnabledCheck();
+            }
+        }
+
         public int WindowResize(int width)
         {
             return width * 9 / 16;
@@ -170,6 +210,13 @@ namespace PowerPoint
             _isRectanglePressed = false;
             _isCirclePressed = false;
             _isSelectPressed = false;
+        }
+
+        private void ToolButtonEnabledCheck()
+        {
+            _isUndoEnabled = _model.IsUndoEnabled;
+            _isRedoEnabled = _model.IsRedoEnabled;
+            NotifyPropertyChanged();
         }
 
         public int DrawWindowWidth

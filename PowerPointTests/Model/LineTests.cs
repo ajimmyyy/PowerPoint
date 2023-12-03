@@ -79,7 +79,7 @@ namespace PowerPoint.Tests
             int expectedDot = 8;
             IGraphicsMock graphics = new IGraphicsMock();
 
-            _line.SetIsSelect(true);
+            _line.SetSelect(true);
             _line.Draw(graphics);
 
             Assert.AreEqual(expected, graphics.DrawLineCount);

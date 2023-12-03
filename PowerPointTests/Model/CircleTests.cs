@@ -83,7 +83,7 @@ namespace PowerPoint.Tests
             int expectedDot = 8;
             IGraphicsMock graphics = new IGraphicsMock();
             
-            _circle.SetIsSelect(true);
+            _circle.SetSelect(true);
             _circle.Draw(graphics);
 
             Assert.AreEqual(expected, graphics.DrawCircleCount);

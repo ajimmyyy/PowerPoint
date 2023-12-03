@@ -70,7 +70,7 @@ namespace PowerPoint
         }
 
         //設定是否被選取
-        public void SetIsSelect(bool value)
+        public void SetSelect(bool value)
         {
             _isSelect = value;
         }

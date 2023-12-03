@@ -24,7 +24,7 @@ namespace PowerPoint
         {
             if (_selection != null)
             {
-                _selection.SetIsSelect(true);
+                _selection.SetSelect(true);
             }
         }
 

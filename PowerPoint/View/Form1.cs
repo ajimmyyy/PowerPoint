@@ -13,10 +13,13 @@ namespace PowerPoint
     public partial class Form1 : System.Windows.Forms.Form
     {
         const string TOOL_BUTTON_CHECK = "Checked";
+        const string TOOL_BUTTON_ENABLE = "Enabled";
         const string TOOL_BUTTON_LINE = "IsLinePressed";
         const string TOOL_BUTTON_RECTANGLE = "IsRectanglePressed";
         const string TOOL_BUTTON_CIRCLE = "IsCirclePressed";
         const string TOOL_BUTTON_SELECT = "IsSelectPressed";
+        const string TOOL_BUTTON_UNDO = "IsUndoEnabled";
+        const string TOOL_BUTTON_REDO = "IsRedoEnabled";
 
         private Model _model;
         private PresentationModel _presentationModel;
@@ -47,6 +50,8 @@ namespace PowerPoint
             _rectangleToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_RECTANGLE);
             _circleToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_CIRCLE);
             _selectToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_SELECT);
+            _undoToolButton.DataBindings.Add(TOOL_BUTTON_ENABLE, _presentationModel, TOOL_BUTTON_UNDO);
+            _redoToolButton.DataBindings.Add(TOOL_BUTTON_ENABLE, _presentationModel, TOOL_BUTTON_REDO);
             _model._modelChanged += ChangeModel;
             _presentationModel._cursorChanged += ChangeCursor;
         }
@@ -105,6 +110,16 @@ namespace PowerPoint
         private void PressKeyboardKey(object sender, KeyEventArgs e)
         {
             _presentationModel.PressKeyboardHandler(e.KeyCode);
+        }
+
+        private void UndoToolButtonClick(object sender, EventArgs e)
+        {
+            _presentationModel.UndoToolButtonClickHandler();
+        }
+
+        private void RedoToolButtonClick(object sender, EventArgs e)
+        {
+            _presentationModel.RedoToolButtonClickHandler();
         }
 
         private void SetInitialWindow(object sender, EventArgs e)

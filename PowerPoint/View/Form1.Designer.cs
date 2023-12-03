@@ -49,6 +49,8 @@ namespace PowerPoint
             this._rectangleToolButton = new PowerPoint.BindingToolStripButton();
             this._circleToolButton = new PowerPoint.BindingToolStripButton();
             this._selectToolButton = new PowerPoint.BindingToolStripButton();
+            this._undoToolButton = new PowerPoint.BindingToolStripButton();
+            this._redoToolButton = new PowerPoint.BindingToolStripButton();
             this._backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this._functionMenu.SuspendLayout();
             this._dataGroupBox.SuspendLayout();
@@ -82,7 +84,7 @@ namespace PowerPoint
             this._aboutMenuItem});
             this._illustrateMenuItem.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
             this._illustrateMenuItem.Name = "_illustrateMenuItem";
-            this._illustrateMenuItem.Size = new System.Drawing.Size(62, 28);
+            this._illustrateMenuItem.Size = new System.Drawing.Size(62, 27);
             this._illustrateMenuItem.Text = "說明";
             // 
             // _aboutMenuItem
@@ -102,7 +104,7 @@ namespace PowerPoint
             this._dataGroupBox.Location = new System.Drawing.Point(0, 0);
             this._dataGroupBox.Name = "_dataGroupBox";
             this._dataGroupBox.Padding = new System.Windows.Forms.Padding(3, 50, 3, 3);
-            this._dataGroupBox.Size = new System.Drawing.Size(137, 439);
+            this._dataGroupBox.Size = new System.Drawing.Size(150, 439);
             this._dataGroupBox.TabIndex = 4;
             this._dataGroupBox.TabStop = false;
             this._dataGroupBox.Text = "資料顯示";
@@ -148,7 +150,7 @@ namespace PowerPoint
             this._shapeDataGridView.RowHeadersVisible = false;
             this._shapeDataGridView.RowHeadersWidth = 62;
             this._shapeDataGridView.RowTemplate.Height = 31;
-            this._shapeDataGridView.Size = new System.Drawing.Size(131, 362);
+            this._shapeDataGridView.Size = new System.Drawing.Size(144, 362);
             this._shapeDataGridView.TabIndex = 2;
             // 
             // _deleteColumn
@@ -229,7 +231,7 @@ namespace PowerPoint
             // 
             this._drawSplitContainer.Panel2.Controls.Add(this._dataGroupBox);
             this._drawSplitContainer.Size = new System.Drawing.Size(670, 439);
-            this._drawSplitContainer.SplitterDistance = 529;
+            this._drawSplitContainer.SplitterDistance = 516;
             this._drawSplitContainer.TabIndex = 0;
             // 
             // _canvas
@@ -240,7 +242,7 @@ namespace PowerPoint
             this._canvas.Location = new System.Drawing.Point(10, 60);
             this._canvas.Margin = new System.Windows.Forms.Padding(10);
             this._canvas.Name = "_canvas";
-            this._canvas.Size = new System.Drawing.Size(509, 286);
+            this._canvas.Size = new System.Drawing.Size(496, 286);
             this._canvas.TabIndex = 0;
             // 
             // _toolBar
@@ -251,7 +253,9 @@ namespace PowerPoint
             this._lineToolButton,
             this._rectangleToolButton,
             this._circleToolButton,
-            this._selectToolButton});
+            this._selectToolButton,
+            this._undoToolButton,
+            this._redoToolButton});
             this._toolBar.Location = new System.Drawing.Point(0, 31);
             this._toolBar.Name = "_toolBar";
             this._toolBar.Size = new System.Drawing.Size(800, 33);
@@ -297,6 +301,28 @@ namespace PowerPoint
             this._selectToolButton.Size = new System.Drawing.Size(34, 28);
             this._selectToolButton.Text = "選取";
             this._selectToolButton.Click += new System.EventHandler(this.ToolButtonClick);
+            // 
+            // _undoToolButton
+            // 
+            this._undoToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._undoToolButton.Enabled = false;
+            this._undoToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_undoToolButton.Image")));
+            this._undoToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._undoToolButton.Name = "_undoToolButton";
+            this._undoToolButton.Size = new System.Drawing.Size(34, 28);
+            this._undoToolButton.Text = "復原";
+            this._undoToolButton.Click += new System.EventHandler(this.UndoToolButtonClick);
+            // 
+            // _redoToolButton
+            // 
+            this._redoToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._redoToolButton.Enabled = false;
+            this._redoToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_redoToolButton.Image")));
+            this._redoToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._redoToolButton.Name = "_redoToolButton";
+            this._redoToolButton.Size = new System.Drawing.Size(34, 28);
+            this._redoToolButton.Text = "重做";
+            this._redoToolButton.Click += new System.EventHandler(this.RedoToolButtonClick);
             // 
             // Form1
             // 
@@ -352,6 +378,8 @@ namespace PowerPoint
         private System.Windows.Forms.DataGridViewTextBoxColumn _shapeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn _infoColumn;
         private System.Windows.Forms.SplitContainer _drawSplitContainer;
+        private BindingToolStripButton _undoToolButton;
+        private BindingToolStripButton _redoToolButton;
     }
 }
 
