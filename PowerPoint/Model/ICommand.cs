@@ -9,6 +9,6 @@ namespace PowerPoint
     public interface ICommand
     {
         void Execute();
-        void UnExecute();
+        void ReverseExecute();
     }
 }

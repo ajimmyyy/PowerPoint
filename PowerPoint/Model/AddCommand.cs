@@ -6,25 +6,24 @@ using System.Threading.Tasks;
 
 namespace PowerPoint
 {
-    public class DeleteCommand : ICommand
+    public class AddCommand : ICommand
     {
         Shape _shape;
         Model _model;
 
-        public DeleteCommand(Model model, Shape shape)
+        public AddCommand(Model model, string shapeType)
         {
-            shape.SetSelect(false);
-            _shape = shape;
             _model = model;
+            _shape = Factory.CreateShape(shapeType);
         }
         public void Execute()
         {
-            _model.DeleteShape(_shape);
+            _model.AddShape(_shape);
         }
 
         public void ReverseExecute()
         {
-            _model.AddShape(_shape);
+            _model.DeleteShape(_shape);
         }
     }
 }

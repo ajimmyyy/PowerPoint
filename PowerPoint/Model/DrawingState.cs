@@ -9,19 +9,21 @@ namespace PowerPoint
     public class DrawingState : IState
     {
         Shape _hint = null;
+        Model _model;
         double _firstPointX;
         double _firstPointY;
 
-        public DrawingState(double pointX, double pointY, Shape hint)
+        public DrawingState(Shape hint, Model model)
         {
-            this._firstPointX = pointX;
-            this._firstPointY = pointY;
             _hint = hint;
+            _model = model;
         }
 
         //滑鼠被按下
-        public void MouseDown()
+        public void MouseDown(double pointX, double pointY)
         {
+            _firstPointX = pointX;
+            _firstPointY = pointY;
         }
 
         //滑鼠移動
@@ -33,6 +35,7 @@ namespace PowerPoint
         //滑鼠釋放
         public void MouseRelease()
         {
+            _model.LogCommand(new DrawCommand(_model, _hint));
         }
     }
 }

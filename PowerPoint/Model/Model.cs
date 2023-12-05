@@ -14,18 +14,19 @@ namespace PowerPoint
         private string _toolModePressed = ModeType.SELECT_NAME;
         private bool _isPressed = false;
         private bool _isInScaleArea = false;
+
         private Shape _hint;
         private Shape _selection;
         private Shapes _shapes = new Shapes();
         private IState _state;
-        private CommandManager commandManager = new CommandManager();
+        private CommandManager _commandManager = new CommandManager();
 
         //當DataGridView新增按鈕被按下的處理
         public void AddButtonClickEvent(string shapeType)
         {
             if (shapeType != "")
             {
-                _shapes.AddNewShape(shapeType);
+                LogCommand(new AddCommand(this, shapeType));
                 NotifyModelChanged();
             }
         }
@@ -37,17 +38,17 @@ namespace PowerPoint
 
             if (rowIndex >= 0 && columnIndex == 0)
             {
-                _shapes.DeleteShape(rowIndex);
+                LogCommand(new DeleteCommand(this, _shapes.FindShape(rowIndex)));
             }
 
             NotifyModelChanged();
         }
 
         //滑鼠被按下
-        public virtual void PressPointer()
+        public virtual void PressPointer(double pointX, double pointY)
         {
             _isPressed = true;
-            _state.MouseDown();
+            _state.MouseDown(pointX, pointY);
         }
 
         //滑鼠移動
@@ -66,9 +67,6 @@ namespace PowerPoint
             if (_isPressed)
             {
                 _state.MouseRelease();
-
-                _shapes.AddShape(_hint);
-
                 _hint = null;
                 _state = null;
                 _isPressed = false;
@@ -80,18 +78,17 @@ namespace PowerPoint
         //鍵盤刪除按下
         public virtual void PressDelete()
         {
-            if(_selection != null)
+            if (_selection != null)
             {
-                commandManager.Execute(
-                    new DeleteCommand(this, _selection));
+                LogCommand(new DeleteCommand(this, _selection));
                 _selection = null;
                 NotifyModelChanged();
             }
         }
 
-        public void DeleteShape(Shape shape)
+        public void LogCommand(ICommand command)
         {
-            _shapes.DeleteShape(shape);
+            _commandManager.Execute(command);
         }
 
         public void AddShape(Shape shape)
@@ -99,22 +96,32 @@ namespace PowerPoint
             _shapes.AddShape(shape);
         }
 
+        public void DeleteShape(Shape shape)
+        {
+            _shapes.DeleteShape(shape);
+        }
+
+        public void MoveShape(Shape shape, Coordinate range)
+        {
+            shape.SetPosition(range._left, range._top, range._right, range._bottom);
+        }
+
         //改變操作模式
         public void ChangeState(double pointX, double pointY)
         {
             if (_isInScaleArea)
             {
-                _state = new ScaleState(_selection.GetPosition()._left, _selection.GetPosition()._top, _selection);
+                _state = new ScaleState(_selection, this);
             }
             else if (_toolModePressed != ModeType.SELECT_NAME)
             {
                 _hint = Factory.CreateShape(_toolModePressed);
-                _state = new DrawingState(pointX, pointY, _hint);
+                _state = new DrawingState(_hint, this);
             }
             else
             {
                 SelectShape(pointX, pointY);
-                _state = new PointState(pointX, pointY, _selection);
+                _state = new PointState(_selection, this);
             } 
         }
 
@@ -131,13 +138,13 @@ namespace PowerPoint
 
         public void Undo()
         {
-            commandManager.Undo();
+            _commandManager.Undo();
             NotifyModelChanged();
         }
 
         public void Redo()
         {
-            commandManager.Redo();
+            _commandManager.Redo();
             NotifyModelChanged();
         }
 
@@ -149,6 +156,12 @@ namespace PowerPoint
 
             if (_isPressed && _hint != null)
                 _hint.Draw(graphics);                
+        }
+
+        public void ShapeResize(int nowWidth, int lastWidth)
+        {
+            _shapes.ShapeResize((double)nowWidth / lastWidth);
+            NotifyModelChanged();
         }
 
         //通知模型改變
@@ -179,7 +192,7 @@ namespace PowerPoint
         {
             get
             {
-                return commandManager.IsUndoEnabled;
+                return _commandManager.IsUndoEnabled;
             }
         }
 
@@ -187,14 +200,8 @@ namespace PowerPoint
         {
             get
             {
-                return commandManager.IsRedoEnabled;
+                return _commandManager.IsRedoEnabled;
             }
-        }
-
-        public void ShapeResize(double resize)
-        {
-            _shapes.ShapeResize(resize);
-            NotifyModelChanged();
         }
 
         //取得binding List

@@ -37,11 +37,10 @@ namespace PowerPoint
             _slideButton.Paint += SlidePaint;
 
             this.KeyDown += PressKeyboardKey;
-            this.Load += SetInitialWindow;
-            this.Resize += WindowResize;
+            this.Resize += ResizeWindow;
             _shapeDataGridView.CellClick += new DataGridViewCellEventHandler(DeleteCellClick);
-            _windowSplitContainer.SplitterMoved += WindowResize;
-            _drawSplitContainer.SplitterMoved += WindowResize;
+            _windowSplitContainer.SplitterMoved += ResizeWindow;
+            _drawSplitContainer.SplitterMoved += ResizeWindow;
 
             _model = new Model();
             _presentationModel = new PresentationModel(_model);
@@ -59,13 +58,13 @@ namespace PowerPoint
         //DataGridView新增按鈕被按下
         private void AddButtonClick(object sender, EventArgs e)
         {
-            _model.AddButtonClickEvent(_shapeComboBox.Text);
+            _presentationModel.AddButtonClickHandler(_shapeComboBox.Text);
         }
 
         //DataGridView刪除按鈕被按下
         private void DeleteCellClick(object sender, DataGridViewCellEventArgs e)
         {
-            _model.DeleteButtonClickEvent(e.RowIndex, e.ColumnIndex);
+            _presentationModel.DeleteCellClickHandler(e.RowIndex, e.ColumnIndex);
         }
 
         //圖形工具按鈕被按下
@@ -122,17 +121,11 @@ namespace PowerPoint
             _presentationModel.RedoToolButtonClickHandler();
         }
 
-        private void SetInitialWindow(object sender, EventArgs e)
+        private void ResizeWindow(object sender, EventArgs e)
         {
-            _slideButton.Size = new Size(_slideButton.Width, _presentationModel.WindowResize(_slideButton.Width));
-            _canvas.Size = new Size(_canvas.Width, _presentationModel.WindowResize(_canvas.Width));
-            _presentationModel.DrawWindowWidth = _canvas.Width;
-        }
-
-        private void WindowResize(object sender, EventArgs e)
-        {
-            _slideButton.Size = new Size(_slideButton.Width, _presentationModel.WindowResize(_slideButton.Width));
-            _canvas.Size = new Size(_canvas.Width, _presentationModel.WindowResize(_canvas.Width));
+            _slideButton.Size = new Size(_slideButton.Width, _presentationModel.ResizeWindow(_slideButton.Width));
+            _canvas.Size = new Size(_canvas.Width, _presentationModel.ResizeWindow(_canvas.Width));
+            _canvas.Location = new Point(_canvas.Location.X, _presentationModel.RepositionWindow(_windowSplitContainer.Height, _canvas.Height));
             _presentationModel.DrawWindowResize(_canvas.Width);
         }
 

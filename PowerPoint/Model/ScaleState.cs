@@ -9,19 +9,24 @@ namespace PowerPoint
     public class ScaleState : IState
     {
         Shape _selection;
+        Coordinate _range;
+        Model _model;
         double _firstPointX;
         double _firstPointY;
 
-        public ScaleState(double pointX, double pointY, Shape selection)
+        public ScaleState(Shape selection, Model model)
         {
-            this._firstPointX = pointX;
-            this._firstPointY = pointY;
             _selection = selection;
+            _model = model;
+            _range = new Coordinate();
         }
 
         //滑鼠被按下
-        public void MouseDown()
+        public void MouseDown(double pointX, double pointY)
         {
+            _firstPointX = _selection.GetPosition()._left;
+            _firstPointY = _selection.GetPosition()._top;
+            _range = _selection.GetPosition().Clone();
         }
 
         //滑鼠移動
@@ -38,8 +43,7 @@ namespace PowerPoint
         {
             if (_selection != null)
             {
-                Coordinate range = _selection.GetPosition();
-                _selection.SetPosition(range._left, range._top, range._right, range._bottom);
+                _model.LogCommand(new MoveCommand(_model, _selection, _range));
             }
         }
     }

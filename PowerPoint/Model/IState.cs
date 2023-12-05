@@ -9,7 +9,7 @@ namespace PowerPoint
     public interface IState
     {
         //滑鼠被按下
-        void MouseDown();
+        void MouseDown(double pointX, double pointY);
 
         //滑鼠移動
         void MouseMove(double pointX, double pointY);

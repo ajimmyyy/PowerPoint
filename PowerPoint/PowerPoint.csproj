@@ -46,10 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\AddCommand.cs" />
     <Compile Include="Model\CommandManager.cs" />
     <Compile Include="Model\DeleteCommand.cs" />
     <Compile Include="Model\DrawCommand.cs" />
     <Compile Include="Model\ICommand.cs" />
+    <Compile Include="Model\MoveCommand.cs" />
     <Compile Include="Model\ScaleState.cs" />
     <Compile Include="Model\Selection.cs" />
     <Compile Include="Model\DrawingState.cs" />

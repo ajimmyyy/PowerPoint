@@ -104,7 +104,7 @@ namespace PowerPoint
             this._dataGroupBox.Location = new System.Drawing.Point(0, 0);
             this._dataGroupBox.Name = "_dataGroupBox";
             this._dataGroupBox.Padding = new System.Windows.Forms.Padding(3, 50, 3, 3);
-            this._dataGroupBox.Size = new System.Drawing.Size(150, 439);
+            this._dataGroupBox.Size = new System.Drawing.Size(161, 439);
             this._dataGroupBox.TabIndex = 4;
             this._dataGroupBox.TabStop = false;
             this._dataGroupBox.Text = "資料顯示";
@@ -124,14 +124,17 @@ namespace PowerPoint
             // 
             // _shapeComboBox
             // 
+            this._shapeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._shapeComboBox.FormattingEnabled = true;
             this._shapeComboBox.Items.AddRange(new object[] {
             "線",
             "矩形",
             "圓形"});
             this._shapeComboBox.Location = new System.Drawing.Point(72, 28);
+            this._shapeComboBox.MaximumSize = new System.Drawing.Size(150, 0);
             this._shapeComboBox.Name = "_shapeComboBox";
-            this._shapeComboBox.Size = new System.Drawing.Size(121, 31);
+            this._shapeComboBox.Size = new System.Drawing.Size(77, 31);
             this._shapeComboBox.TabIndex = 1;
             // 
             // _shapeDataGridView
@@ -150,7 +153,7 @@ namespace PowerPoint
             this._shapeDataGridView.RowHeadersVisible = false;
             this._shapeDataGridView.RowHeadersWidth = 62;
             this._shapeDataGridView.RowTemplate.Height = 31;
-            this._shapeDataGridView.Size = new System.Drawing.Size(144, 362);
+            this._shapeDataGridView.Size = new System.Drawing.Size(155, 362);
             this._shapeDataGridView.TabIndex = 2;
             // 
             // _deleteColumn
@@ -195,12 +198,13 @@ namespace PowerPoint
             // 
             this._windowSplitContainer.Panel1.BackColor = System.Drawing.SystemColors.ScrollBar;
             this._windowSplitContainer.Panel1.Controls.Add(this._slideButton);
+            this._windowSplitContainer.Panel1MinSize = 134;
             // 
             // _windowSplitContainer.Panel2
             // 
             this._windowSplitContainer.Panel2.Controls.Add(this._drawSplitContainer);
             this._windowSplitContainer.Size = new System.Drawing.Size(800, 439);
-            this._windowSplitContainer.SplitterDistance = 126;
+            this._windowSplitContainer.SplitterDistance = 134;
             this._windowSplitContainer.TabIndex = 0;
             // 
             // _slideButton
@@ -210,9 +214,9 @@ namespace PowerPoint
             this._slideButton.BackColor = System.Drawing.SystemColors.Window;
             this._slideButton.FlatAppearance.BorderSize = 0;
             this._slideButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this._slideButton.Location = new System.Drawing.Point(3, 10);
+            this._slideButton.Location = new System.Drawing.Point(3, 3);
             this._slideButton.Name = "_slideButton";
-            this._slideButton.Size = new System.Drawing.Size(120, 67);
+            this._slideButton.Size = new System.Drawing.Size(128, 73);
             this._slideButton.TabIndex = 5;
             this._slideButton.UseVisualStyleBackColor = false;
             // 
@@ -224,14 +228,15 @@ namespace PowerPoint
             // 
             // _drawSplitContainer.Panel1
             // 
-            this._drawSplitContainer.Panel1.BackColor = System.Drawing.SystemColors.Menu;
+            this._drawSplitContainer.Panel1.BackColor = System.Drawing.SystemColors.ControlLight;
             this._drawSplitContainer.Panel1.Controls.Add(this._canvas);
             // 
             // _drawSplitContainer.Panel2
             // 
             this._drawSplitContainer.Panel2.Controls.Add(this._dataGroupBox);
-            this._drawSplitContainer.Size = new System.Drawing.Size(670, 439);
-            this._drawSplitContainer.SplitterDistance = 516;
+            this._drawSplitContainer.Panel2MinSize = 150;
+            this._drawSplitContainer.Size = new System.Drawing.Size(662, 439);
+            this._drawSplitContainer.SplitterDistance = 497;
             this._drawSplitContainer.TabIndex = 0;
             // 
             // _canvas
@@ -242,7 +247,7 @@ namespace PowerPoint
             this._canvas.Location = new System.Drawing.Point(10, 60);
             this._canvas.Margin = new System.Windows.Forms.Padding(10);
             this._canvas.Name = "_canvas";
-            this._canvas.Size = new System.Drawing.Size(496, 286);
+            this._canvas.Size = new System.Drawing.Size(477, 286);
             this._canvas.TabIndex = 0;
             // 
             // _toolBar

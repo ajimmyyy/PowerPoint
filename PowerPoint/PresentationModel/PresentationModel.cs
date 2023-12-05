@@ -14,6 +14,8 @@ namespace PowerPoint
         public event PropertyChangedEventHandler PropertyChanged;
         public event CursorChangedEventHandler _cursorChanged;
         public delegate void CursorChangedEventHandler();
+        const double WINDOW_RATIO = 9.0 / 16.0;
+        const double HALF = 0.5;
         private bool _isLinePressed;
         private bool _isRectanglePressed;
         private bool _isCirclePressed;
@@ -21,7 +23,7 @@ namespace PowerPoint
         private bool _isInScaleArea;
         private bool _isUndoEnabled;
         private bool _isRedoEnabled;
-        private int _lastDrawWindowWidth = 1;
+        private int _lastWindowWidth = 1;
         private Dictionary<string, Action> _shapePressed;
         Model _model;
 
@@ -126,13 +128,25 @@ namespace PowerPoint
             NotifyCursorChanged();
         }
 
+        public void AddButtonClickHandler(string shapeType)
+        {
+            _model.AddButtonClickEvent(shapeType);
+            ToolButtonEnabledCheck();
+        }
+
+        public void DeleteCellClickHandler(int rowIndex, int columnIndex)
+        {
+            _model.DeleteButtonClickEvent(rowIndex, columnIndex);
+            ToolButtonEnabledCheck();
+        }
+
         //當滑鼠被按下
         public void CanvasPressedHandler(int pointX, int pointY)
         {
             if (pointX > 0 && pointY > 0)
             {
                 _model.ChangeState(pointX, pointY);
-                _model.PressPointer();
+                _model.PressPointer(pointX, pointY);
             }
         }
 
@@ -186,15 +200,20 @@ namespace PowerPoint
             }
         }
 
-        public int WindowResize(int width)
+        public int ResizeWindow(int width)
         {
-            return width * 9 / 16;
+            return (int)(width * WINDOW_RATIO + 1);
+        }
+
+        public int RepositionWindow(int containerHeight, int panelHeight)
+        {
+            return (int)((containerHeight - panelHeight) * HALF);
         }
 
         public void DrawWindowResize(int width)
         {
-            _model.ShapeResize((double)width / _lastDrawWindowWidth);
-            _lastDrawWindowWidth = width;
+            _model.ShapeResize(width, _lastWindowWidth);
+            _lastWindowWidth = width;
         }
 
         //tool按鈕是否被按下
@@ -217,15 +236,7 @@ namespace PowerPoint
             _isUndoEnabled = _model.IsUndoEnabled;
             _isRedoEnabled = _model.IsRedoEnabled;
             NotifyPropertyChanged();
-        }
-
-        public int DrawWindowWidth
-        {
-            set
-            {
-                _lastDrawWindowWidth = value;
-            }
-        }
+        }   
 
         //繪畫區繪圖
         public void CanvasDraw(System.Drawing.Graphics graphics)

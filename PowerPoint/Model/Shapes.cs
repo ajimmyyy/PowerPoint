@@ -20,10 +20,11 @@ namespace PowerPoint
         }
 
         //創建形狀並加入到list裡
-        public void AddNewShape(string shapeType)
+        public Shape AddNewShape(string shapeType)
         {
             Shape newShape = Factory.CreateShape(shapeType);
             _shapeList.Add(newShape);
+            return newShape;
         }
 
         //加入現有形狀
@@ -70,16 +71,21 @@ namespace PowerPoint
             return null;
         }
 
-        public void ShapeResize(double resize)
+        //選取形狀(by index)
+        public Shape FindShape(int rowIndex)
+        {
+            if (_shapeList.Count != 0)
+            {
+                return _shapeList[rowIndex];
+            }
+            return null;
+        }
+
+        public void ShapeResize(double ratio)
         {
             foreach (Shape shape in _shapeList)
             {
-                double left = shape.GetPosition()._left * resize;
-                double top = shape.GetPosition()._top * resize;
-                double right = shape.GetPosition()._right * resize;
-                double bottom = shape.GetPosition()._bottom * resize;
-
-                shape.SetPosition(left, top, right, bottom);
+                shape.ScalePosition(ratio);
             }
         }
 

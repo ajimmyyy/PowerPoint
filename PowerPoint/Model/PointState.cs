@@ -9,21 +9,28 @@ namespace PowerPoint
     public class PointState : IState
     {
         Shape _selection;
+        Coordinate _range;
+        Model _model;
         double _firstPointX;
         double _firstPointY;
+        double _distanceX;
+        double _distanceY;
 
-        public PointState(double pointX, double pointY, Shape selection)
+        public PointState(Shape selection, Model model)
         {
-            this._firstPointX = pointX;
-            this._firstPointY = pointY;
             _selection = selection;
+            _model = model;
+            _range = new Coordinate();
         }
 
         //滑鼠被按下
-        public void MouseDown()
+        public void MouseDown(double pointX, double pointY)
         {
             if (_selection != null)
             {
+                _firstPointX = pointX;
+                _firstPointY = pointY;
+                _range = _selection.GetPosition().Clone();
                 _selection.SetSelect(true);
             }
         }
@@ -33,13 +40,10 @@ namespace PowerPoint
         {
             if (_selection != null)
             {
-                Coordinate range = _selection.GetPosition();
-                double distanceX = pointX - _firstPointX;
-                double distanceY = pointY - _firstPointY;
+                _distanceX = pointX - _firstPointX;
+                _distanceY = pointY - _firstPointY;
 
-                _selection.SetCoordinate(range._left + distanceX, range._top + distanceY, range._right + distanceX, range._bottom + distanceY);
-                this._firstPointX = pointX;
-                this._firstPointY = pointY;
+                _selection.SetCoordinate(_range._left + _distanceX, _range._top + _distanceY, _range._right + _distanceX, _range._bottom + _distanceY);
             }
         }
 
@@ -48,8 +52,7 @@ namespace PowerPoint
         {
             if (_selection != null)
             {
-                Coordinate range = _selection.GetPosition();
-                _selection.SetPosition(range._left, range._top, range._right, range._bottom);
+                _model.LogCommand(new MoveCommand(_model, _selection, _range));
             }
         }
     }

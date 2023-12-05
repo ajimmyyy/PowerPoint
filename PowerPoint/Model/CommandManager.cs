@@ -8,31 +8,33 @@ namespace PowerPoint
 {
     public class CommandManager
     {
+        const string UNDO_EXCEPTION = "Cannot Undo exception\n";
+        const string REDO_EXCEPTION = "Cannot Redo exception\n";
         Stack<ICommand> _undo = new Stack<ICommand>();
         Stack<ICommand> _redo = new Stack<ICommand>();
-        public void Execute(ICommand cmd)
+        public void Execute(ICommand command)
         {
-            cmd.Execute();
-            _undo.Push(cmd);
+            command.Execute();
+            _undo.Push(command);
             _redo.Clear();
         }
 
         public void Undo()
         {
             if (_undo.Count <= 0)
-                throw new Exception("Cannot Undo exception\n");
-            ICommand cmd = _undo.Pop();
-            _redo.Push(cmd);
-            cmd.UnExecute();
+                throw new Exception(UNDO_EXCEPTION);
+            ICommand command = _undo.Pop();
+            _redo.Push(command);
+            command.ReverseExecute();
         }
 
         public void Redo()
         {
             if (_redo.Count <= 0)
-                throw new Exception("Cannot Redo exception\n");
-            ICommand cmd = _redo.Pop();
-            _undo.Push(cmd);
-            cmd.Execute();
+                throw new Exception(REDO_EXCEPTION);
+            ICommand command = _redo.Pop();
+            _undo.Push(command);
+            command.Execute();
         }
 
         public bool IsRedoEnabled

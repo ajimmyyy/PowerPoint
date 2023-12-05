@@ -60,5 +60,16 @@ namespace PowerPoint
         {
             return string.Format(TO_STRING_FORMAT, Math.Floor(_left), Math.Floor(_top), Math.Floor(_right), Math.Floor(_bottom));
         }
+
+        public Coordinate Clone()
+        {
+            Coordinate coordinateCopy = new Coordinate();
+            coordinateCopy._left = _left;
+            coordinateCopy._right = _right;
+            coordinateCopy._top = _top;
+            coordinateCopy._bottom = _bottom;
+
+            return coordinateCopy;
+        }
     }
 }

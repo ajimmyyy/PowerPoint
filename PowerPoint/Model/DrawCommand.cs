@@ -18,10 +18,12 @@ namespace PowerPoint
         }
         public void Execute()
         {
+            _model.AddShape(_shape);
         }
 
-        public void UnExecute()
+        public void ReverseExecute()
         {
+            _model.DeleteShape(_shape);
         }
     }
 }
