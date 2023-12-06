@@ -124,6 +124,22 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expected, _shapes.FindShape(pointX, pointY) != null);
         }
 
+        //測試Shapes選取形狀(by index)
+        [TestMethod()]
+        public void FindShapeByIndexTest()
+        {
+            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
+            Shape testCircle = Factory.CreateShape(ModeType.CIRCLE_NAME);
+
+            Assert.IsNull(_shapes.FindShape(0));
+
+            _shapes.AddShape(testLine);
+            _shapes.AddShape(testCircle);
+
+            Assert.AreSame(testLine, _shapes.FindShape(0));
+            Assert.AreSame(testCircle, _shapes.FindShape(1));
+        }
+
         //測試Shapes繪圖
         [TestMethod()]
         public void DrawTest()

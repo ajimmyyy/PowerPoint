@@ -35,14 +35,14 @@ namespace PowerPoint
         }
 
         //是否在拉選區域
-        public bool IsScaleArea(double pointX, double pointY)
+        public bool IsScaleArea(double pointX, double pointY, double ratio = 1)
         {
-            double distanceX = pointX - Math.Max(_position._left, _position._right);
-            double distanceY = pointY - Math.Max(_position._top, _position._bottom);
+            double distanceX = pointX - _position._right;
+            double distanceY = pointY - _position._bottom;
             double distanceSquareX = Math.Pow(distanceX, SQUARE);
             double distanceSquareY = Math.Pow(distanceY, SQUARE);
 
-            if (Math.Sqrt(distanceSquareX + distanceSquareY) <= DOT_RADIUS)
+            if (Math.Sqrt(distanceSquareX + distanceSquareY) <= DOT_RADIUS * ratio)
             {
                 return true;
             }

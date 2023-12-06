@@ -9,12 +9,13 @@ namespace PowerPoint
 {
     class SlideFormsGraphicsAdaptor : IGraphics
     {
-        double _resize;
+        double _ratio;
         Graphics _graphics;
-        public SlideFormsGraphicsAdaptor(Graphics graphics, double resize)
+
+        public SlideFormsGraphicsAdaptor(Graphics graphics, double ratio)
         {
             this._graphics = graphics;
-            _resize = resize;
+            _ratio = ratio;
         }
 
         //清除所有圖形
@@ -26,19 +27,19 @@ namespace PowerPoint
         //畫線
         public void DrawLine(double x1, double y1, double x2, double y2)
         {
-            _graphics.DrawLine(Pens.Red, (float)(x1 * _resize), (float)(y1 * _resize), (float)(x2 * _resize), (float)(y2 * _resize));
+            _graphics.DrawLine(Pens.Red, (float)(x1 * _ratio), (float)(y1 * _ratio), (float)(x2 * _ratio), (float)(y2 * _ratio));
         }
 
         //畫矩形
         public void DrawRectangle(double x1, double y1, double x2, double y2)
         {
-            _graphics.DrawRectangle(Pens.Red, (float)(x1 * _resize), (float)(y1 * _resize), (float)((x2 - x1) * _resize), (float)((y2 - y1) * _resize));
+            _graphics.DrawRectangle(Pens.Red, (float)(x1 * _ratio), (float)(y1 * _ratio), (float)((x2 - x1) * _ratio), (float)((y2 - y1) * _ratio));
         }
 
         //畫圓形
         public void DrawCircle(double x1, double y1, double x2, double y2)
         {
-            _graphics.DrawEllipse(Pens.Red, (float)(x1 * _resize), (float)(y1 * _resize), (float)((x2 - x1) * _resize), (float)((y2 - y1) * _resize));
+            _graphics.DrawEllipse(Pens.Red, (float)(x1 * _ratio), (float)(y1 * _ratio), (float)((x2 - x1) * _ratio), (float)((y2 - y1) * _ratio));
         }
 
         //畫小圓點

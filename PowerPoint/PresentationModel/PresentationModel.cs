@@ -16,6 +16,7 @@ namespace PowerPoint
         public delegate void CursorChangedEventHandler();
         const double WINDOW_RATIO = 9.0 / 16.0;
         const double HALF = 0.5;
+        const double DRAW_WINDOW_WIDTH = 832;
         private bool _isLinePressed;
         private bool _isRectanglePressed;
         private bool _isCirclePressed;
@@ -23,7 +24,6 @@ namespace PowerPoint
         private bool _isInScaleArea;
         private bool _isUndoEnabled;
         private bool _isRedoEnabled;
-        private int _lastWindowWidth = 1;
         private Dictionary<string, Action> _shapePressed;
         Model _model;
 
@@ -141,21 +141,27 @@ namespace PowerPoint
         }
 
         //當滑鼠被按下
-        public void CanvasPressedHandler(int pointX, int pointY)
+        public void CanvasPressedHandler(int pointX, int pointY, int drawWidth)
         {
             if (pointX > 0 && pointY > 0)
             {
-                _model.ChangeState(pointX, pointY);
-                _model.PressPointer(pointX, pointY);
+                double drawPointX = pointX * (DRAW_WINDOW_WIDTH / drawWidth);
+                double drawPointY = pointY * (DRAW_WINDOW_WIDTH / drawWidth);
+
+                _model.ChangeState(drawPointX, drawPointY);
+                _model.PressPointer(drawPointX, drawPointY);
             }
         }
 
         //當滑鼠移動
-        public void CanvasMoveHandler(int pointX, int pointY)
+        public void CanvasMoveHandler(int pointX, int pointY, int drawWidth)
         {
-            _isInScaleArea = _model.IsInScaleArea(pointX, pointY);
+            double drawPointX = pointX * (DRAW_WINDOW_WIDTH / drawWidth);
+            double drawPointY = pointY * (DRAW_WINDOW_WIDTH / drawWidth);
+
+            _isInScaleArea = _model.IsInScaleArea(drawPointX, drawPointY, DRAW_WINDOW_WIDTH / drawWidth);
             UpdateCursor();
-            _model.MovePointer(pointX, pointY);
+            _model.MovePointer(drawPointX, drawPointY);
         }
 
         //當滑鼠釋放
@@ -210,12 +216,6 @@ namespace PowerPoint
             return (int)((containerHeight - panelHeight) * HALF);
         }
 
-        public void DrawWindowResize(int width)
-        {
-            _model.ShapeResize((double)width / _lastWindowWidth);
-            _lastWindowWidth = width;
-        }
-
         //tool按鈕是否被按下
         private bool IsToolButtonPressed()
         {
@@ -239,15 +239,15 @@ namespace PowerPoint
         }   
 
         //繪畫區繪圖
-        public void CanvasDraw(System.Drawing.Graphics graphics)
+        public void CanvasDraw(System.Drawing.Graphics graphics, int drawWidth)
         {
-            _model.Draw(new WindowsFormsGraphicsAdaptor(graphics));
+            _model.Draw(new WindowsFormsGraphicsAdaptor(graphics, drawWidth / DRAW_WINDOW_WIDTH));
         }
 
         //縮圖區繪圖
-        public void SlideDraw(System.Drawing.Graphics graphics, float drawWidth, float slideWidth)
+        public void SlideDraw(System.Drawing.Graphics graphics, int slideWidth)
         {
-            _model.Draw(new SlideFormsGraphicsAdaptor(graphics, slideWidth / drawWidth));
+            _model.Draw(new SlideFormsGraphicsAdaptor(graphics, slideWidth / DRAW_WINDOW_WIDTH));
         }
 
         //通知tool按鈕屬性改變

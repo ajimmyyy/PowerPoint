@@ -11,8 +11,8 @@ namespace PowerPoint
         //創建新的圖形實體
         public static Shape CreateShape(string shapeType)
         {
-            const int RIGHT = 826;
-            const int BOTTOM = 464;
+            const int RIGHT = 832;
+            const int BOTTOM = 468;
             Random random = new Random();
 
             switch (shapeType)

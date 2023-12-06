@@ -33,14 +33,6 @@ namespace PowerPoint
             _position._bottom = Math.Max(top, bottom);
         }
 
-        public override void ScalePosition(double ratio)
-        {
-            _position._left *= ratio;
-            _position._top *= ratio;
-            _position._right *= ratio;
-            _position._bottom *= ratio;
-        }
-
         //取的座標
         public override Coordinate GetPosition()
         {

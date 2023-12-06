@@ -20,7 +20,10 @@ namespace PowerPoint
         //設定位置
         public override void SetPosition(double left, double top, double right, double bottom)
         {
-            SetCoordinate(left, top, right, bottom);
+            if (top > bottom)
+                SetCoordinate(right, bottom, left, top);
+            else
+                SetCoordinate(left, top, right, bottom);
             Info = _position.ToString();
         }
 
@@ -31,14 +34,6 @@ namespace PowerPoint
             _position._top = top;
             _position._right = right;
             _position._bottom = bottom;
-        }
-
-        public override void ScalePosition(double ratio)
-        {
-            _position._left *= ratio;
-            _position._top *= ratio;
-            _position._right *= ratio;
-            _position._bottom *= ratio;
         }
 
         //取的座標

@@ -15,6 +15,7 @@ namespace PowerPoint.Tests
         const double INIT_TOP = 0;
         const double INIT_RIGHT = 100;
         const double INIT_BOTTOM = 100;
+        Model _model;
         Shape _shape;
         ScaleState _scaleState;
         PrivateObject _scaleStatePrivate;
@@ -23,8 +24,9 @@ namespace PowerPoint.Tests
         [TestInitialize()]
         public void Initialize()
         {
+            _model = new Model();
             _shape = new Line(INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM);
-            _scaleState = new ScaleState(INIT_LEFT, INIT_TOP, _shape);
+            _scaleState = new ScaleState(_shape, _model);
             _scaleStatePrivate = new PrivateObject(_scaleState);
         }
 
@@ -32,7 +34,7 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void MouseDownTest()
         {
-            _scaleState.MouseDown();
+            _scaleState.MouseDown(INIT_LEFT, INIT_TOP);
 
             Assert.IsInstanceOfType(_scaleStatePrivate.GetField("_selection"), typeof(Line));
             Assert.AreEqual(INIT_LEFT, _scaleStatePrivate.GetField("_firstPointX"));

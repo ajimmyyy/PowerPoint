@@ -230,6 +230,8 @@ namespace PowerPoint
             // 
             this._drawSplitContainer.Panel1.BackColor = System.Drawing.SystemColors.ControlLight;
             this._drawSplitContainer.Panel1.Controls.Add(this._canvas);
+            this._drawSplitContainer.Panel1.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this._drawSplitContainer.Panel1MinSize = 0;
             // 
             // _drawSplitContainer.Panel2
             // 
@@ -244,10 +246,10 @@ namespace PowerPoint
             this._canvas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._canvas.BackColor = System.Drawing.SystemColors.Window;
-            this._canvas.Location = new System.Drawing.Point(10, 60);
-            this._canvas.Margin = new System.Windows.Forms.Padding(10);
+            this._canvas.Location = new System.Drawing.Point(10, 0);
+            this._canvas.Margin = new System.Windows.Forms.Padding(0);
             this._canvas.Name = "_canvas";
-            this._canvas.Size = new System.Drawing.Size(477, 286);
+            this._canvas.Size = new System.Drawing.Size(477, 269);
             this._canvas.TabIndex = 0;
             // 
             // _toolBar

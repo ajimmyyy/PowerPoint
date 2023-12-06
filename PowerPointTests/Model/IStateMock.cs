@@ -13,7 +13,7 @@ namespace PowerPoint
         int _mouseReleaseCount = 0;
 
         //滑鼠被按下
-        public void MouseDown()
+        public void MouseDown(double pointX, double pointY)
         {
             _mouseDownCount++;
         }

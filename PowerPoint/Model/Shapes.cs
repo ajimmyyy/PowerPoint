@@ -81,14 +81,6 @@ namespace PowerPoint
             return null;
         }
 
-        public void ShapeResize(double ratio)
-        {
-            foreach (Shape shape in _shapeList)
-            {
-                shape.ScalePosition(ratio);
-            }
-        }
-
         //畫出所有圖形
         public void Draw(IGraphics graphics)
         {

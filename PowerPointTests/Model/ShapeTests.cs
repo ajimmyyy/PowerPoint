@@ -30,7 +30,7 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void InfoTest()
         {
-            string expected = "((0, 200), (400, 100))";
+            string expected = "((400, 100), (0, 200))";
 
             Assert.AreEqual(expected, _shape.Info);
         }

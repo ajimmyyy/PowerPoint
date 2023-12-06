@@ -23,7 +23,7 @@ namespace PowerPoint
         }
 
         //滑鼠被按下
-        public override void PressPointer()
+        public override void PressPointer(double pointX, double pointY)
         {
             _pressCount++;
         }
@@ -53,7 +53,7 @@ namespace PowerPoint
         }
 
         //是否在縮放區域
-        public override bool IsInScaleArea(double pointX, double pointY)
+        public override bool IsInScaleArea(double pointX, double pointY, double ratio)
         {
             _inScaleAreaCount++;
             return true;

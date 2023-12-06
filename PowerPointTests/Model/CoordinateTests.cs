@@ -61,5 +61,17 @@ namespace PowerPoint.Tests
 
             Assert.AreEqual(expected, _coordinate.ToString());
         }
+
+        [TestMethod()]
+        public void CloneTest()
+        {
+            Coordinate coordinate = _coordinate.Clone();
+
+            Assert.AreEqual(INIT_LEFT, coordinate._left);
+            Assert.AreEqual(INIT_TOP, coordinate._top);
+            Assert.AreEqual(INIT_RIGHT, coordinate._right);
+            Assert.AreEqual(INIT_BOTTOM, coordinate._bottom);
+            Assert.AreNotSame(_coordinate, coordinate);
+        }
     }
 }

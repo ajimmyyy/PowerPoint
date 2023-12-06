@@ -24,18 +24,31 @@ namespace PowerPoint.Tests
         {
             _line = new Line(INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM);
             _linePrivate = new PrivateObject(_line);
+
         }
 
         //測試線設定位置
         [TestMethod()]
         public void SetPositionTest()
         {
-            _line.SetPosition(INIT_LEFT + 1, INIT_TOP + 1, INIT_RIGHT + 1, INIT_BOTTOM + 1);
+            _line.SetPosition(INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM + 200);
 
-            Assert.AreEqual(INIT_LEFT + 1, _line.GetPosition()._left);
-            Assert.AreEqual(INIT_TOP + 1, _line.GetPosition()._top);
-            Assert.AreEqual(INIT_RIGHT + 1, _line.GetPosition()._right);
-            Assert.AreEqual(INIT_BOTTOM + 1, _line.GetPosition()._bottom);
+            Assert.AreEqual(INIT_LEFT, _line.GetPosition()._left);
+            Assert.AreEqual(INIT_TOP, _line.GetPosition()._top);
+            Assert.AreEqual(INIT_RIGHT, _line.GetPosition()._right);
+            Assert.AreEqual(INIT_BOTTOM + 200, _line.GetPosition()._bottom);
+        }
+
+        //測試線設定位置
+        [TestMethod()]
+        public void SetPositionWrongDirectionTest()
+        {
+            _line.SetPosition(INIT_LEFT + 1, INIT_TOP + 100, INIT_RIGHT + 1, INIT_BOTTOM);
+
+            Assert.AreEqual(INIT_RIGHT + 1, _line.GetPosition()._left);
+            Assert.AreEqual(INIT_BOTTOM, _line.GetPosition()._top);
+            Assert.AreEqual(INIT_LEFT + 1, _line.GetPosition()._right);
+            Assert.AreEqual(INIT_TOP + 100, _line.GetPosition()._bottom);
         }
 
         //測試線設定座標

@@ -61,6 +61,7 @@ namespace PowerPoint
             return string.Format(TO_STRING_FORMAT, Math.Floor(_left), Math.Floor(_top), Math.Floor(_right), Math.Floor(_bottom));
         }
 
+        //克隆座標
         public Coordinate Clone()
         {
             Coordinate coordinateCopy = new Coordinate();

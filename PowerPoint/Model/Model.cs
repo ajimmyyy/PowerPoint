@@ -157,12 +157,6 @@ namespace PowerPoint
                 _hint.Draw(graphics);                
         }
 
-        public void ShapeResize(double ratio)
-        {
-            _shapes.ShapeResize(ratio);
-            NotifyModelChanged();
-        }
-
         //通知模型改變
         void NotifyModelChanged()
         {
@@ -177,14 +171,14 @@ namespace PowerPoint
         }
 
         //是否在縮放區域
-        public virtual bool IsInScaleArea(double pointX, double pointY)
+        public virtual bool IsInScaleArea(double pointX, double pointY, double ratio)
         {
             if (_selection == null)
             {
                 return _isInScaleArea = false;
             }
             
-            return _isInScaleArea = _selection.GetSelection().IsScaleArea(pointX, pointY);
+            return _isInScaleArea = _selection.GetSelection().IsScaleArea(pointX, pointY, ratio);
         }
 
         public bool IsUndoEnabled

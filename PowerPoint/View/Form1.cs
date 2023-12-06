@@ -20,6 +20,7 @@ namespace PowerPoint
         const string TOOL_BUTTON_SELECT = "IsSelectPressed";
         const string TOOL_BUTTON_UNDO = "IsUndoEnabled";
         const string TOOL_BUTTON_REDO = "IsRedoEnabled";
+        const int WINDOW_PADDING = 10;
 
         private Model _model;
         private PresentationModel _presentationModel;
@@ -37,8 +38,9 @@ namespace PowerPoint
             _slideButton.Paint += SlidePaint;
 
             this.KeyDown += PressKeyboardKey;
-            this.Resize += ResizeWindow;
             _shapeDataGridView.CellClick += new DataGridViewCellEventHandler(DeleteCellClick);
+
+            this.Resize += ResizeWindow;
             _windowSplitContainer.SplitterMoved += ResizeWindow;
             _drawSplitContainer.SplitterMoved += ResizeWindow;
 
@@ -89,13 +91,13 @@ namespace PowerPoint
         //滑鼠被按下
         public void CanvasPressed(object sender, MouseEventArgs e)
         {
-            _presentationModel.CanvasPressedHandler(e.X, e.Y);
+            _presentationModel.CanvasPressedHandler(e.X, e.Y, _canvas.Width);
         }
 
         //滑鼠移動
         public void CanvasMoved(object sender, MouseEventArgs e)
         {
-            _presentationModel.CanvasMoveHandler(e.X, e.Y);
+            _presentationModel.CanvasMoveHandler(e.X, e.Y, _canvas.Width);
         }
 
         //滑鼠釋放
@@ -123,22 +125,22 @@ namespace PowerPoint
 
         private void ResizeWindow(object sender, EventArgs e)
         {
-            _slideButton.Size = new Size(_slideButton.Width, _presentationModel.ResizeWindow(_slideButton.Width));
-            _canvas.Size = new Size(_canvas.Width, _presentationModel.ResizeWindow(_canvas.Width));
-            _canvas.Location = new Point(_canvas.Location.X, _presentationModel.RepositionWindow(_windowSplitContainer.Height, _canvas.Height));
-            _presentationModel.DrawWindowResize(_canvas.Width);
+            _slideButton.Height = _presentationModel.ResizeWindow(_slideButton.Width);
+            _canvas.Height = _presentationModel.ResizeWindow(_canvas.Width);
+            _drawSplitContainer.Panel1.Padding = new Padding(WINDOW_PADDING, _presentationModel.RepositionWindow(_drawSplitContainer.Height, _canvas.Height), WINDOW_PADDING, 0);
+            _canvas.Invalidate(true);
         }
 
         //繪圖區重繪製
         public void CanvasPaint(object sender, PaintEventArgs e)
         {
-            _presentationModel.CanvasDraw(e.Graphics);
+            _presentationModel.CanvasDraw(e.Graphics, _canvas.Width);
         }
 
         //縮圖區重繪製
         public void SlidePaint(object sender, PaintEventArgs e)
         {
-            _presentationModel.SlideDraw(e.Graphics, _canvas.Width, _slideButton.Width);
+            _presentationModel.SlideDraw(e.Graphics, _slideButton.Width);
         }
 
         //模型改變
