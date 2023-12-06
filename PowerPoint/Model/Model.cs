@@ -14,7 +14,6 @@ namespace PowerPoint
         private string _toolModePressed = ModeType.SELECT_NAME;
         private bool _isPressed = false;
         private bool _isInScaleArea = false;
-
         private Shape _hint;
         private Shape _selection;
         private Shapes _shapes = new Shapes();
@@ -158,9 +157,9 @@ namespace PowerPoint
                 _hint.Draw(graphics);                
         }
 
-        public void ShapeResize(int nowWidth, int lastWidth)
+        public void ShapeResize(double ratio)
         {
-            _shapes.ShapeResize((double)nowWidth / lastWidth);
+            _shapes.ShapeResize(ratio);
             NotifyModelChanged();
         }
 

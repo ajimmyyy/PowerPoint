@@ -212,7 +212,7 @@ namespace PowerPoint
 
         public void DrawWindowResize(int width)
         {
-            _model.ShapeResize(width, _lastWindowWidth);
+            _model.ShapeResize((double)width / _lastWindowWidth);
             _lastWindowWidth = width;
         }
 
