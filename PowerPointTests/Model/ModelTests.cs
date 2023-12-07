@@ -13,9 +13,9 @@ namespace PowerPoint.Tests
     public class ModelTests
     {
         const double INIT_LEFT = 1;
-        const double INIT_TOP = 300;
+        const double INIT_TOP = 200;
         const double INIT_RIGHT = 400;
-        const double INIT_BOTTOM = 200;
+        const double INIT_BOTTOM = 300;
         Shape _shape;
         Model _model;
         PrivateObject _modelPrivate;
@@ -69,7 +69,7 @@ namespace PowerPoint.Tests
             IStateMock state = new IStateMock();
             _modelPrivate.SetField("_state", state);
 
-            _model.PressPointer();
+            _model.PressPointer(0, 0);
 
             Assert.AreEqual(expectedIsPressed, _modelPrivate.GetField("_isPressed"));
             Assert.AreEqual(expectedPressPointer, state.MouseDownCount);
@@ -127,7 +127,7 @@ namespace PowerPoint.Tests
         {
             int expectedReleasePointer = 0;
             bool expectedIsPressed = false;
-            String expectedToolModePressed = "";
+            String expectedToolModePressed = ModeType.SELECT_NAME;
             IStateMock state = new IStateMock();
             _modelPrivate.SetField("_state", state);
             _modelPrivate.SetField("_isPressed", false);
@@ -153,6 +153,20 @@ namespace PowerPoint.Tests
 
             Assert.AreEqual(expected, shapes.GetCount());
             Assert.IsNull(_modelPrivate.GetField("_selection"));
+        }
+
+        //測試Model鍵盤刪除按下(未選取)
+        [TestMethod()]
+        public void PressDeleteNullSelectTest()
+        {
+            int expected = 1;
+            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
+
+            shapes.AddShape(_shape);
+
+            _model.PressDelete();
+
+            Assert.AreEqual(expected, shapes.GetCount());
         }
 
         //測試Model改變操作模式(縮放模式)
@@ -183,6 +197,60 @@ namespace PowerPoint.Tests
             Assert.IsNotNull(hint);
         }
 
+        //測試Model紀錄命令
+        [TestMethod()]
+        public void LogCommandTest()
+        {
+            int expected = 1;
+            CommandManagerMock commandManager = new CommandManagerMock();
+            ICommand command = new DrawCommand(_model, _shape);
+            _modelPrivate.SetField("_commandManager", commandManager);
+
+            _model.LogCommand(command);
+
+            Assert.AreEqual(expected, commandManager.ExecuteCount);
+        }
+
+        //測試Model加入形狀
+        [TestMethod()]
+        public void AddShapeTest()
+        {
+            int expected = 1;
+            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
+
+            _model.AddShape(_shape);
+
+            Assert.AreEqual(expected, shapes.GetCount());
+        }
+
+        //測試Model刪除形狀
+        [TestMethod()]
+        public void DeleteShapeTest()
+        {
+            int expected = 0;
+            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
+
+            _model.AddShape(_shape);
+            _model.DeleteShape(_shape);
+
+            Assert.AreEqual(expected, shapes.GetCount());
+        }
+
+        //測試Model移動形狀
+        [TestMethod()]
+        public void MoveShapeTest()
+        {
+            Coordinate coordinate = _shape.GetPosition().Clone();
+            Shape selection = new Line(0, 0, 0, 0);
+
+            _model.MoveShape(selection, coordinate);
+
+            Assert.AreEqual(INIT_LEFT, selection.GetPosition()._left);
+            Assert.AreEqual(INIT_TOP, selection.GetPosition()._top);
+            Assert.AreEqual(INIT_RIGHT, selection.GetPosition()._right);
+            Assert.AreEqual(INIT_BOTTOM, selection.GetPosition()._bottom);
+        }
+
         //測試Model改變操作模式(選取模式)
         [TestMethod()]
         public void ChangeStateSelectTest()
@@ -192,6 +260,7 @@ namespace PowerPoint.Tests
             shapes.AddShape(_shape);
             _modelPrivate.SetField("_selection", _shape);
             _modelPrivate.SetField("_toolModePressed", ModeType.SELECT_NAME);
+
             _model.ChangeState(INIT_LEFT, INIT_TOP);
 
             IState state = _modelPrivate.GetField("_state") as IState;
@@ -211,7 +280,7 @@ namespace PowerPoint.Tests
 
             _shape.SetSelect(true);
             _modelPrivate.SetField("_selection", _shape);
-            
+
             shapes.AddShape(_shape);
             _model.SelectShape(pointX, pointY);
 
@@ -236,6 +305,32 @@ namespace PowerPoint.Tests
             Shape selection = _modelPrivate.GetField("_selection") as Shape;
 
             Assert.AreEqual(expected, selection != null);
+        }
+
+        //測試Model操作復原
+        [TestMethod()]
+        public void UndoTest()
+        {
+            int expected = 1;
+            CommandManagerMock commandManager = new CommandManagerMock();
+            _modelPrivate.SetField("_commandManager", commandManager);
+
+            _model.Undo();
+
+            Assert.AreEqual(expected, commandManager.UndoCount);
+        }
+
+        //測試Model操作重做
+        [TestMethod()]
+        public void RedoTest()
+        {
+            int expected = 1;
+            CommandManagerMock commandManager = new CommandManagerMock();
+            _modelPrivate.SetField("_commandManager", commandManager);
+
+            _model.Redo();
+
+            Assert.AreEqual(expected, commandManager.RedoCount);
         }
 
         //測試Model繪圖
@@ -328,7 +423,7 @@ namespace PowerPoint.Tests
             shapes.AddShape(_shape);
             _modelPrivate.SetField("_selection", _shape);
 
-            _model.IsInScaleArea(pointX, pointY);
+            _model.IsInScaleArea(pointX, pointY, 1);
 
             Assert.AreEqual(expected, _modelPrivate.GetField("_isInScaleArea"));
         }
@@ -344,9 +439,23 @@ namespace PowerPoint.Tests
             shapes.AddShape(_shape);
             _modelPrivate.SetField("_selection", null);
 
-            _model.IsInScaleArea(pointX, pointY);
+            _model.IsInScaleArea(pointX, pointY, 1);
 
             Assert.AreEqual(expected, _modelPrivate.GetField("_isInScaleArea"));
+        }
+
+        //Undo是否enabled
+        [TestMethod()]
+        public void IsUndoEnabledTest()
+        {
+            Assert.IsFalse(_model.IsUndoEnabled);
+        }
+
+        //Redo是否enabled
+        [TestMethod()]
+        public void IsRedoEnabledTest()
+        {
+            Assert.IsFalse(_model.IsRedoEnabled);
         }
 
         //測試Model取得binding List

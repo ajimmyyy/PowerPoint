@@ -72,6 +72,7 @@ namespace PowerPoint
                 return _isUndoEnabled;
             }
         }
+
         public bool IsRedoEnabled
         {
             get
@@ -128,12 +129,14 @@ namespace PowerPoint
             NotifyCursorChanged();
         }
 
+        //當DataGridView新增按鈕被按下
         public void AddButtonClickHandler(string shapeType)
         {
             _model.AddButtonClickEvent(shapeType);
             ToolButtonEnabledCheck();
         }
 
+        //當DataGridView刪除按鈕被按下
         public void DeleteCellClickHandler(int rowIndex, int columnIndex)
         {
             _model.DeleteButtonClickEvent(rowIndex, columnIndex);
@@ -186,6 +189,7 @@ namespace PowerPoint
             }
         }
 
+        //當復原按鈕被按下
         public void UndoToolButtonClickHandler()
         {
             if (_isUndoEnabled)
@@ -196,6 +200,7 @@ namespace PowerPoint
             }
         }
 
+        //當重做按鈕被按下
         public void RedoToolButtonClickHandler()
         {
             if (_isRedoEnabled)
@@ -206,11 +211,13 @@ namespace PowerPoint
             }
         }
 
+        //計算16:9視窗高度
         public int ResizeWindow(int width)
         {
             return (int)(width * WINDOW_RATIO + 1);
         }
 
+        //計算視窗置中距離
         public int RepositionWindow(int containerHeight, int panelHeight)
         {
             return (int)((containerHeight - panelHeight) * HALF);
@@ -231,6 +238,7 @@ namespace PowerPoint
             _isSelectPressed = false;
         }
 
+        //Redo,Undo是否可用
         private void ToolButtonEnabledCheck()
         {
             _isUndoEnabled = _model.IsUndoEnabled;

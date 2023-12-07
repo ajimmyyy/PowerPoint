@@ -13,6 +13,8 @@ namespace PowerPoint.Tests
     [TestClass()]
     public class PresentationModelTests
     {
+        const int INIT_DRAW_WIDTH = 812;
+        const int INIT_SLIDE_WIDTH = 128;
         PresentationModel _presentationModel;
         Model _model;
         PrivateObject _modelPrivate;
@@ -62,7 +64,7 @@ namespace PowerPoint.Tests
         [DataRow(true, false, false)]
         [DataRow(false, true, false)]
         [DataRow(false, false, true)]
-        public void UpdateCursorToolPressedTest(bool isLinePressed, bool isRectanglePressed,bool isCirclePressed)
+        public void UpdateCursorToolPressedTest(bool isLinePressed, bool isRectanglePressed, bool isCirclePressed)
         {
             Cursor expected = Cursors.Cross;
 
@@ -87,6 +89,32 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expected, _presentationModel.CursorNow);
         }
 
+        //測試PresentationModel當DataGridView新增按鈕被按下
+        [TestMethod()]
+        public void AddButtonClickHandlerTest()
+        {
+            int expected = 1;
+            ModelMock modelmock = new ModelMock();
+            _presentationModelPrivate.SetField("_model", modelmock);
+
+            _presentationModel.AddButtonClickHandler(ModeType.LINE_NAME);
+
+            Assert.AreEqual(expected, modelmock.AddButtonCount);
+        }
+
+        //測試PresentationModel當DataGridView刪除按鈕被按下
+        [TestMethod()]
+        public void DeleteCellClickHandlerTest()
+        {
+            int expected = 1;
+            ModelMock modelmock = new ModelMock();
+            _presentationModelPrivate.SetField("_model", modelmock);
+
+            _presentationModel.DeleteCellClickHandler(1, 1);
+
+            Assert.AreEqual(expected, modelmock.DeleteButtonCount);
+        }
+
         //測試PresentationModel當滑鼠被按下
         [TestMethod()]
         public void CanvasPressedHandlerTest()
@@ -96,21 +124,21 @@ namespace PowerPoint.Tests
             _presentationModelPrivate.SetField("_model", modelmock);
 
             _presentationModelPrivate.SetField("_isInScaleArea", true);
-            _presentationModel.CanvasPressedHandler(1, 1);
+            _presentationModel.CanvasPressedHandler(1, 1, INIT_DRAW_WIDTH);
             Assert.AreEqual(expectedCount++, modelmock.PressCount);
             _presentationModelPrivate.SetField("_isInScaleArea", false);
 
             _presentationModelPrivate.SetField("_isSelectPressed", true);
-            _presentationModel.CanvasPressedHandler(1, 1);
+            _presentationModel.CanvasPressedHandler(1, 1, INIT_DRAW_WIDTH);
             Assert.AreEqual(expectedCount++, modelmock.PressCount);
             _presentationModelPrivate.SetField("_isSelectPressed", false);
 
             _presentationModelPrivate.SetField("_isLinePressed", true);
-            _presentationModel.CanvasPressedHandler(1, 1);
+            _presentationModel.CanvasPressedHandler(1, 1, INIT_DRAW_WIDTH);
             Assert.AreEqual(expectedCount, modelmock.PressCount);
             _presentationModelPrivate.SetField("_isLinePressed", false);
 
-            _presentationModel.CanvasPressedHandler(0, 0);
+            _presentationModel.CanvasPressedHandler(0, 0, INIT_DRAW_WIDTH);
             Assert.AreEqual(expectedCount, modelmock.PressCount);
         }
 
@@ -123,7 +151,7 @@ namespace PowerPoint.Tests
             ModelMock modelmock = new ModelMock();
             _presentationModelPrivate.SetField("_model", modelmock);
 
-            _presentationModel.CanvasMoveHandler(1, 1);
+            _presentationModel.CanvasMoveHandler(1, 1, INIT_DRAW_WIDTH);
 
             Assert.AreEqual(expectedMoveCount, modelmock.MoveCount);
             Assert.AreEqual(expectedInAreaCount, modelmock.InScaleAreaCount);
@@ -161,6 +189,78 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expectedCount, modelmock.DeleteCount);
         }
 
+        //測試PresentationModel當復原按鈕被按下
+        [TestMethod()]
+        public void UndoToolButtonClickHandlerTest()
+        {
+            int expectedCount = 1;
+            ModelMock modelmock = new ModelMock();
+            _presentationModelPrivate.SetField("_model", modelmock);
+            _presentationModelPrivate.SetField("_isUndoEnabled", true);
+
+            _presentationModel.UndoToolButtonClickHandler();
+
+            Assert.AreEqual(expectedCount, modelmock.UndoCount);
+        }
+
+        //測試PresentationModel當復原按鈕被按下(unabled)
+        [TestMethod()]
+        public void UndoToolButtonClickHandlerUnabledTest()
+        {
+            int expectedCount = 0;
+            ModelMock modelmock = new ModelMock();
+            _presentationModelPrivate.SetField("_model", modelmock);
+
+            _presentationModel.UndoToolButtonClickHandler();
+
+            Assert.AreEqual(expectedCount, modelmock.UndoCount);
+        }
+
+        //測試PresentationModel當重做按鈕被按下
+        [TestMethod()]
+        public void RedoToolButtonClickHandlerTest()
+        {
+            int expectedCount = 1;
+            ModelMock modelmock = new ModelMock();
+            _presentationModelPrivate.SetField("_model", modelmock);
+            _presentationModelPrivate.SetField("_isRedoEnabled", true);
+
+            _presentationModel.RedoToolButtonClickHandler();
+
+            Assert.AreEqual(expectedCount, modelmock.RedoCount);
+        }
+
+        //測試PresentationModel當重做按鈕被按下(unabled)
+        [TestMethod()]
+        public void RedoToolButtonClickHandlerUnabledTest()
+        {
+            int expectedCount = 0;
+            ModelMock modelmock = new ModelMock();
+            _presentationModelPrivate.SetField("_model", modelmock);
+
+            _presentationModel.RedoToolButtonClickHandler();
+
+            Assert.AreEqual(expectedCount, modelmock.RedoCount);
+        }
+
+        //測試PresentationModel計算16:9視窗高度
+        [TestMethod()]
+        [DataRow(160, 91)]
+        [DataRow(1, 1)]
+        [DataRow(0, 1)]
+        public void ResizeWindowTest(int width, int expectedHeight)
+        {
+            Assert.AreEqual(expectedHeight, _presentationModel.ResizeWindow(width));
+        }
+
+        //測試PresentationModel計算視窗置中距離
+        [TestMethod()]
+        [DataRow(100, 50, 25)]
+        public void RepositionWindowTest(int containerHeight, int panelHeight, int expectedPosition)
+        {
+            Assert.AreEqual(expectedPosition, _presentationModel.RepositionWindow(containerHeight, panelHeight));
+        }
+
         //測試PresentationModel,tool按鈕是否被按下
         [TestMethod()]
         [DataRow(false, false, false, false)]
@@ -188,19 +288,38 @@ namespace PowerPoint.Tests
             Assert.IsFalse(_presentationModel.IsSelectPressed);
         }
 
+        //測試PresentationModel, Redo,Undo是否可用
+        [TestMethod()]
+        public void ToolButtonEnabledCheckTest()
+        {
+            _model.LogCommand(new DrawCommand(_model, new Line(0, 0, 0, 0)));
+
+            _presentationModelPrivate.Invoke("ToolButtonEnabledCheck");
+
+            Assert.IsTrue(_presentationModel.IsUndoEnabled);
+            Assert.IsFalse(_presentationModel.IsRedoEnabled);
+
+            _model.Undo();
+
+            _presentationModelPrivate.Invoke("ToolButtonEnabledCheck");
+
+            Assert.IsFalse(_presentationModel.IsUndoEnabled);
+            Assert.IsTrue(_presentationModel.IsRedoEnabled);
+        }
+
         //測試PresentationModel繪畫區繪圖
         [TestMethod()]
         public void CanvasDrawTest()
         {
             int expected = 1;
             ModelMock modelmock = new ModelMock();
-            
+
             _presentationModelPrivate.SetField("_model", modelmock);
 
             using (var bitmap = new Bitmap(100, 100))
             using (var graphics = Graphics.FromImage(bitmap))
             {
-                _presentationModel.CanvasDraw(graphics);
+                _presentationModel.CanvasDraw(graphics, INIT_DRAW_WIDTH);
 
                 Assert.AreEqual(expected, modelmock.DrawCount);
             }
@@ -217,7 +336,7 @@ namespace PowerPoint.Tests
             using (var bitmap = new Bitmap(100, 100))
             using (var graphics = Graphics.FromImage(bitmap))
             {
-                _presentationModel.SlideDraw(graphics);
+                _presentationModel.SlideDraw(graphics, INIT_SLIDE_WIDTH);
 
                 Assert.AreEqual(expected, modelmock.DrawCount);
             }

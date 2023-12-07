@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PowerPoint
 {
-    class MoveCommand : ICommand
+    public class MoveCommand : ICommand
     {
         Shape _shape;
         Model _model;
@@ -20,11 +20,14 @@ namespace PowerPoint
             _lastRange = shape.GetPosition().Clone();
             _originRange = range;
         }
+
+        //執行命令
         public void Execute()
         {
             _model.MoveShape(_shape, _lastRange);
         }
 
+        //執行復原命令
         public void ReverseExecute()
         {
             _model.MoveShape(_shape, _originRange);

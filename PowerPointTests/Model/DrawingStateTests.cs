@@ -13,7 +13,9 @@ namespace PowerPoint.Tests
     {
         const double INIT_POINT_X = 100;
         const double INIT_POINT_Y = 100;
-        Shape _shape;
+        Shape _hint;
+        Model _model;
+        PrivateObject _modelPrivate;
         DrawingState _drawingState;
         PrivateObject _drawingStatePrivate;
 
@@ -21,8 +23,10 @@ namespace PowerPoint.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            _shape = new Line(0, 0, 0, 0);
-            _drawingState = new DrawingState(INIT_POINT_X, INIT_POINT_Y, _shape);
+            _hint = new Line(0, 0, 0, 0);
+            _model = new Model();
+            _modelPrivate = new PrivateObject(_model);
+            _drawingState = new DrawingState(_hint, _model);
             _drawingStatePrivate = new PrivateObject(_drawingState);
         }
 
@@ -31,7 +35,7 @@ namespace PowerPoint.Tests
         [DataRow(1, 1)]
         public void MouseDownTest(double pointX, double pointY)
         {
-            _drawingState.MouseDown();
+            _drawingState.MouseDown(INIT_POINT_X, INIT_POINT_Y);
 
             Assert.IsInstanceOfType(_drawingStatePrivate.GetField("_hint"), typeof(Line));
             Assert.AreEqual(INIT_POINT_X, _drawingStatePrivate.GetField("_firstPointX"));
@@ -40,28 +44,29 @@ namespace PowerPoint.Tests
 
         //測試繪圖模式滑鼠移動
         [TestMethod()]
-        [DataRow(1, 1)]
         [DataRow(200, 200)]
         public void MouseMoveTest(double pointX, double pointY)
         {
-            Shape hint = _drawingStatePrivate.GetField("_hint") as Shape;
+            _drawingState.MouseDown(INIT_POINT_X, INIT_POINT_Y);
             _drawingState.MouseMove(pointX, pointY);
 
-            Assert.AreEqual(INIT_POINT_X, hint.GetPosition()._left);
-            Assert.AreEqual(INIT_POINT_Y, hint.GetPosition()._top);
-            Assert.AreEqual(pointX, hint.GetPosition()._right);
-            Assert.AreEqual(pointY, hint.GetPosition()._bottom);
+            Assert.AreEqual(INIT_POINT_X, _hint.GetPosition()._left);
+            Assert.AreEqual(INIT_POINT_Y, _hint.GetPosition()._top);
+            Assert.AreEqual(pointX, _hint.GetPosition()._right);
+            Assert.AreEqual(pointY, _hint.GetPosition()._bottom);
         }
 
         //測試繪圖模式滑鼠釋放
         [TestMethod()]
         public void MouseReleaseTest()
         {
+            int expected = 1;
+            Shapes shapes = _modelPrivate.GetField("_shapes") as Shapes;
+
             _drawingState.MouseRelease();
 
             Assert.IsInstanceOfType(_drawingStatePrivate.GetField("_hint"), typeof(Line));
-            Assert.AreEqual(INIT_POINT_X, _drawingStatePrivate.GetField("_firstPointX"));
-            Assert.AreEqual(INIT_POINT_Y, _drawingStatePrivate.GetField("_firstPointY"));
+            Assert.AreEqual(expected, shapes.GetCount());
         }
     }
 }

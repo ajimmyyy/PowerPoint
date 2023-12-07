@@ -113,16 +113,19 @@ namespace PowerPoint
             _presentationModel.PressKeyboardHandler(e.KeyCode);
         }
 
+        //復原按鈕被按下
         private void UndoToolButtonClick(object sender, EventArgs e)
         {
             _presentationModel.UndoToolButtonClickHandler();
         }
 
+        //重做按鈕被按下
         private void RedoToolButtonClick(object sender, EventArgs e)
         {
             _presentationModel.RedoToolButtonClickHandler();
         }
 
+        //視窗大小重新繪製
         private void ResizeWindow(object sender, EventArgs e)
         {
             _slideButton.Height = _presentationModel.ResizeWindow(_slideButton.Width);

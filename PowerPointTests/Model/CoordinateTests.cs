@@ -62,6 +62,7 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expected, _coordinate.ToString());
         }
 
+        //測試座標克隆座標
         [TestMethod()]
         public void CloneTest()
         {

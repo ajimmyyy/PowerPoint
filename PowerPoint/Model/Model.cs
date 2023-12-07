@@ -21,7 +21,7 @@ namespace PowerPoint
         private CommandManager _commandManager = new CommandManager();
 
         //當DataGridView新增按鈕被按下的處理
-        public void AddButtonClickEvent(string shapeType)
+        public virtual void AddButtonClickEvent(string shapeType)
         {
             if (shapeType != "")
             {
@@ -31,7 +31,7 @@ namespace PowerPoint
         }
 
         //當DataGridView刪除按鈕被按下的處理
-        public void DeleteButtonClickEvent(int rowIndex, int columnIndex)
+        public virtual void DeleteButtonClickEvent(int rowIndex, int columnIndex)
         {
             _selection = null;
 
@@ -85,21 +85,25 @@ namespace PowerPoint
             }
         }
 
+        //紀錄命令
         public void LogCommand(ICommand command)
         {
             _commandManager.Execute(command);
         }
 
+        //加入形狀
         public void AddShape(Shape shape)
         {
             _shapes.AddShape(shape);
         }
 
+        //刪除形狀
         public void DeleteShape(Shape shape)
         {
             _shapes.DeleteShape(shape);
         }
 
+        //移動形狀
         public void MoveShape(Shape shape, Coordinate range)
         {
             shape.SetPosition(range._left, range._top, range._right, range._bottom);
@@ -124,7 +128,7 @@ namespace PowerPoint
             } 
         }
 
-        //選取圖形
+        //選取形狀
         public void SelectShape(double pointX, double pointY)
         {
             if (_selection != null)
@@ -135,13 +139,15 @@ namespace PowerPoint
             _selection = _shapes.FindShape(pointX, pointY);
         }
 
-        public void Undo()
+        //操作復原
+        public virtual void Undo()
         {
             _commandManager.Undo();
             NotifyModelChanged();
         }
 
-        public void Redo()
+        //操作重做
+        public virtual void Redo()
         {
             _commandManager.Redo();
             NotifyModelChanged();

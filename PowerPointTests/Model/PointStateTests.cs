@@ -18,6 +18,7 @@ namespace PowerPoint.Tests
         const double INIT_RIGHT = 100;
         const double INIT_BOTTOM = 100;
         Shape _shape;
+        Model _model;
         PointState _pointState;
         PrivateObject _pointStatePrivate;
 
@@ -26,7 +27,8 @@ namespace PowerPoint.Tests
         public void Initialize()
         {
             _shape = new Line(INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM);
-            _pointState = new PointState(INIT_POINT_X, INIT_POINT_Y, _shape);
+            _model = new Model();
+            _pointState = new PointState(_shape, _model);
             _pointStatePrivate = new PrivateObject(_pointState);
         }
 
@@ -35,7 +37,7 @@ namespace PowerPoint.Tests
         public void MouseDownTest()
         {
             Shape selection = _pointStatePrivate.GetField("_selection") as Shape;
-            _pointState.MouseDown();
+            _pointState.MouseDown(INIT_POINT_X, INIT_POINT_Y);
 
             Assert.IsInstanceOfType(selection, typeof(Line));
             Assert.IsTrue(selection.IsSelect());
@@ -48,7 +50,7 @@ namespace PowerPoint.Tests
         public void MouseDownNullSelectTest()
         {
             _pointStatePrivate.SetField("_selection", null);
-            _pointState.MouseDown();
+            _pointState.MouseDown(INIT_POINT_X, INIT_POINT_Y);
             Assert.IsFalse(_shape.IsSelect());
         }
 
@@ -59,6 +61,8 @@ namespace PowerPoint.Tests
         public void MouseMoveTest(double pointX, double pointY)
         {
             Shape selection = _pointStatePrivate.GetField("_selection") as Shape;
+
+            _pointState.MouseDown(INIT_POINT_X, INIT_POINT_Y);
             _pointState.MouseMove(pointX, pointY);
 
             Assert.AreEqual(INIT_LEFT + (pointX - INIT_POINT_X), selection.GetPosition()._left);
@@ -73,6 +77,8 @@ namespace PowerPoint.Tests
         public void MouseMoveNullSelectTest(double pointX, double pointY)
         {
             _pointStatePrivate.SetField("_selection", null);
+
+            _pointState.MouseDown(INIT_POINT_X, INIT_POINT_Y);
             _pointState.MouseMove(pointX, pointY);
 
             Assert.AreEqual(INIT_LEFT, _shape.GetPosition()._left);
@@ -89,6 +95,7 @@ namespace PowerPoint.Tests
             Shape selection = _pointStatePrivate.GetField("_selection") as Shape;
             String expected = "((100, 100), (200, 200))";
 
+            _pointState.MouseDown(INIT_POINT_X, INIT_POINT_Y);
             _pointState.MouseMove(pointX, pointY);
             _pointState.MouseRelease();
 
@@ -102,8 +109,9 @@ namespace PowerPoint.Tests
         {
             Shape selection = _pointStatePrivate.GetField("_selection") as Shape;
             String expected = "((0, 0), (100, 100))";
-
             _pointStatePrivate.SetField("_selection", null);
+
+            _pointState.MouseDown(INIT_POINT_X, INIT_POINT_Y);
             _pointState.MouseMove(pointX, pointY);
             _pointState.MouseRelease();
 

@@ -17,11 +17,14 @@ namespace PowerPoint
             _shape = shape;
             _model = model;
         }
+
+        //執行命令
         public void Execute()
         {
             _model.DeleteShape(_shape);
         }
 
+        //執行復原命令
         public void ReverseExecute()
         {
             _model.AddShape(_shape);

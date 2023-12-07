@@ -12,14 +12,17 @@ namespace PowerPoint
         const string REDO_EXCEPTION = "Cannot Redo exception\n";
         Stack<ICommand> _undo = new Stack<ICommand>();
         Stack<ICommand> _redo = new Stack<ICommand>();
-        public void Execute(ICommand command)
+
+        //執行命令
+        public virtual void Execute(ICommand command)
         {
             command.Execute();
             _undo.Push(command);
             _redo.Clear();
         }
 
-        public void Undo()
+        //操作復原
+        public virtual void Undo()
         {
             if (_undo.Count <= 0)
                 throw new Exception(UNDO_EXCEPTION);
@@ -28,7 +31,8 @@ namespace PowerPoint
             command.ReverseExecute();
         }
 
-        public void Redo()
+        //操作重做
+        public virtual void Redo()
         {
             if (_redo.Count <= 0)
                 throw new Exception(REDO_EXCEPTION);
