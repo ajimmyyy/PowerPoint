@@ -43,15 +43,15 @@ namespace PowerPoint
             this._windowSplitContainer = new System.Windows.Forms.SplitContainer();
             this._slideButton = new System.Windows.Forms.Button();
             this._drawSplitContainer = new System.Windows.Forms.SplitContainer();
-            this._toolBar = new System.Windows.Forms.ToolStrip();
-            this._backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this._canvas = new PowerPoint.DoubleBufferedPanel();
+            this._toolBar = new System.Windows.Forms.ToolStrip();
             this._lineToolButton = new PowerPoint.BindingToolStripButton();
             this._rectangleToolButton = new PowerPoint.BindingToolStripButton();
             this._circleToolButton = new PowerPoint.BindingToolStripButton();
             this._selectToolButton = new PowerPoint.BindingToolStripButton();
             this._undoToolButton = new PowerPoint.BindingToolStripButton();
             this._redoToolButton = new PowerPoint.BindingToolStripButton();
+            this._backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this._functionMenu.SuspendLayout();
             this._dataGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._shapeDataGridView)).BeginInit();
@@ -68,7 +68,6 @@ namespace PowerPoint
             // 
             // _functionMenu
             // 
-            this._functionMenu.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this._functionMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this._functionMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._illustrateMenuItem});
@@ -124,8 +123,6 @@ namespace PowerPoint
             // 
             // _shapeComboBox
             // 
-            this._shapeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this._shapeComboBox.FormattingEnabled = true;
             this._shapeComboBox.Items.AddRange(new object[] {
             "線",
@@ -242,6 +239,17 @@ namespace PowerPoint
             this._drawSplitContainer.SplitterDistance = 354;
             this._drawSplitContainer.TabIndex = 0;
             // 
+            // _canvas
+            // 
+            this._canvas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._canvas.BackColor = System.Drawing.SystemColors.Window;
+            this._canvas.Location = new System.Drawing.Point(10, 0);
+            this._canvas.Margin = new System.Windows.Forms.Padding(0);
+            this._canvas.Name = "_canvas";
+            this._canvas.Size = new System.Drawing.Size(334, 188);
+            this._canvas.TabIndex = 0;
+            // 
             // _toolBar
             // 
             this._toolBar.GripMargin = new System.Windows.Forms.Padding(0);
@@ -258,17 +266,6 @@ namespace PowerPoint
             this._toolBar.Size = new System.Drawing.Size(800, 38);
             this._toolBar.TabIndex = 7;
             this._toolBar.Text = "toolStrip1";
-            // 
-            // _canvas
-            // 
-            this._canvas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this._canvas.BackColor = System.Drawing.SystemColors.Window;
-            this._canvas.Location = new System.Drawing.Point(10, 0);
-            this._canvas.Margin = new System.Windows.Forms.Padding(0);
-            this._canvas.Name = "_canvas";
-            this._canvas.Size = new System.Drawing.Size(334, 188);
-            this._canvas.TabIndex = 0;
             // 
             // _lineToolButton
             // 
@@ -343,7 +340,7 @@ namespace PowerPoint
             this.KeyPreview = true;
             this.MainMenuStrip = this._functionMenu;
             this.Name = "Form1";
-            this.Text = "HW2";
+            this.Text = "PowerPoint";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this._functionMenu.ResumeLayout(false);
             this._functionMenu.PerformLayout();

@@ -18,3 +18,15 @@ D:\github\PowerPoint\PowerPointTests\obj\Debug\PowerPointTests.csproj.CoreCompil
 D:\github\PowerPoint\PowerPointTests\obj\Debug\PowerPointTests.csproj.CopyComplete
 D:\github\PowerPoint\PowerPointTests\obj\Debug\PowerPointTests.dll
 D:\github\PowerPoint\PowerPointTests\obj\Debug\PowerPointTests.pdb
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Appium.Net.dll
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Castle.Core.dll
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Newtonsoft.Json.dll
+D:\github\PowerPoint\PowerPointTests\bin\Debug\SeleniumExtras.PageObjects.dll
+D:\github\PowerPoint\PowerPointTests\bin\Debug\System.Drawing.Common.dll
+D:\github\PowerPoint\PowerPointTests\bin\Debug\WebDriver.dll
+D:\github\PowerPoint\PowerPointTests\bin\Debug\WebDriver.Support.dll
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Appium.Net.xml
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Castle.Core.xml
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Newtonsoft.Json.xml
+D:\github\PowerPoint\PowerPointTests\bin\Debug\WebDriver.xml
+D:\github\PowerPoint\PowerPointTests\bin\Debug\WebDriver.Support.xml
