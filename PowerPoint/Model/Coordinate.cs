@@ -58,17 +58,17 @@ namespace PowerPoint
         //重載ToString()，將座標轉為字串
         public override string ToString()
         {
-            return string.Format(TO_STRING_FORMAT, Math.Floor(_left), Math.Floor(_top), Math.Floor(_right), Math.Floor(_bottom));
+            return string.Format(TO_STRING_FORMAT, Math.Ceiling(_left), Math.Ceiling(_top), Math.Ceiling(_right), Math.Ceiling(_bottom));
         }
 
         //克隆座標
-        public Coordinate Clone()
+        public Coordinate Clone(double ratio = 1)
         {
             Coordinate coordinateCopy = new Coordinate();
-            coordinateCopy._left = _left;
-            coordinateCopy._right = _right;
-            coordinateCopy._top = _top;
-            coordinateCopy._bottom = _bottom;
+            coordinateCopy._left = _left * ratio;
+            coordinateCopy._right = _right * ratio;
+            coordinateCopy._top = _top * ratio;
+            coordinateCopy._bottom = _bottom * ratio;
 
             return coordinateCopy;
         }

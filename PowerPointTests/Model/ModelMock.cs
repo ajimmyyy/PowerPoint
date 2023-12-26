@@ -21,7 +21,7 @@ namespace PowerPoint
         int _setToolCount = 0;
 
         //當DataGridView新增按鈕被按下的處理
-        public override void AddButtonClickEvent(string shapeType)
+        public override void AddButtonClickEvent(string shapeType, double ratio)
         {
             _addButtonCount++;
         }

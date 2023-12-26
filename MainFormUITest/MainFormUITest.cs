@@ -27,23 +27,54 @@ namespace MainFormUITest
         }
 
         [TestMethod]
-        [DataRow("線", 10, 10, 100, 100)]
-        [DataRow("矩形", 100, 100, 200, 200)]
-        [DataRow("圓形", 200, 200, 300, 300)]
+        [DataRow("線", 230, 230, 150, 150)]
+        [DataRow("矩形", 300, 300, 200, 200)]
+        [DataRow("圓形", 300, 300, 300, 300)]
         public void DrawShapeTest(string shapeType, int pointX, int pointY, int offsetX, int offsetY)
         {
             string[] expected = new string[] {
+                "刪除",
                 shapeType,
-                string.Format("(({0}, {1}), ({2}, {3}))", pointX, pointY, pointX + offsetX, pointY + offsetY)
+                string.Format("(({0}, {1}), ({2}, {3}))", pointX - 1, pointY - 1, pointX + offsetX - 1, pointY + offsetY - 1)
             };
 
-            RunScriptDrawShape(shapeType, pointX, pointY, offsetX, offsetY);
-            _robot.AssertDataGridViewRowDataBy("_shapeDataGridView", 1, expected);
+            _robot.ClickButton(shapeType);
+            RunScriptDrawShape(pointX, pointY, offsetX, offsetY);
+            _robot.AssertDataGridViewRowDataBy("_shapeDataGridView", 0, expected);
         }
 
-        private void RunScriptDrawShape(string shapeType, int pointX, int pointY, int offsetX, int offsetY)
+        [TestMethod]
+        public void UndoRedoTest()
         {
-            _robot.ClickButton(shapeType);
+            string[] expected = new string[] {
+                "刪除",
+                "線",
+                string.Format("(({0}, {1}), ({2}, {3}))", 299, 299, 499, 499)
+            };
+
+            _robot.ClickButton("線");
+            RunScriptDrawShape(300, 300, 200, 200);
+            _robot.ClickButton("復原");
+            _robot.ClickButton("重做");
+            _robot.AssertDataGridViewRowDataBy("_shapeDataGridView", 0, expected);
+        }
+
+        [TestMethod]
+        public void DataGridViewTest()
+        {
+            _robot.MouseDown("_shapeComboBox", 1, 1);
+            _robot.ClickButton("新增");
+        }
+
+
+        private void RunScriptDrawShape(int pointX, int pointY, int offsetX, int offsetY)
+        {
+            _robot.MouseDown("_canvas", pointX, pointY);
+            _robot.MouseUp(offsetX, offsetY);
+        }
+
+        private void RunScaleShape(int pointX, int pointY, int offsetX, int offsetY)
+        {
             _robot.MouseDown("_canvas", pointX, pointY);
             _robot.MouseUp(offsetX, offsetY);
         }

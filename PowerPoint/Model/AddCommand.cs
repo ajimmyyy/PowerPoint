@@ -11,10 +11,10 @@ namespace PowerPoint
         Shape _shape;
         Model _model;
 
-        public AddCommand(Model model, string shapeType)
+        public AddCommand(Model model, string shapeType, double ratio)
         {
             _model = model;
-            _shape = Factory.CreateShape(shapeType);
+            _shape = Factory.CreateShape(shapeType, ratio);
         }
 
         //執行命令

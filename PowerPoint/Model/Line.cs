@@ -10,11 +10,12 @@ namespace PowerPoint
     {
         Coordinate _position = new Coordinate();
 
-        public Line(double left, double top, double right, double bottom)
+        public Line(double left, double top, double right, double bottom, double ratio = 1)
         {
             ShapeName = ModeType.LINE_NAME;
             SetPosition(left, top, right, bottom);
             _selection.SetPosition(_position);
+            _ratio = ratio;
         }
 
         //設定位置
@@ -24,7 +25,7 @@ namespace PowerPoint
                 SetCoordinate(right, bottom, left, top);
             else
                 SetCoordinate(left, top, right, bottom);
-            Info = _position.ToString();
+            SetInfo(_position);
         }
 
         //設定座標(不改變Info)

@@ -60,7 +60,7 @@ namespace PowerPoint
         //DataGridView新增按鈕被按下
         private void AddButtonClick(object sender, EventArgs e)
         {
-            _presentationModel.AddButtonClickHandler(_shapeComboBox.Text);
+            _presentationModel.AddButtonClickHandler(_shapeComboBox.Text, _canvas.Width);
         }
 
         //DataGridView刪除按鈕被按下
@@ -131,6 +131,7 @@ namespace PowerPoint
             _slideButton.Height = _presentationModel.ResizeWindow(_slideButton.Width);
             _canvas.Height = _presentationModel.ResizeWindow(_canvas.Width);
             _drawSplitContainer.Panel1.Padding = new Padding(WINDOW_PADDING, _presentationModel.RepositionWindow(_drawSplitContainer.Height, _canvas.Height), WINDOW_PADDING, 0);
+            _presentationModel.ResizeWindowHandler(_canvas.Width);
             _canvas.Invalidate(true);
         }
 

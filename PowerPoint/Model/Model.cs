@@ -21,11 +21,11 @@ namespace PowerPoint
         private CommandManager _commandManager = new CommandManager();
 
         //當DataGridView新增按鈕被按下的處理
-        public virtual void AddButtonClickEvent(string shapeType)
+        public virtual void AddButtonClickEvent(string shapeType, double ratio)
         {
             if (shapeType != "")
             {
-                LogCommand(new AddCommand(this, shapeType));
+                LogCommand(new AddCommand(this, shapeType, ratio));
                 NotifyModelChanged();
             }
         }
@@ -110,7 +110,7 @@ namespace PowerPoint
         }
 
         //改變操作模式
-        public void ChangeState(double pointX, double pointY)
+        public void ChangeState(double pointX, double pointY, double ratio)
         {
             if (_isInScaleArea)
             {
@@ -118,7 +118,7 @@ namespace PowerPoint
             }
             else if (_toolModePressed != ModeType.SELECT_NAME)
             {
-                _hint = Factory.CreateShape(_toolModePressed);
+                _hint = Factory.CreateShape(_toolModePressed, ratio);
                 _state = new DrawingState(_hint, this);
             }
             else
@@ -161,6 +161,11 @@ namespace PowerPoint
 
             if (_isPressed && _hint != null)
                 _hint.Draw(graphics);                
+        }
+
+        public void ResizeWindow(double ratio)
+        {
+            _shapes.ChangeRatio(ratio);
         }
 
         //通知模型改變

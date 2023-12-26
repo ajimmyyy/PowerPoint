@@ -16,7 +16,7 @@ namespace PowerPoint
         public delegate void CursorChangedEventHandler();
         const double WINDOW_RATIO = 9.0 / 16.0;
         const double HALF = 0.5;
-        const double DRAW_WINDOW_WIDTH = 832;
+        const double DRAW_WINDOW_WIDTH = 1920;
         private bool _isLinePressed;
         private bool _isRectanglePressed;
         private bool _isCirclePressed;
@@ -130,9 +130,9 @@ namespace PowerPoint
         }
 
         //當DataGridView新增按鈕被按下
-        public void AddButtonClickHandler(string shapeType)
+        public void AddButtonClickHandler(string shapeType, int drawWidth)
         {
-            _model.AddButtonClickEvent(shapeType);
+            _model.AddButtonClickEvent(shapeType, drawWidth / DRAW_WINDOW_WIDTH);
             ToolButtonEnabledCheck();
         }
 
@@ -151,7 +151,7 @@ namespace PowerPoint
                 double drawPointX = pointX * (DRAW_WINDOW_WIDTH / drawWidth);
                 double drawPointY = pointY * (DRAW_WINDOW_WIDTH / drawWidth);
 
-                _model.ChangeState(drawPointX, drawPointY);
+                _model.ChangeState(drawPointX, drawPointY, drawWidth / DRAW_WINDOW_WIDTH);
                 _model.PressPointer(drawPointX, drawPointY);
             }
         }
@@ -209,6 +209,11 @@ namespace PowerPoint
 
                 ToolButtonEnabledCheck();
             }
+        }
+
+        public void ResizeWindowHandler(int drawWidth)
+        {
+            _model.ResizeWindow(drawWidth / DRAW_WINDOW_WIDTH);
         }
 
         //計算16:9視窗高度

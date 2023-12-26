@@ -38,10 +38,10 @@ namespace PowerPoint.Tests
 
             for (int i = 0; i < testShapeName.Count; i++)
             {
-                _model.AddButtonClickEvent(testShapeName[i]);
+                _model.AddButtonClickEvent(testShapeName[i], 1);
                 Assert.IsTrue(shapes.GetCount() == i + 1);
             }
-            _model.AddButtonClickEvent("");
+            _model.AddButtonClickEvent("", 1);
             Assert.IsTrue(shapes.GetCount() == testShapeName.Count);
         }
 
@@ -54,7 +54,7 @@ namespace PowerPoint.Tests
         {
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
 
-            _model.AddButtonClickEvent(ModeType.LINE_NAME);
+            _model.AddButtonClickEvent(ModeType.LINE_NAME, 1);
             _model.DeleteButtonClickEvent(rowIndex, columnIndex);
 
             Assert.AreEqual(expected, shapes.GetCount());
@@ -175,7 +175,7 @@ namespace PowerPoint.Tests
         {
             _modelPrivate.SetField("_selection", _shape);
             _modelPrivate.SetField("_isInScaleArea", true);
-            _model.ChangeState(0, 0);
+            _model.ChangeState(0, 0, 1);
 
             IState state = _modelPrivate.GetField("_state") as IState;
 
@@ -188,7 +188,7 @@ namespace PowerPoint.Tests
         {
             _modelPrivate.SetField("_selection", _shape);
             _modelPrivate.SetField("_toolModePressed", ModeType.LINE_NAME);
-            _model.ChangeState(0, 0);
+            _model.ChangeState(0, 0, 1);
 
             IState state = _modelPrivate.GetField("_state") as IState;
             Shape hint = _modelPrivate.GetField("_hint") as Shape;
@@ -261,7 +261,7 @@ namespace PowerPoint.Tests
             _modelPrivate.SetField("_selection", _shape);
             _modelPrivate.SetField("_toolModePressed", ModeType.SELECT_NAME);
 
-            _model.ChangeState(INIT_LEFT, INIT_TOP);
+            _model.ChangeState(INIT_LEFT, INIT_TOP, 1);
 
             IState state = _modelPrivate.GetField("_state") as IState;
             Shape selection = _modelPrivate.GetField("_selection") as Shape;
@@ -343,7 +343,7 @@ namespace PowerPoint.Tests
             int expectedRectangle = 0;
             int expectedDot = 8;
             IGraphicsMock graphics = new IGraphicsMock();
-            Shape hint = Factory.CreateShape(ModeType.CIRCLE_NAME);
+            Shape hint = Factory.CreateShape(ModeType.CIRCLE_NAME, 1);
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
 
             _modelPrivate.SetField("_toolModePressed", ModeType.CIRCLE_NAME);

@@ -21,7 +21,7 @@ namespace PowerPoint.Tests
         {
             _model = new Model();
             _modelPrivate = new PrivateObject(_model);
-            _addCommand = new AddCommand(_model, ModeType.LINE_NAME);
+            _addCommand = new AddCommand(_model, ModeType.LINE_NAME, 1);
         }
 
         //測試DrawAddCommand執行命令

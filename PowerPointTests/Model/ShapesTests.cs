@@ -52,7 +52,7 @@ namespace PowerPoint.Tests
         public void AddShapeTest()
         {
             int expected = 1;
-            Shape testShape = Factory.CreateShape(ModeType.LINE_NAME);
+            Shape testShape = Factory.CreateShape(ModeType.LINE_NAME, 1);
             BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
 
             _shapes.AddShape(testShape);
@@ -94,8 +94,8 @@ namespace PowerPoint.Tests
         public void DeleteShapeByShapeTest()
         {
             BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
-            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
-            Shape testCircle = Factory.CreateShape(ModeType.CIRCLE_NAME);
+            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME, 1);
+            Shape testCircle = Factory.CreateShape(ModeType.CIRCLE_NAME, 1);
 
             _shapes.AddShape(testLine);
             _shapes.AddShape(testCircle);
@@ -116,7 +116,7 @@ namespace PowerPoint.Tests
         [DataRow(1, 301, false)]
         public void FindShapeTest(double pointX, double pointY, bool expected)
         {
-            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
+            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME, 1);
             testLine.SetPosition(0, 100, 200, 300);
 
             _shapes.AddShape(testLine);
@@ -128,8 +128,8 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void FindShapeByIndexTest()
         {
-            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
-            Shape testCircle = Factory.CreateShape(ModeType.CIRCLE_NAME);
+            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME, 1);
+            Shape testCircle = Factory.CreateShape(ModeType.CIRCLE_NAME, 1);
 
             Assert.IsNull(_shapes.FindShape(0));
 
@@ -166,7 +166,7 @@ namespace PowerPoint.Tests
         public void CountTest()
         {
             int expected = 1;
-            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
+            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME, 1);
 
             _shapes.AddShape(testLine);
 

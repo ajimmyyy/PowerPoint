@@ -97,7 +97,7 @@ namespace PowerPoint.Tests
             ModelMock modelmock = new ModelMock();
             _presentationModelPrivate.SetField("_model", modelmock);
 
-            _presentationModel.AddButtonClickHandler(ModeType.LINE_NAME);
+            _presentationModel.AddButtonClickHandler(ModeType.LINE_NAME, 1);
 
             Assert.AreEqual(expected, modelmock.AddButtonCount);
         }
