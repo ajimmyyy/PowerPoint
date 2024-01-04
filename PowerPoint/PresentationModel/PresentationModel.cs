@@ -17,6 +17,7 @@ namespace PowerPoint
         const double WINDOW_RATIO = 9.0 / 16.0;
         const double HALF = 0.5;
         const double DRAW_WINDOW_WIDTH = 1920;
+        const int SLIDE_PADDING = 6;
         private bool _isLinePressed;
         private bool _isRectanglePressed;
         private bool _isCirclePressed;
@@ -184,9 +185,27 @@ namespace PowerPoint
             if (keyPress == Keys.Delete)
             {
                 _model.PressDelete();
-
                 ToolButtonEnabledCheck();
             }
+        }
+
+        public object PressKeyboardSlideHandler(Keys keyPress, Control.ControlCollection controls)
+        {
+            if (keyPress == Keys.Delete && controls.Count > 1)
+            {
+                for (int i = 0; i < controls.Count; i++)
+                {
+                    CloneableButton button = (CloneableButton)controls[i];
+
+                    if (button.Checked)
+                    {
+                        _model.DeletePage(i);
+                        return controls[i];
+                    }
+                }
+            }
+
+            return null;
         }
 
         //當復原按鈕被按下
@@ -211,15 +230,39 @@ namespace PowerPoint
             }
         }
 
+        public void SlideButtonClickHandler(Control.ControlCollection controls, CloneableButton clickButton)
+        {
+            bool Checked = !clickButton.Checked;
+            foreach (Control control in controls)
+            {
+                CloneableButton button = (CloneableButton)control;
+                button.Checked = false;
+            }
+            clickButton.Checked = Checked;
+            _model.ChangePage(controls.IndexOf(clickButton));
+        }
+
         public void ResizeWindowHandler(int drawWidth)
         {
             _model.ResizeWindow(drawWidth / DRAW_WINDOW_WIDTH);
         }
 
-        //計算16:9視窗高度
         public int ResizeWindow(int width)
         {
             return (int)(width * WINDOW_RATIO + 1);
+        }
+
+        public void ResizeSlide(Control.ControlCollection controls, int width)
+        {
+            foreach (Control control in controls)
+            {
+                if (control is Button)
+                {
+                    Button button = (Button)control;
+                    button.Width = width - SLIDE_PADDING;
+                    button.Height = ResizeWindow(width - SLIDE_PADDING);
+                }
+            }
         }
 
         //計算視窗置中距離
@@ -258,9 +301,9 @@ namespace PowerPoint
         }
 
         //縮圖區繪圖
-        public void SlideDraw(System.Drawing.Graphics graphics, int slideWidth)
+        public void SlideDraw(System.Drawing.Graphics graphics, int slideWidth, int index)
         {
-            _model.Draw(new SlideFormsGraphicsAdaptor(graphics, slideWidth / DRAW_WINDOW_WIDTH));
+            _model.DrawSlide(new SlideFormsGraphicsAdaptor(graphics, slideWidth / DRAW_WINDOW_WIDTH), index);
         }
 
         //通知tool按鈕屬性改變

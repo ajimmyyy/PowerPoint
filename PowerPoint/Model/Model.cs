@@ -10,15 +10,22 @@ namespace PowerPoint
     public class Model
     {
         public event ModelChangedEventHandler _modelChanged;
-        public delegate void ModelChangedEventHandler();
+        public delegate void ModelChangedEventHandler(int index);
         private string _toolModePressed = ModeType.SELECT_NAME;
         private bool _isPressed = false;
         private bool _isInScaleArea = false;
         private Shape _hint;
         private Shape _selection;
-        private Shapes _shapes = new Shapes();
+        private Pages _pages = new Pages();
+        private Shapes _shapes;
         private IState _state;
         private CommandManager _commandManager = new CommandManager();
+
+        public Model()
+        {
+            _shapes = Factory.CreateShapes();
+            _pages.AddPage(_shapes);
+        }
 
         //當DataGridView新增按鈕被按下的處理
         public virtual void AddButtonClickEvent(string shapeType, double ratio)
@@ -83,6 +90,23 @@ namespace PowerPoint
                 _selection = null;
                 NotifyModelChanged();
             }
+        }
+
+        public void ClickNewPage()
+        {
+            _pages.AddPage(Factory.CreateShapes());
+        }
+
+        public void DeletePage(int index)
+        {
+            _pages.DeletePage(index);
+            ChangePage(index - 1);
+        }
+
+        public void ChangePage(int index)
+        {
+            _shapes = _pages.GetPage(index);
+            NotifyModelChanged();
         }
 
         //紀錄命令
@@ -163,6 +187,15 @@ namespace PowerPoint
                 _hint.Draw(graphics);                
         }
 
+        public virtual void DrawSlide(IGraphics graphics, int index)
+        {
+            graphics.ClearAll();
+            _pages.GetPage(index).Draw(graphics);
+
+            if (_isPressed && _hint != null)
+                _hint.Draw(graphics);
+        }
+
         public void ResizeWindow(double ratio)
         {
             _shapes.ChangeRatio(ratio);
@@ -172,7 +205,7 @@ namespace PowerPoint
         void NotifyModelChanged()
         {
             if (_modelChanged != null)
-                _modelChanged();
+                _modelChanged(_pages.GetPageIndex(_shapes));
         }
 
         //設定繪圖模式

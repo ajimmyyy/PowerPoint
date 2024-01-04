@@ -27,5 +27,10 @@ namespace PowerPoint
                     return null;
             }
         }
+
+        public static Shapes CreateShapes()
+        {
+            return new Shapes();
+        } 
     }
 }

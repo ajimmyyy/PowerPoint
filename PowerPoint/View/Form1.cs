@@ -34,10 +34,11 @@ namespace PowerPoint
             _canvas.MouseUp += ReleasedCanvas;
             _canvas.MouseMove += CanvasMoved;
             _canvas.Paint += CanvasPaint;
-            _canvas.KeyDown += PressKeyboardKey;
             _slideButton.Paint += SlidePaint;
+            _slideButton.Click += SlideClick;
+            _slideButton.MouseEnter += EnterSlideMouse;
+            _slideButton.MouseLeave += LeaveSlideMouse;
 
-            this.KeyDown += PressKeyboardKey;
             _shapeDataGridView.CellClick += new DataGridViewCellEventHandler(DeleteCellClick);
 
             this.Resize += ResizeWindow;
@@ -80,12 +81,14 @@ namespace PowerPoint
         private void EnterFromMouse(object sender, EventArgs e)
         {
             _presentationModel.UpdateCursor();
+            this.KeyDown += PressKeyboardKey;
         }
 
         //滑鼠離開繪圖區
         private void LeaveFromMouse(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
+            this.KeyDown -= PressKeyboardKey;
         }
 
         //滑鼠被按下
@@ -107,10 +110,28 @@ namespace PowerPoint
             _presentationModel.UpdateCursor();
         }
 
-        //鍵盤按下
+        //在繪圖區內鍵盤按下
         private void PressKeyboardKey(object sender, KeyEventArgs e)
         {
             _presentationModel.PressKeyboardHandler(e.KeyCode);
+        }
+
+        //滑鼠進入縮圖區
+        private void EnterSlideMouse(object sender, EventArgs e)
+        {
+            this.KeyDown += PressKeyboardKeySlide;
+        }
+
+        //滑鼠離開縮圖區
+        private void LeaveSlideMouse(object sender, EventArgs e)
+        {
+            this.KeyDown -= PressKeyboardKeySlide;
+        }
+
+        private void PressKeyboardKeySlide(object sender, KeyEventArgs e)
+        {
+            object slide = _presentationModel.PressKeyboardSlideHandler(e.KeyCode, _flowLayoutPanel.Controls);
+            _flowLayoutPanel.Controls.Remove((Control)slide);
         }
 
         //復原按鈕被按下
@@ -125,10 +146,22 @@ namespace PowerPoint
             _presentationModel.RedoToolButtonClickHandler();
         }
 
+        private void NewPageButtonClick(object sender, EventArgs e)
+        {
+            CloneableButton newButton = new CloneableButton();
+            newButton.Paint += SlidePaint;
+            newButton.Click += SlideClick;
+            newButton.MouseEnter += EnterSlideMouse;
+            newButton.MouseLeave += LeaveSlideMouse;
+            _flowLayoutPanel.Controls.Add(newButton);
+            _model.ClickNewPage();
+            _presentationModel.ResizeSlide(_flowLayoutPanel.Controls, _flowLayoutPanel.Width);
+        }
+
         //視窗大小重新繪製
         private void ResizeWindow(object sender, EventArgs e)
         {
-            _slideButton.Height = _presentationModel.ResizeWindow(_slideButton.Width);
+            _presentationModel.ResizeSlide(_flowLayoutPanel.Controls, _flowLayoutPanel.Width);
             _canvas.Height = _presentationModel.ResizeWindow(_canvas.Width);
             _drawSplitContainer.Panel1.Padding = new Padding(WINDOW_PADDING, _presentationModel.RepositionWindow(_drawSplitContainer.Height, _canvas.Height), WINDOW_PADDING, 0);
             _presentationModel.ResizeWindowHandler(_canvas.Width);
@@ -144,14 +177,21 @@ namespace PowerPoint
         //縮圖區重繪製
         public void SlidePaint(object sender, PaintEventArgs e)
         {
-            _presentationModel.SlideDraw(e.Graphics, _slideButton.Width);
+            CloneableButton button = sender as CloneableButton;
+            _presentationModel.SlideDraw(e.Graphics, _slideButton.Width, _flowLayoutPanel.Controls.IndexOf(button));
+        }
+
+        public void SlideClick(object sender, EventArgs e)
+        {
+            CloneableButton clickedButton = sender as CloneableButton;
+            _presentationModel.SlideButtonClickHandler(_flowLayoutPanel.Controls, clickedButton);
         }
 
         //模型改變
-        public void ChangeModel()
+        public void ChangeModel(int index)
         {
             _canvas.Invalidate(true);
-            _slideButton.Invalidate(true);
+            _flowLayoutPanel.Controls[index].Invalidate(true);
         }
 
         //屬標改變

@@ -52,11 +52,15 @@
     <Compile Include="Model\DrawCommand.cs" />
     <Compile Include="Model\ICommand.cs" />
     <Compile Include="Model\MoveCommand.cs" />
+    <Compile Include="Model\Pages.cs" />
     <Compile Include="Model\ScaleState.cs" />
     <Compile Include="Model\Selection.cs" />
     <Compile Include="Model\DrawingState.cs" />
     <Compile Include="Model\IState.cs" />
     <Compile Include="Model\PointState.cs" />
+    <Compile Include="View\CloneableButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="View\ToolStripBindableButton.cs">
       <SubType>Component</SubType>
     </Compile>
