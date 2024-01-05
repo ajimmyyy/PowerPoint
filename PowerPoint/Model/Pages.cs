@@ -15,9 +15,9 @@ namespace PowerPoint
             _pages.Add(page);
         }
 
-        public void DeletePage(int index)
+        public void DeletePage(Shapes page)
         {
-            _pages.RemoveAt(index);
+            _pages.Remove(page);
         }
 
         public Shapes GetPage(int index)

@@ -20,6 +20,7 @@ namespace MainFormUITest
         private string _root;
         private const string CONTROL_NOT_FOUND_EXCEPTION = "The specific control is not found!!";
         private const string WIN_APP_DRIVER_URI = "http://127.0.0.1:4723";
+        private const string DATA_GRIDE_VIEW_ROW = "{0} 資料列 {1}";
 
         // constructor
         public Robot(string targetAppPath, string root)
@@ -137,7 +138,7 @@ namespace MainFormUITest
         public void ClickDataGridViewCellBy(string name, int rowIndex, string columnName)
         {
             var dataGridView = _driver.FindElementByAccessibilityId(name);
-            _driver.FindElementByName($"{columnName} 資料列 {rowIndex}").Click();
+            _driver.FindElementByName(string.Format(DATA_GRIDE_VIEW_ROW, rowIndex, columnName)).Click();
         }
 
         // test

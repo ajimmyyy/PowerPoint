@@ -54,14 +54,17 @@ namespace PowerPoint
             _selectToolButton.DataBindings.Add(TOOL_BUTTON_CHECK, _presentationModel, TOOL_BUTTON_SELECT);
             _undoToolButton.DataBindings.Add(TOOL_BUTTON_ENABLE, _presentationModel, TOOL_BUTTON_UNDO);
             _redoToolButton.DataBindings.Add(TOOL_BUTTON_ENABLE, _presentationModel, TOOL_BUTTON_REDO);
+
             _model._modelChanged += ChangeModel;
-            _presentationModel._cursorChanged += ChangeCursor;
+            _model._pageAdd += AddPage;
+            _model._pageDelete += DeletePage;
         }
 
         //DataGridView新增按鈕被按下
         private void AddButtonClick(object sender, EventArgs e)
         {
-            _presentationModel.AddButtonClickHandler(_shapeComboBox.Text, _canvas.Width);
+            
+            _presentationModel.AddButtonClickHandler(_shapeComboBox.Text);
         }
 
         //DataGridView刪除按鈕被按下
@@ -80,7 +83,6 @@ namespace PowerPoint
         //滑鼠進入繪圖區
         private void EnterFromMouse(object sender, EventArgs e)
         {
-            _presentationModel.UpdateCursor();
             this.KeyDown += PressKeyboardKey;
         }
 
@@ -101,13 +103,13 @@ namespace PowerPoint
         public void CanvasMoved(object sender, MouseEventArgs e)
         {
             _presentationModel.CanvasMoveHandler(e.X, e.Y, _canvas.Width);
+            Cursor = _presentationModel.UpdateCursor();
         }
 
         //滑鼠釋放
         public void ReleasedCanvas(object sender, MouseEventArgs e)
         {
             _presentationModel.CanvasReleasedHandler(e.X, e.Y);
-            _presentationModel.UpdateCursor();
         }
 
         //在繪圖區內鍵盤按下
@@ -128,12 +130,6 @@ namespace PowerPoint
             this.KeyDown -= PressKeyboardKeySlide;
         }
 
-        private void PressKeyboardKeySlide(object sender, KeyEventArgs e)
-        {
-            object slide = _presentationModel.PressKeyboardSlideHandler(e.KeyCode, _flowLayoutPanel.Controls);
-            _flowLayoutPanel.Controls.Remove((Control)slide);
-        }
-
         //復原按鈕被按下
         private void UndoToolButtonClick(object sender, EventArgs e)
         {
@@ -146,16 +142,21 @@ namespace PowerPoint
             _presentationModel.RedoToolButtonClickHandler();
         }
 
-        private void NewPageButtonClick(object sender, EventArgs e)
+        public void SlideClick(object sender, EventArgs e)
         {
-            CloneableButton newButton = new CloneableButton();
-            newButton.Paint += SlidePaint;
-            newButton.Click += SlideClick;
-            newButton.MouseEnter += EnterSlideMouse;
-            newButton.MouseLeave += LeaveSlideMouse;
-            _flowLayoutPanel.Controls.Add(newButton);
-            _model.ClickNewPage();
-            _presentationModel.ResizeSlide(_flowLayoutPanel.Controls, _flowLayoutPanel.Width);
+            SlideButton clickedButton = sender as SlideButton;
+            _presentationModel.ClickSlideButtonHandler(_flowLayoutPanel.Controls, clickedButton);
+            _shapeDataGridView.DataSource = _model.ShapeList;
+        }
+
+        private void ClickNewPageButton(object sender, EventArgs e)
+        {
+            _presentationModel.ClickNewPageButtonHandler();
+        }
+
+        private void PressKeyboardKeySlide(object sender, KeyEventArgs e)
+        {
+            _presentationModel.PressKeyboardSlideHandler(e.KeyCode, _flowLayoutPanel.Controls);
         }
 
         //視窗大小重新繪製
@@ -164,7 +165,6 @@ namespace PowerPoint
             _presentationModel.ResizeSlide(_flowLayoutPanel.Controls, _flowLayoutPanel.Width);
             _canvas.Height = _presentationModel.ResizeWindow(_canvas.Width);
             _drawSplitContainer.Panel1.Padding = new Padding(WINDOW_PADDING, _presentationModel.RepositionWindow(_drawSplitContainer.Height, _canvas.Height), WINDOW_PADDING, 0);
-            _presentationModel.ResizeWindowHandler(_canvas.Width);
             _canvas.Invalidate(true);
         }
 
@@ -177,14 +177,24 @@ namespace PowerPoint
         //縮圖區重繪製
         public void SlidePaint(object sender, PaintEventArgs e)
         {
-            CloneableButton button = sender as CloneableButton;
+            SlideButton button = sender as SlideButton;
             _presentationModel.SlideDraw(e.Graphics, _slideButton.Width, _flowLayoutPanel.Controls.IndexOf(button));
         }
 
-        public void SlideClick(object sender, EventArgs e)
+        public void AddPage()
         {
-            CloneableButton clickedButton = sender as CloneableButton;
-            _presentationModel.SlideButtonClickHandler(_flowLayoutPanel.Controls, clickedButton);
+            SlideButton newButton = new SlideButton();
+            newButton.Paint += SlidePaint;
+            newButton.Click += SlideClick;
+            newButton.MouseEnter += EnterSlideMouse;
+            newButton.MouseLeave += LeaveSlideMouse;
+            _flowLayoutPanel.Controls.Add(newButton);
+            _presentationModel.ResizeSlide(_flowLayoutPanel.Controls, _flowLayoutPanel.Width);
+        }
+
+        public void DeletePage(int index)
+        {
+            _flowLayoutPanel.Controls.RemoveAt(index);
         }
 
         //模型改變
@@ -192,12 +202,6 @@ namespace PowerPoint
         {
             _canvas.Invalidate(true);
             _flowLayoutPanel.Controls[index].Invalidate(true);
-        }
-
-        //屬標改變
-        public void ChangeCursor()
-        {
-            Cursor = _presentationModel.CursorNow;
         }
     }
 }

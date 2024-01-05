@@ -10,19 +10,18 @@ namespace PowerPoint
     {
         Coordinate _position = new Coordinate();
 
-        public Circle(double left, double top, double right, double bottom, double ratio = 1)
+        public Circle(double left, double top, double right, double bottom)
         {
             ShapeName = ModeType.CIRCLE_NAME;
             SetPosition(left, top, right, bottom);
             _selection.SetPosition(_position);
-            _ratio = ratio;
         }
 
         //設定位置
         public override void SetPosition(double left, double top, double right, double bottom)
         {
             SetCoordinate(left, top, right, bottom);
-            SetInfo(_position);
+            Info = _position.ToString();
         }
 
         //設定座標(不改變Info)

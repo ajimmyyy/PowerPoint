@@ -41,7 +41,7 @@ namespace PowerPoint
             this._shapeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._infoColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._windowSplitContainer = new System.Windows.Forms.SplitContainer();
-            this._slideButton = new PowerPoint.CloneableButton();
+            this._slideButton = new PowerPoint.SlideButton();
             this._drawSplitContainer = new System.Windows.Forms.SplitContainer();
             this._canvas = new PowerPoint.DoubleBufferedPanel();
             this._toolBar = new System.Windows.Forms.ToolStrip();
@@ -320,7 +320,7 @@ namespace PowerPoint
             this._pageToolButton.Name = "_pageToolButton";
             this._pageToolButton.Size = new System.Drawing.Size(34, 33);
             this._pageToolButton.Text = "toolStripButton1";
-            this._pageToolButton.Click += new System.EventHandler(this.NewPageButtonClick);
+            this._pageToolButton.Click += new System.EventHandler(this.ClickNewPageButton);
             // 
             // _undoToolButton
             // 
@@ -403,7 +403,7 @@ namespace PowerPoint
         private System.ComponentModel.BackgroundWorker _backgroundWorker;
         private DoubleBufferedPanel _canvas;
         private System.Windows.Forms.SplitContainer _windowSplitContainer;
-        private CloneableButton _slideButton;
+        private SlideButton _slideButton;
         private System.Windows.Forms.DataGridViewButtonColumn _deleteColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn _shapeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn _infoColumn;

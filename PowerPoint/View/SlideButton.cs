@@ -7,11 +7,11 @@ using System.Windows.Forms;
 
 namespace PowerPoint
 {
-    public class CloneableButton : Button, ICloneable
+    public class SlideButton : Button, ICloneable
     {
         private bool _isChecked = false;
 
-        public CloneableButton()
+        public SlideButton()
         {
             this.BackColor = System.Drawing.SystemColors.Window;
             this.FlatAppearance.BorderSize = 1;
@@ -22,7 +22,7 @@ namespace PowerPoint
 
         public object Clone()
         {
-            CloneableButton clonedButton = new CloneableButton();
+            SlideButton clonedButton = new SlideButton();
             clonedButton.Text = this.Text;
             clonedButton.Size = this.Size;
             clonedButton.BackColor = this.BackColor;

@@ -12,9 +12,8 @@ namespace PowerPoint
         public event PropertyChangedEventHandler PropertyChanged;
         const string INFO = "Info";
         const string SHAPE_NAME = "ShapeName";
-        Coordinate _info;
+        string _info;
         string _shapeName;
-        protected double _ratio = 1;
         protected bool _isSelect = false;
         protected Selection _selection = new Selection();
 
@@ -23,7 +22,12 @@ namespace PowerPoint
         {
             get
             {
-                return _info.Clone(_ratio).ToString();
+                return _info;
+            }
+            set
+            {
+                _info = value;
+                NotifyPropertyChanged(INFO);
             }
         }
 
@@ -69,18 +73,6 @@ namespace PowerPoint
         public void SetSelect(bool value)
         {
             _isSelect = value;
-        }
-
-        public void SetInfo(Coordinate value)
-        {
-            _info = value;
-            NotifyPropertyChanged(INFO);
-        }
-
-        public void SetRatio(double ratio)
-        {
-            _ratio = ratio;
-            NotifyPropertyChanged(INFO);
         }
 
         //通知資料改變

@@ -185,13 +185,1010 @@
     <div class="data">
       <Data id="ReviewPalData">
         <CodeReview xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-          <Reviews />
+          <Reviews>
+            <Smell>
+              <Id>1</Id>
+              <SmellType>A syntax error has been discovered in file D:\github\PowerPoint\MainFormUITest\Robot.cs on line 162.</SmellType>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>MainFormUITest</Project>
+              <File>Robot.cs</File>
+              <Line>162</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>2</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 UpdateAppearance 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.SlideButton.cs.Unresolved warnings(忽視警告)-函式 UpdateAppearance 缺乏註解.37</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>SlideButton.cs</File>
+              <Line>37</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>3</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 SlideClick 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Form1.cs.Unresolved warnings(忽視警告)-函式 SlideClick 缺乏註解.145</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Form1.cs</File>
+              <Line>145</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>4</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 ResizeWindow 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.PresentationModel.cs.Unresolved warnings(忽視警告)-函式 ResizeWindow 缺乏註解.251</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>PresentationModel.cs</File>
+              <Line>251</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>5</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 ResizeSlide 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.PresentationModel.cs.Unresolved warnings(忽視警告)-函式 ResizeSlide 缺乏註解.256</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>PresentationModel.cs</File>
+              <Line>256</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>6</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 PressKeyboardSlideHandler 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.PresentationModel.cs.Unresolved warnings(忽視警告)-函式 PressKeyboardSlideHandler 缺乏註解.194</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>PresentationModel.cs</File>
+              <Line>194</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>7</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 PressKeyboardKeySlide 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Form1.cs.Unresolved warnings(忽視警告)-函式 PressKeyboardKeySlide 缺乏註解.157</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Form1.cs</File>
+              <Line>157</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>8</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 NotifyPageDelete 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Model.cs.Unresolved warnings(忽視警告)-函式 NotifyPageDelete 缺乏註解.238</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>238</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>9</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 NotifyPageAdd 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Model.cs.Unresolved warnings(忽視警告)-函式 NotifyPageAdd 缺乏註解.230</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>230</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>10</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 IsValidNumber 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.DialogPresentationModel.cs.Unresolved warnings(忽視警告)-函式 IsValidNumber 缺乏註解.11</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>DialogPresentationModel.cs</File>
+              <Line>11</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>11</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 GetPageIndex 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Pages.cs.Unresolved warnings(忽視警告)-函式 GetPageIndex 缺乏註解.28</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Pages.cs</File>
+              <Line>28</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>12</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 GetPage 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Pages.cs.Unresolved warnings(忽視警告)-函式 GetPage 缺乏註解.23</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Pages.cs</File>
+              <Line>23</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>13</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 GetCoordinate 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.CoordinateDialog.cs.Unresolved warnings(忽視警告)-函式 GetCoordinate 缺乏註解.58</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>CoordinateDialog.cs</File>
+              <Line>58</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>14</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 DrawSlide 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Model.cs.Unresolved warnings(忽視警告)-函式 DrawSlide 缺乏註解.214</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>214</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>15</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 DeletePage 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Model.cs.Unresolved warnings(忽視警告)-函式 DeletePage 缺乏註解.150</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>150</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>16</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 DeletePage 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Pages.cs.Unresolved warnings(忽視警告)-函式 DeletePage 缺乏註解.18</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Pages.cs</File>
+              <Line>18</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>17</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 DeletePage 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Form1.cs.Unresolved warnings(忽視警告)-函式 DeletePage 缺乏註解.195</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Form1.cs</File>
+              <Line>195</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>18</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 CreateShapes 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Factory.cs.Unresolved warnings(忽視警告)-函式 CreateShapes 缺乏註解.33</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Factory.cs</File>
+              <Line>33</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>19</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 Clone 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.SlideButton.cs.Unresolved warnings(忽視警告)-函式 Clone 缺乏註解.23</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>SlideButton.cs</File>
+              <Line>23</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>20</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 ClickSlideButtonHandler 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.PresentationModel.cs.Unresolved warnings(忽視警告)-函式 ClickSlideButtonHandler 缺乏註解.233</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>PresentationModel.cs</File>
+              <Line>233</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>21</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 ClickOkButton 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.CoordinateDialog.cs.Unresolved warnings(忽視警告)-函式 ClickOkButton 缺乏註解.29</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>CoordinateDialog.cs</File>
+              <Line>29</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>22</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 ClickNewPageButtonHandler 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.PresentationModel.cs.Unresolved warnings(忽視警告)-函式 ClickNewPageButtonHandler 缺乏註解.188</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>PresentationModel.cs</File>
+              <Line>188</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>23</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 ClickNewPageButton 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Form1.cs.Unresolved warnings(忽視警告)-函式 ClickNewPageButton 缺乏註解.152</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Form1.cs</File>
+              <Line>152</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>24</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 ClickNewPage 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Model.cs.Unresolved warnings(忽視警告)-函式 ClickNewPage 缺乏註解.96</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>96</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>25</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 ClickDeletePage 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Model.cs.Unresolved warnings(忽視警告)-函式 ClickDeletePage 缺乏註解.101</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>101</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>26</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 ClickCancelButton 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.CoordinateDialog.cs.Unresolved warnings(忽視警告)-函式 ClickCancelButton 缺乏註解.35</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>CoordinateDialog.cs</File>
+              <Line>35</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>27</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 CheckTextBoxChange 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.CoordinateDialog.cs.Unresolved warnings(忽視警告)-函式 CheckTextBoxChange 缺乏註解.41</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>CoordinateDialog.cs</File>
+              <Line>41</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>28</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 ChangePage 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Model.cs.Unresolved warnings(忽視警告)-函式 ChangePage 缺乏註解.110</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>110</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>29</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 AddPage 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Model.cs.Unresolved warnings(忽視警告)-函式 AddPage 缺乏註解.143</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>143</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>30</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 AddPage 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Pages.cs.Unresolved warnings(忽視警告)-函式 AddPage 缺乏註解.13</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Pages.cs</File>
+              <Line>13</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>31</Id>
+              <SmellType>Unresolved warnings(忽視警告)-函式 AddPage 缺乏註解</SmellType>
+              <HashCode>PowerPoint\PowerPoint.Form1.cs.Unresolved warnings(忽視警告)-函式 AddPage 缺乏註解.184</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>Form1.cs</File>
+              <Line>184</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>32</Id>
+              <SmellType>Unresolved warnings(忽視警告)-事件 'PresentationModel._cursorChanged' 從未使用過</SmellType>
+              <HashCode>PowerPoint\PowerPoint.PresentationModel.cs.Unresolved warnings(忽視警告)-事件 'PresentationModel._cursorChanged' 從未使用過.15</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint\PowerPoint</Project>
+              <File>PresentationModel.cs</File>
+              <Line>15</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment />
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>33</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>188 PowerPoint.PresentationModel.ClickNewPageButtonHandler()</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>PresentationModel.cs</File>
+              <Line>188</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.PresentationModel.ClickNewPageButtonHandler()</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>34</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>194 PowerPoint.PresentationModel.PressKeyboardSlideHandler(System.Windows.Forms.Keys, System.Windows.Forms.Control.ControlCollection)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>PresentationModel.cs</File>
+              <Line>194</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.PresentationModel.PressKeyboardSlideHandler(System.Windows.Forms.Keys, System.Windows.Forms.Control.ControlCollection)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>35</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>233 PowerPoint.PresentationModel.ClickSlideButtonHandler(System.Windows.Forms.Control.ControlCollection, PowerPoint.SlideButton)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>PresentationModel.cs</File>
+              <Line>233</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.PresentationModel.ClickSlideButtonHandler(System.Windows.Forms.Control.ControlCollection, PowerPoint.SlideButton)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>36</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>251 PowerPoint.PresentationModel.ResizeWindow(int)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>PresentationModel.cs</File>
+              <Line>251</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.PresentationModel.ResizeWindow(int)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>37</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>256 PowerPoint.PresentationModel.ResizeSlide(System.Windows.Forms.Control.ControlCollection, int)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>PresentationModel.cs</File>
+              <Line>256</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.PresentationModel.ResizeSlide(System.Windows.Forms.Control.ControlCollection, int)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>38</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>33 PowerPoint.Factory.CreateShapes()</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Factory.cs</File>
+              <Line>33</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Factory.CreateShapes()</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>39</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>13 PowerPoint.Pages.AddPage(PowerPoint.Shapes)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Pages.cs</File>
+              <Line>13</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Pages.AddPage(PowerPoint.Shapes)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>40</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>18 PowerPoint.Pages.DeletePage(PowerPoint.Shapes)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Pages.cs</File>
+              <Line>18</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Pages.DeletePage(PowerPoint.Shapes)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>41</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>23 PowerPoint.Pages.GetPage(int)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Pages.cs</File>
+              <Line>23</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Pages.GetPage(int)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>42</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>28 PowerPoint.Pages.GetPageIndex(PowerPoint.Shapes)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Pages.cs</File>
+              <Line>28</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Pages.GetPageIndex(PowerPoint.Shapes)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>43</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>96 PowerPoint.Model.ClickNewPage()</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>96</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Model.ClickNewPage()</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>44</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>101 PowerPoint.Model.ClickDeletePage(int)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>101</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Model.ClickDeletePage(int)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>45</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>110 PowerPoint.Model.ChangePage(int)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>110</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Model.ChangePage(int)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>46</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>143 PowerPoint.Model.AddPage(PowerPoint.Shapes)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>143</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Model.AddPage(PowerPoint.Shapes)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>47</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>150 PowerPoint.Model.DeletePage(PowerPoint.Shapes)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>150</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Model.DeletePage(PowerPoint.Shapes)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>48</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>214 PowerPoint.Model.DrawSlide(PowerPoint.IGraphics, int)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>214</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Model.DrawSlide(PowerPoint.IGraphics, int)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>49</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>230 PowerPoint.Model.NotifyPageAdd()</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>230</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Model.NotifyPageAdd()</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>50</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>238 PowerPoint.Model.NotifyPageDelete(int)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Model.cs</File>
+              <Line>238</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Model.NotifyPageDelete(int)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>51</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>29 PowerPoint.CoordinateDialog.ClickOkButton(object, System.EventArgs)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>CoordinateDialog.cs</File>
+              <Line>29</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.CoordinateDialog.ClickOkButton(object, System.EventArgs)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>52</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>35 PowerPoint.CoordinateDialog.ClickCancelButton(object, System.EventArgs)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>CoordinateDialog.cs</File>
+              <Line>35</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.CoordinateDialog.ClickCancelButton(object, System.EventArgs)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>53</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>41 PowerPoint.CoordinateDialog.CheckTextBoxChange(object, System.EventArgs)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>CoordinateDialog.cs</File>
+              <Line>41</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.CoordinateDialog.CheckTextBoxChange(object, System.EventArgs)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>54</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>58 PowerPoint.CoordinateDialog.GetCoordinate()</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>CoordinateDialog.cs</File>
+              <Line>58</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.CoordinateDialog.GetCoordinate()</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>55</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>145 PowerPoint.Form1.SlideClick(object, System.EventArgs)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Form1.cs</File>
+              <Line>145</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Form1.SlideClick(object, System.EventArgs)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>56</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>152 PowerPoint.Form1.ClickNewPageButton(object, System.EventArgs)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Form1.cs</File>
+              <Line>152</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Form1.ClickNewPageButton(object, System.EventArgs)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>57</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>157 PowerPoint.Form1.PressKeyboardKeySlide(object, System.Windows.Forms.KeyEventArgs)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Form1.cs</File>
+              <Line>157</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Form1.PressKeyboardKeySlide(object, System.Windows.Forms.KeyEventArgs)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>58</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>184 PowerPoint.Form1.AddPage()</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Form1.cs</File>
+              <Line>184</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Form1.AddPage()</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>59</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>195 PowerPoint.Form1.DeletePage(int)</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>Form1.cs</File>
+              <Line>195</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.Form1.DeletePage(int)</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>60</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>11 PowerPoint.DialogPresentationModel.IsValidNumber(string[], int[])</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>DialogPresentationModel.cs</File>
+              <Line>11</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.DialogPresentationModel.IsValidNumber(string[], int[])</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>61</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>23 PowerPoint.SlideButton.Clone()</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>SlideButton.cs</File>
+              <Line>23</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.SlideButton.Clone()</Comment>
+              <Auto>false</Auto>
+            </Smell>
+            <Smell>
+              <Id>62</Id>
+              <SmellType>Lack of comments(缺乏註解)</SmellType>
+              <HashCode>37 PowerPoint.SlideButton.UpdateAppearance()</HashCode>
+              <Severity>Red</Severity>
+              <Weight>1</Weight>
+              <Project>PowerPoint</Project>
+              <File>SlideButton.cs</File>
+              <Line>37</Line>
+              <StartLine>0</StartLine>
+              <StartCol>0</StartCol>
+              <EndLine>0</EndLine>
+              <EndCol>0</EndCol>
+              <Comment>PowerPoint.SlideButton.UpdateAppearance()</Comment>
+              <Auto>false</Auto>
+            </Smell>
+          </Reviews>
           <HashCodeIgnoreList />
           <HashCodeRequestIgnoreList />
           <AnalysisFileManager>
             <AnalysisFiles>
               <AnalysisFile>
                 <RelativePath>Model\AddCommand.cs</RelativePath>
+                <ProjectName>PowerPoint</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Model\AddPageCommand.cs</RelativePath>
                 <ProjectName>PowerPoint</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
@@ -212,6 +1209,11 @@
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Model\DeleteCommand.cs</RelativePath>
+                <ProjectName>PowerPoint</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Model\DeletePageCommand.cs</RelativePath>
                 <ProjectName>PowerPoint</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
@@ -266,6 +1268,11 @@
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>Model\Pages.cs</RelativePath>
+                <ProjectName>PowerPoint</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>Model\PointState.cs</RelativePath>
                 <ProjectName>PowerPoint</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
@@ -296,6 +1303,11 @@
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>PresentationModel\DialogPresentationModel.cs</RelativePath>
+                <ProjectName>PowerPoint</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>PresentationModel\PresentationModel.cs</RelativePath>
                 <ProjectName>PowerPoint</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
@@ -321,6 +1333,16 @@
                 <AnalysisFileType>Designer</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>View\CoordinateDialog.cs</RelativePath>
+                <ProjectName>PowerPoint</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>View\CoordinateDialog.Designer.cs</RelativePath>
+                <ProjectName>PowerPoint</ProjectName>
+                <AnalysisFileType>Designer</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>View\DoubleBufferedPanel.cs</RelativePath>
                 <ProjectName>PowerPoint</ProjectName>
                 <AnalysisFileType>ViewOrController</AnalysisFileType>
@@ -334,6 +1356,11 @@
                 <RelativePath>View\Form1.Designer.cs</RelativePath>
                 <ProjectName>PowerPoint</ProjectName>
                 <AnalysisFileType>Designer</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>View\SlideButton.cs</RelativePath>
+                <ProjectName>PowerPoint</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>View\SlideFormsGraphicsAdaptor.cs</RelativePath>
@@ -470,10 +1497,25 @@
                 <ProjectName>PowerPointTests</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>MainFormUITest.cs</RelativePath>
+                <ProjectName>MainFormUITest</ProjectName>
+                <AnalysisFileType>Test</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Properties\AssemblyInfo.cs</RelativePath>
+                <ProjectName>MainFormUITest</ProjectName>
+                <AnalysisFileType>Model</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Robot.cs</RelativePath>
+                <ProjectName>MainFormUITest</ProjectName>
+                <AnalysisFileType>Test</AnalysisFileType>
+              </AnalysisFile>
             </AnalysisFiles>
           </AnalysisFileManager>
-          <ProductionLoc>2360</ProductionLoc>
-          <TestLoc>2480</TestLoc>
+          <ProductionLoc>3011</ProductionLoc>
+          <TestLoc>2562</TestLoc>
         </CodeReview>
       </Data>
     </div>

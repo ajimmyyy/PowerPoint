@@ -10,17 +10,19 @@ namespace PowerPoint
     {
         Shape _selection;
         Coordinate _range;
+        Shapes _page;
         Model _model;
         double _firstPointX;
         double _firstPointY;
         double _distanceX;
         double _distanceY;
 
-        public PointState(Shape selection, Model model)
+        public PointState(Shape selection, Model model, Shapes page)
         {
             _selection = selection;
             _model = model;
             _range = new Coordinate();
+            _page = page;
         }
 
         //滑鼠被按下
@@ -52,7 +54,7 @@ namespace PowerPoint
         {
             if (_selection != null)
             {
-                _model.LogCommand(new MoveCommand(_model, _selection, _range));
+                _model.LogCommand(new MoveCommand(_model, _selection, _range, _page));
             }
         }
     }

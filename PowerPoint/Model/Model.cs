@@ -11,6 +11,10 @@ namespace PowerPoint
     {
         public event ModelChangedEventHandler _modelChanged;
         public delegate void ModelChangedEventHandler(int index);
+        public event PageAddEventHandler _pageAdd;
+        public delegate void PageAddEventHandler();
+        public event PageDeleteEventHandler _pageDelete;
+        public delegate void PageDeleteEventHandler(int index);
         private string _toolModePressed = ModeType.SELECT_NAME;
         private bool _isPressed = false;
         private bool _isInScaleArea = false;
@@ -28,13 +32,10 @@ namespace PowerPoint
         }
 
         //當DataGridView新增按鈕被按下的處理
-        public virtual void AddButtonClickEvent(string shapeType, double ratio)
+        public virtual void AddButtonClickEvent(string shapeType, int[] coordinate)
         {
-            if (shapeType != "")
-            {
-                LogCommand(new AddCommand(this, shapeType, ratio));
-                NotifyModelChanged();
-            }
+            LogCommand(new AddCommand(this, shapeType, coordinate, _shapes));
+            NotifyModelChanged();
         }
 
         //當DataGridView刪除按鈕被按下的處理
@@ -44,7 +45,7 @@ namespace PowerPoint
 
             if (rowIndex >= 0 && columnIndex == 0)
             {
-                LogCommand(new DeleteCommand(this, _shapes.FindShape(rowIndex)));
+                LogCommand(new DeleteCommand(this, _shapes.FindShape(rowIndex), _shapes));
             }
 
             NotifyModelChanged();
@@ -86,7 +87,7 @@ namespace PowerPoint
         {
             if (_selection != null)
             {
-                LogCommand(new DeleteCommand(this, _selection));
+                LogCommand(new DeleteCommand(this, _selection, _shapes));
                 _selection = null;
                 NotifyModelChanged();
             }
@@ -94,13 +95,16 @@ namespace PowerPoint
 
         public void ClickNewPage()
         {
-            _pages.AddPage(Factory.CreateShapes());
+            LogCommand(new AddPageCommand(this));
         }
 
-        public void DeletePage(int index)
+        public void ClickDeletePage(int index)
         {
-            _pages.DeletePage(index);
-            ChangePage(index - 1);
+            LogCommand(new DeletePageCommand(this, _pages.GetPage(index)));
+            if (index == 0)
+                ChangePage(0);
+            else
+                ChangePage(index - 1);
         }
 
         public void ChangePage(int index)
@@ -116,39 +120,59 @@ namespace PowerPoint
         }
 
         //加入形狀
-        public void AddShape(Shape shape)
+        public void AddShape(Shape shape, Shapes page)
         {
-            _shapes.AddShape(shape);
+            _shapes = page;
+            page.AddShape(shape);
         }
 
         //刪除形狀
-        public void DeleteShape(Shape shape)
+        public void DeleteShape(Shape shape, Shapes page)
         {
-            _shapes.DeleteShape(shape);
+            _shapes = page;
+            page.DeleteShape(shape);
         }
 
         //移動形狀
-        public void MoveShape(Shape shape, Coordinate range)
+        public void MoveShape(Shape shape, Coordinate range, Shapes page)
         {
+            _shapes = page;
             shape.SetPosition(range._left, range._top, range._right, range._bottom);
         }
 
+        public void AddPage(Shapes page)
+        {
+            _shapes = page;
+            _pages.AddPage(page);
+            NotifyPageAdd();
+        }
+
+        public void DeletePage(Shapes page)
+        {
+            int index = _pages.GetPageIndex(page);
+
+            _pages.DeletePage(page);
+            _shapes = _pages.GetPage(0);
+
+            NotifyPageDelete(index);
+        }
+
         //改變操作模式
-        public void ChangeState(double pointX, double pointY, double ratio)
+        public void ChangeState(double pointX, double pointY)
         {
             if (_isInScaleArea)
             {
-                _state = new ScaleState(_selection, this);
+                _state = new ScaleState(_selection, this, _shapes);
             }
             else if (_toolModePressed != ModeType.SELECT_NAME)
             {
-                _hint = Factory.CreateShape(_toolModePressed, ratio);
-                _state = new DrawingState(_hint, this);
+                _hint = Factory.CreateShape(_toolModePressed);
+                _state = new DrawingState(_hint, this, _shapes);
             }
             else
             {
                 SelectShape(pointX, pointY);
-                _state = new PointState(_selection, this);
+                _state = new PointState(_selection, this, _shapes);
             } 
         }
 
@@ -196,16 +220,27 @@ namespace PowerPoint
                 _hint.Draw(graphics);
         }
 
-        public void ResizeWindow(double ratio)
-        {
-            _shapes.ChangeRatio(ratio);
-        }
-
         //通知模型改變
         void NotifyModelChanged()
         {
             if (_modelChanged != null)
                 _modelChanged(_pages.GetPageIndex(_shapes));
+        }
+
+        void NotifyPageAdd()
+        {
+            if (_pageAdd != null)
+            {
+                _pageAdd();
+            }
+        }
+
+        void NotifyPageDelete(int index)
+        {
+            if (_pageDelete != null)
+            {
+                _pageDelete(index);
+            }
         }
 
         //設定繪圖模式

@@ -20,9 +20,9 @@ namespace PowerPoint
         }
 
         //創建形狀並加入到list裡
-        public Shape AddNewShape(string shapeType, double ratio = 1)
+        public Shape AddNewShape(string shapeType)
         {
-            Shape newShape = Factory.CreateShape(shapeType, ratio);
+            Shape newShape = Factory.CreateShape(shapeType);
             _shapeList.Add(newShape);
             return newShape;
         }
@@ -79,14 +79,6 @@ namespace PowerPoint
                 return _shapeList[rowIndex];
             }
             return null;
-        }
-
-        public void ChangeRatio(double ratio)
-        {
-            foreach (Shape shape in _shapeList)
-            {
-                shape.SetRatio(ratio);
-            }
         }
 
         //畫出所有圖形

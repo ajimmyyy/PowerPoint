@@ -18,3 +18,4 @@ D:\github\PowerPoint\PowerPoint\obj\Debug\PowerPoint.csproj.CoreCompileInputs.ca
 D:\github\PowerPoint\PowerPoint\obj\Debug\PowerPoint.exe
 D:\github\PowerPoint\PowerPoint\obj\Debug\PowerPoint.pdb
 D:\github\PowerPoint\PowerPoint\obj\Debug\PowerPoint.csproj.AssemblyReference.cache
+D:\github\PowerPoint\PowerPoint\obj\Debug\PowerPoint.CoordinateDialog.resources

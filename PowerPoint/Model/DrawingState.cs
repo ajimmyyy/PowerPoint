@@ -9,13 +9,15 @@ namespace PowerPoint
     public class DrawingState : IState
     {
         Shape _hint = null;
+        Shapes _page;
         Model _model;
         double _firstPointX;
         double _firstPointY;
 
-        public DrawingState(Shape hint, Model model)
+        public DrawingState(Shape hint, Model model, Shapes page)
         {
             _hint = hint;
+            _page = page;
             _model = model;
         }
 
@@ -35,7 +37,7 @@ namespace PowerPoint
         //滑鼠釋放
         public void MouseRelease()
         {
-            _model.LogCommand(new DrawCommand(_model, _hint));
+            _model.LogCommand(new DrawCommand(_model, _hint, _page));
         }
     }
 }

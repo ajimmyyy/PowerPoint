@@ -18,6 +18,7 @@ namespace PowerPoint
         const double HALF = 0.5;
         const double DRAW_WINDOW_WIDTH = 1920;
         const int SLIDE_PADDING = 6;
+        const string TURN_BUTTON_ERROR = "Unable to cast Control to CloneableButton";
         private bool _isLinePressed;
         private bool _isRectanglePressed;
         private bool _isCirclePressed;
@@ -27,12 +28,6 @@ namespace PowerPoint
         private bool _isRedoEnabled;
         private Dictionary<string, Action> _shapePressed;
         Model _model;
-
-        public Cursor CursorNow
-        {
-            get;
-            set;
-        }
 
         public bool IsLinePressed
         {
@@ -113,27 +108,29 @@ namespace PowerPoint
         }
 
         //更新鼠標
-        public void UpdateCursor()
+        public Cursor UpdateCursor()
         {
             if (_isInScaleArea)
-            {
-                CursorNow = Cursors.SizeNWSE;
-            }
+                return Cursors.SizeNWSE;
             else if (IsToolButtonPressed())
-            {
-                CursorNow = Cursors.Cross;
-            }
+                return Cursors.Cross;
             else
-            {
-                CursorNow = Cursors.Default;
-            }
-            NotifyCursorChanged();
+                return Cursors.Default;
         }
 
         //當DataGridView新增按鈕被按下
-        public void AddButtonClickHandler(string shapeType, int drawWidth)
+        public void AddButtonClickHandler(string shapeType)
         {
-            _model.AddButtonClickEvent(shapeType, drawWidth / DRAW_WINDOW_WIDTH);
+            if (shapeType != "")
+            {
+                using (CoordinateDialog modalDialog = new CoordinateDialog())
+                {
+                    DialogResult result = modalDialog.ShowDialog();
+                    if (result == DialogResult.OK)
+                        _model.AddButtonClickEvent(shapeType, modalDialog.GetCoordinate());
+                }
+            }
+
             ToolButtonEnabledCheck();
         }
 
@@ -152,7 +149,7 @@ namespace PowerPoint
                 double drawPointX = pointX * (DRAW_WINDOW_WIDTH / drawWidth);
                 double drawPointY = pointY * (DRAW_WINDOW_WIDTH / drawWidth);
 
-                _model.ChangeState(drawPointX, drawPointY, drawWidth / DRAW_WINDOW_WIDTH);
+                _model.ChangeState(drawPointX, drawPointY);
                 _model.PressPointer(drawPointX, drawPointY);
             }
         }
@@ -164,7 +161,6 @@ namespace PowerPoint
             double drawPointY = pointY * (DRAW_WINDOW_WIDTH / drawWidth);
 
             _isInScaleArea = _model.IsInScaleArea(drawPointX, drawPointY, DRAW_WINDOW_WIDTH / drawWidth);
-            UpdateCursor();
             _model.MovePointer(drawPointX, drawPointY);
         }
 
@@ -189,23 +185,27 @@ namespace PowerPoint
             }
         }
 
-        public object PressKeyboardSlideHandler(Keys keyPress, Control.ControlCollection controls)
+        public void ClickNewPageButtonHandler()
+        {
+            _model.ClickNewPage();
+            ToolButtonEnabledCheck();
+        }
+
+        public void PressKeyboardSlideHandler(Keys keyPress, Control.ControlCollection controls)
         {
             if (keyPress == Keys.Delete && controls.Count > 1)
             {
                 for (int i = 0; i < controls.Count; i++)
                 {
-                    CloneableButton button = (CloneableButton)controls[i];
+                    SlideButton button = (SlideButton)controls[i];
 
                     if (button.Checked)
                     {
-                        _model.DeletePage(i);
-                        return controls[i];
+                        _model.ClickDeletePage(i);
+                        ToolButtonEnabledCheck();
                     }
                 }
             }
-
-            return null;
         }
 
         //當復原按鈕被按下
@@ -230,21 +230,22 @@ namespace PowerPoint
             }
         }
 
-        public void SlideButtonClickHandler(Control.ControlCollection controls, CloneableButton clickButton)
+        public void ClickSlideButtonHandler(Control.ControlCollection controls, SlideButton clickButton)
         {
-            bool Checked = !clickButton.Checked;
+            bool check = !clickButton.Checked;
             foreach (Control control in controls)
             {
-                CloneableButton button = (CloneableButton)control;
+                SlideButton button = control as SlideButton;
+
+                if (button == null)
+                {
+                    throw new Exception(TURN_BUTTON_ERROR);
+                }
+
                 button.Checked = false;
             }
-            clickButton.Checked = Checked;
+            clickButton.Checked = check;
             _model.ChangePage(controls.IndexOf(clickButton));
-        }
-
-        public void ResizeWindowHandler(int drawWidth)
-        {
-            _model.ResizeWindow(drawWidth / DRAW_WINDOW_WIDTH);
         }
 
         public int ResizeWindow(int width)
@@ -312,15 +313,6 @@ namespace PowerPoint
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(null));
-            }
-        }
-
-        //通知鼠標屬性改變
-        void NotifyCursorChanged()
-        {
-            if (_cursorChanged != null)
-            {
-                _cursorChanged();
             }
         }
     }

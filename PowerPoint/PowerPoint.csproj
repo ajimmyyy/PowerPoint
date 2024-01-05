@@ -47,8 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\AddCommand.cs" />
+    <Compile Include="Model\AddPageCommand.cs" />
     <Compile Include="Model\CommandManager.cs" />
     <Compile Include="Model\DeleteCommand.cs" />
+    <Compile Include="Model\DeletePageCommand.cs" />
     <Compile Include="Model\DrawCommand.cs" />
     <Compile Include="Model\ICommand.cs" />
     <Compile Include="Model\MoveCommand.cs" />
@@ -58,8 +60,15 @@
     <Compile Include="Model\DrawingState.cs" />
     <Compile Include="Model\IState.cs" />
     <Compile Include="Model\PointState.cs" />
-    <Compile Include="View\CloneableButton.cs">
+    <Compile Include="PresentationModel\DialogPresentationModel.cs" />
+    <Compile Include="View\SlideButton.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="View\CoordinateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CoordinateDialog.Designer.cs">
+      <DependentUpon>CoordinateDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="View\ToolStripBindableButton.cs">
       <SubType>Component</SubType>
@@ -88,6 +97,9 @@
     <Compile Include="Model\Shape.cs" />
     <Compile Include="Model\Shapes.cs" />
     <Compile Include="Model\ModeType.cs" />
+    <EmbeddedResource Include="View\CoordinateDialog.resx">
+      <DependentUpon>CoordinateDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

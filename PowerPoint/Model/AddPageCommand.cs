@@ -6,29 +6,27 @@ using System.Threading.Tasks;
 
 namespace PowerPoint
 {
-    public class AddCommand : ICommand
+    public class AddPageCommand : ICommand
     {
-        Shape _shape;
         Shapes _page;
         Model _model;
 
-        public AddCommand(Model model, string shapeType, int[] coordinate, Shapes page)
+        public AddPageCommand(Model model)
         {
             _model = model;
-            _shape = Factory.CreateShape(shapeType, coordinate);
-            _page = page;
+            _page = Factory.CreateShapes();
         }
 
         //執行命令
         public void Execute()
         {
-            _model.AddShape(_shape, _page);
+            _model.AddPage(_page);
         }
 
         //執行復原命令
         public void ReverseExecute()
         {
-            _model.DeleteShape(_shape, _page);
+            _model.DeletePage(_page);
         }
     }
 }

@@ -8,29 +8,32 @@ namespace PowerPoint
 {
     public class Factory
     {
+        const int LEFT_TOP_X = 0;
+        const int LEFT_TOP_Y = 1;
+        const int RIGHT_BOTTOM_X = 2;
+        const int RIGHT_BOTTOM_Y = 3;
+
         //創建新的圖形實體
-        public static Shape CreateShape(string shapeType, double ratio)
+        public static Shape CreateShape(string shapeType, int[] coordinate = null)
         {
-            const int RIGHT = 832;
-            const int BOTTOM = 468;
-            Random random = new Random();
+            coordinate = coordinate ?? new int[] { 0, 0, 0, 0 };
 
             switch (shapeType)
             {
                 case ModeType.LINE_NAME:
-                    return new Line(random.Next(RIGHT), random.Next(BOTTOM), random.Next(RIGHT), random.Next(BOTTOM), ratio);
+                    return new Line(coordinate[LEFT_TOP_X], coordinate[LEFT_TOP_Y], coordinate[RIGHT_BOTTOM_X], coordinate[RIGHT_BOTTOM_Y]);
                 case ModeType.RECTANGLE_NAME:
-                    return new Rectangle(random.Next(RIGHT), random.Next(BOTTOM), random.Next(RIGHT), random.Next(BOTTOM), ratio);
+                    return new Rectangle(coordinate[LEFT_TOP_X], coordinate[LEFT_TOP_Y], coordinate[RIGHT_BOTTOM_X], coordinate[RIGHT_BOTTOM_Y]);
                 case ModeType.CIRCLE_NAME:
-                    return new Circle(random.Next(RIGHT), random.Next(BOTTOM), random.Next(RIGHT), random.Next(BOTTOM), ratio);
-                default:
-                    return null;
+                    return new Circle(coordinate[LEFT_TOP_X], coordinate[LEFT_TOP_Y], coordinate[RIGHT_BOTTOM_X], coordinate[RIGHT_BOTTOM_Y]);
             }
+            return null;
         }
 
         public static Shapes CreateShapes()
         {
-            return new Shapes();
+            Shapes page = new Shapes();
+            return page;
         } 
     }
 }
