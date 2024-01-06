@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace PowerPoint
 {
@@ -93,11 +94,13 @@ namespace PowerPoint
             }
         }
 
+        //新增頁面
         public void ClickNewPage()
         {
             LogCommand(new AddPageCommand(this));
         }
 
+        //刪除頁面
         public void ClickDeletePage(int index)
         {
             LogCommand(new DeletePageCommand(this, _pages.GetPage(index)));
@@ -107,6 +110,7 @@ namespace PowerPoint
                 ChangePage(index - 1);
         }
 
+        //切換頁面
         public void ChangePage(int index)
         {
             _shapes = _pages.GetPage(index);
@@ -140,6 +144,7 @@ namespace PowerPoint
             shape.SetPosition(range._left, range._top, range._right, range._bottom);
         }
 
+        //加入新頁面
         public void AddPage(Shapes page)
         {
             _shapes = page;
@@ -147,6 +152,7 @@ namespace PowerPoint
             NotifyPageAdd();
         }
 
+        //刪除指定頁面
         public void DeletePage(Shapes page)
         {
             int index = _pages.GetPageIndex(page);
@@ -155,6 +161,40 @@ namespace PowerPoint
             _shapes = _pages.GetPage(0);
 
             NotifyPageDelete(index);
+        }
+
+        //儲存頁面
+        public void SavePages(string filePath)
+        {
+            string file = JsonConvert.SerializeObject(_pages);
+            System.IO.File.WriteAllText(filePath, file);
+        }
+
+        //載入頁面
+        public void LoadPages(string filePath)
+        {
+            int pageCount = _pages.Count;
+            string file = System.IO.File.ReadAllText(filePath);
+            _pages = JsonConvert.DeserializeObject<Pages>(file);
+            _shapes = _pages.GetPage(0);
+            int pageNow = _pages.Count;
+
+            UpdatePages(pageCount, pageNow);
+        }
+
+        //更新頁面
+        private void UpdatePages(int pageCount, int pageNow)
+        {
+            if (pageNow - pageCount > 0)
+                NotifyPageAdd(pageNow - pageCount);
+            else
+            {
+                for (int i = pageNow; i < pageCount; i++)
+                {
+                    NotifyPageDelete(pageNow);
+                }
+            }
+            NotifyModelChanged();
         }
 
         //改變操作模式
@@ -211,6 +251,7 @@ namespace PowerPoint
                 _hint.Draw(graphics);                
         }
 
+        //縮圖畫出所有形狀和即時形狀
         public virtual void DrawSlide(IGraphics graphics, int index)
         {
             graphics.ClearAll();
@@ -227,14 +268,19 @@ namespace PowerPoint
                 _modelChanged(_pages.GetPageIndex(_shapes));
         }
 
-        void NotifyPageAdd()
+        //通知頁面新增
+        void NotifyPageAdd(int quantity = 1)
         {
-            if (_pageAdd != null)
+            for (int i = 0; i < quantity; i++)
             {
-                _pageAdd();
+                if (_pageAdd != null)
+                {
+                    _pageAdd();
+                }
             }
         }
 
+        //通知頁面刪除
         void NotifyPageDelete(int index)
         {
             if (_pageDelete != null)
@@ -281,7 +327,7 @@ namespace PowerPoint
         {
             get
             {
-                return _shapes.GetShapeList;
+                return _shapes.ShapeList;
             }
         }
     }

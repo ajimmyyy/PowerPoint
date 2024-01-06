@@ -11,11 +11,15 @@ namespace PowerPoint
     {
         private BindingList<Shape> _shapeList = new BindingList<Shape>();
 
-        public BindingList<Shape> GetShapeList
+        public BindingList<Shape> ShapeList
         {
             get
             {
                 return _shapeList;
+            }
+            set
+            {
+                _shapeList = value;
             }
         }
 

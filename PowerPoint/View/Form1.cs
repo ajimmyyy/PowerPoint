@@ -142,6 +142,7 @@ namespace PowerPoint
             _presentationModel.RedoToolButtonClickHandler();
         }
 
+        //縮圖被按下
         public void SlideClick(object sender, EventArgs e)
         {
             SlideButton clickedButton = sender as SlideButton;
@@ -149,14 +150,34 @@ namespace PowerPoint
             _shapeDataGridView.DataSource = _model.ShapeList;
         }
 
+        //建立新頁面按鈕被按下
         private void ClickNewPageButton(object sender, EventArgs e)
         {
             _presentationModel.ClickNewPageButtonHandler();
         }
 
+        //在縮圖區內鍵盤按下
         private void PressKeyboardKeySlide(object sender, KeyEventArgs e)
         {
             _presentationModel.PressKeyboardSlideHandler(e.KeyCode, _flowLayoutPanel.Controls);
+        }
+
+        //載入按鈕被按下
+        private void ClickLoadToolButton(object sender, EventArgs e)
+        {
+            using (LoadDialog loadDialog = new LoadDialog(_model))
+            {
+                DialogResult result = loadDialog.ShowDialog();
+            }
+        }
+
+        //儲存按鈕被按下
+        private void ClickSaveToolButton(object sender, EventArgs e)
+        {
+            using (SaveDialog loadDialog = new SaveDialog(_model))
+            {
+                DialogResult result = loadDialog.ShowDialog();
+            }
         }
 
         //視窗大小重新繪製
@@ -181,6 +202,7 @@ namespace PowerPoint
             _presentationModel.SlideDraw(e.Graphics, _slideButton.Width, _flowLayoutPanel.Controls.IndexOf(button));
         }
 
+        //加入頁面
         public void AddPage()
         {
             SlideButton newButton = new SlideButton();
@@ -192,6 +214,7 @@ namespace PowerPoint
             _presentationModel.ResizeSlide(_flowLayoutPanel.Controls, _flowLayoutPanel.Width);
         }
 
+        //刪除頁面
         public void DeletePage(int index)
         {
             _flowLayoutPanel.Controls.RemoveAt(index);

@@ -20,6 +20,7 @@ namespace PowerPoint
             this.UseVisualStyleBackColor = false;
         }
 
+        //克隆
         public object Clone()
         {
             SlideButton clonedButton = new SlideButton();
@@ -34,6 +35,7 @@ namespace PowerPoint
             return clonedButton;
         }
 
+        //點擊更新
         private void UpdateAppearance()
         {
             if (_isChecked)

@@ -8,6 +8,7 @@ namespace PowerPoint
 {
     public class DialogPresentationModel
     {
+        //判斷輸入是否合法
         public bool IsValidNumber(string[] coordinate, int[] maxRange)
         {
             for (int i = 0; i < coordinate.Length; i++)

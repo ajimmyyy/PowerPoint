@@ -26,18 +26,21 @@ namespace PowerPoint
             _presentationModel = new DialogPresentationModel();
         }
 
+        //按下OK按鈕
         private void ClickOkButton(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
             Close();
         }
-
+        
+        //案下取消按鈕
         private void ClickCancelButton(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
         }
 
+        //輸入改變
         private void CheckTextBoxChange(object sender, EventArgs e)
         {
             string[] coordinate = new string[]
@@ -55,6 +58,7 @@ namespace PowerPoint
             _okButton.Enabled = _presentationModel.IsValidNumber(coordinate, maxRange);
         }
 
+        //取得輸入座標
         public int[] GetCoordinate()
         {
             return new int[]

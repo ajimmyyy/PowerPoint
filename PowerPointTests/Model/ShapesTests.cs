@@ -29,7 +29,7 @@ namespace PowerPoint.Tests
         {
             BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
 
-            Assert.AreSame(shapeList, _shapes.GetShapeList);
+            Assert.AreSame(shapeList, _shapes.ShapeList);
         }
 
         //測試Shapes創建形狀並加入到list裡

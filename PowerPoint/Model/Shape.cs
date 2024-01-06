@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace PowerPoint
 {
+    [JsonConverter(typeof(ShapeConverter))]
     public abstract class Shape : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

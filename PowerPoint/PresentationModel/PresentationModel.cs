@@ -12,8 +12,6 @@ namespace PowerPoint
     public class PresentationModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public event CursorChangedEventHandler _cursorChanged;
-        public delegate void CursorChangedEventHandler();
         const double WINDOW_RATIO = 9.0 / 16.0;
         const double HALF = 0.5;
         const double DRAW_WINDOW_WIDTH = 1920;
@@ -185,12 +183,14 @@ namespace PowerPoint
             }
         }
 
+        //當按下新增頁面
         public void ClickNewPageButtonHandler()
         {
             _model.ClickNewPage();
             ToolButtonEnabledCheck();
         }
 
+        //當按下刪除頁面
         public void PressKeyboardSlideHandler(Keys keyPress, Control.ControlCollection controls)
         {
             if (keyPress == Keys.Delete && controls.Count > 1)
@@ -230,6 +230,7 @@ namespace PowerPoint
             }
         }
 
+        //當點擊頁面
         public void ClickSlideButtonHandler(Control.ControlCollection controls, SlideButton clickButton)
         {
             bool check = !clickButton.Checked;
@@ -248,11 +249,13 @@ namespace PowerPoint
             _model.ChangePage(controls.IndexOf(clickButton));
         }
 
+        //設定視窗大小
         public int ResizeWindow(int width)
         {
             return (int)(width * WINDOW_RATIO + 1);
         }
 
+        //設定所有頁面大小
         public void ResizeSlide(Control.ControlCollection controls, int width)
         {
             foreach (Control control in controls)

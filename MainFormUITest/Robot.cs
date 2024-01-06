@@ -158,8 +158,9 @@ namespace MainFormUITest
         // test
         public void AssertDataGridViewRowDataBy(string name, int rowIndex, string[] data)
         {
+            const string ROW_TYPE = "資料列 {0}";
             var dataGridView = _driver.FindElementByAccessibilityId(name);
-            var rowDatas = dataGridView.FindElementByName($"資料列 {rowIndex}").FindElementsByXPath("//*");
+            var rowDatas = dataGridView.FindElementByName(String.Format(ROW_TYPE, rowIndex)).FindElementsByXPath("//*");
 
             // FindElementsByXPath("//*") 會把 "row" node 也抓出來，因此 i 要從 1 開始以跳過 "row" node
             for (int i = 1; i < rowDatas.Count; i++)

@@ -41,6 +41,7 @@ namespace PowerPoint
             this._shapeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._infoColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._windowSplitContainer = new System.Windows.Forms.SplitContainer();
+            this._flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this._slideButton = new PowerPoint.SlideButton();
             this._drawSplitContainer = new System.Windows.Forms.SplitContainer();
             this._canvas = new PowerPoint.DoubleBufferedPanel();
@@ -52,8 +53,9 @@ namespace PowerPoint
             this._pageToolButton = new System.Windows.Forms.ToolStripButton();
             this._undoToolButton = new PowerPoint.BindingToolStripButton();
             this._redoToolButton = new PowerPoint.BindingToolStripButton();
+            this._loadToolButton = new System.Windows.Forms.ToolStripButton();
+            this._saveToolButton = new System.Windows.Forms.ToolStripButton();
             this._backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this._flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this._functionMenu.SuspendLayout();
             this._dataGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._shapeDataGridView)).BeginInit();
@@ -61,12 +63,12 @@ namespace PowerPoint
             this._windowSplitContainer.Panel1.SuspendLayout();
             this._windowSplitContainer.Panel2.SuspendLayout();
             this._windowSplitContainer.SuspendLayout();
+            this._flowLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._drawSplitContainer)).BeginInit();
             this._drawSplitContainer.Panel1.SuspendLayout();
             this._drawSplitContainer.Panel2.SuspendLayout();
             this._drawSplitContainer.SuspendLayout();
             this._toolBar.SuspendLayout();
-            this._flowLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // _functionMenu
@@ -87,7 +89,7 @@ namespace PowerPoint
             this._aboutMenuItem});
             this._illustrateMenuItem.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9F);
             this._illustrateMenuItem.Name = "_illustrateMenuItem";
-            this._illustrateMenuItem.Size = new System.Drawing.Size(62, 32);
+            this._illustrateMenuItem.Size = new System.Drawing.Size(62, 27);
             this._illustrateMenuItem.Text = "說明";
             // 
             // _aboutMenuItem
@@ -208,11 +210,21 @@ namespace PowerPoint
             this._windowSplitContainer.SplitterDistance = 214;
             this._windowSplitContainer.TabIndex = 0;
             // 
+            // _flowLayoutPanel
+            // 
+            this._flowLayoutPanel.Controls.Add(this._slideButton);
+            this._flowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._flowLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this._flowLayoutPanel.Name = "_flowLayoutPanel";
+            this._flowLayoutPanel.Size = new System.Drawing.Size(214, 439);
+            this._flowLayoutPanel.TabIndex = 6;
+            // 
             // _slideButton
             // 
             this._slideButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._slideButton.BackColor = System.Drawing.SystemColors.Window;
+            this._slideButton.Checked = false;
             this._slideButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this._slideButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._slideButton.Location = new System.Drawing.Point(3, 3);
@@ -265,7 +277,9 @@ namespace PowerPoint
             this._selectToolButton,
             this._pageToolButton,
             this._undoToolButton,
-            this._redoToolButton});
+            this._redoToolButton,
+            this._loadToolButton,
+            this._saveToolButton});
             this._toolBar.Location = new System.Drawing.Point(0, 31);
             this._toolBar.Name = "_toolBar";
             this._toolBar.Size = new System.Drawing.Size(800, 33);
@@ -288,7 +302,7 @@ namespace PowerPoint
             this._rectangleToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_rectangleToolButton.Image")));
             this._rectangleToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._rectangleToolButton.Name = "_rectangleToolButton";
-            this._rectangleToolButton.Size = new System.Drawing.Size(34, 33);
+            this._rectangleToolButton.Size = new System.Drawing.Size(34, 28);
             this._rectangleToolButton.Text = "矩形";
             this._rectangleToolButton.Click += new System.EventHandler(this.ToolButtonClick);
             // 
@@ -298,7 +312,7 @@ namespace PowerPoint
             this._circleToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_circleToolButton.Image")));
             this._circleToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._circleToolButton.Name = "_circleToolButton";
-            this._circleToolButton.Size = new System.Drawing.Size(34, 33);
+            this._circleToolButton.Size = new System.Drawing.Size(34, 28);
             this._circleToolButton.Text = "圓形";
             this._circleToolButton.Click += new System.EventHandler(this.ToolButtonClick);
             // 
@@ -308,7 +322,7 @@ namespace PowerPoint
             this._selectToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_selectToolButton.Image")));
             this._selectToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._selectToolButton.Name = "_selectToolButton";
-            this._selectToolButton.Size = new System.Drawing.Size(34, 33);
+            this._selectToolButton.Size = new System.Drawing.Size(34, 28);
             this._selectToolButton.Text = "選取";
             this._selectToolButton.Click += new System.EventHandler(this.ToolButtonClick);
             // 
@@ -318,7 +332,7 @@ namespace PowerPoint
             this._pageToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_pageToolButton.Image")));
             this._pageToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._pageToolButton.Name = "_pageToolButton";
-            this._pageToolButton.Size = new System.Drawing.Size(34, 33);
+            this._pageToolButton.Size = new System.Drawing.Size(34, 28);
             this._pageToolButton.Text = "toolStripButton1";
             this._pageToolButton.Click += new System.EventHandler(this.ClickNewPageButton);
             // 
@@ -329,7 +343,7 @@ namespace PowerPoint
             this._undoToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_undoToolButton.Image")));
             this._undoToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._undoToolButton.Name = "_undoToolButton";
-            this._undoToolButton.Size = new System.Drawing.Size(34, 33);
+            this._undoToolButton.Size = new System.Drawing.Size(34, 28);
             this._undoToolButton.Text = "復原";
             this._undoToolButton.Click += new System.EventHandler(this.UndoToolButtonClick);
             // 
@@ -340,18 +354,31 @@ namespace PowerPoint
             this._redoToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_redoToolButton.Image")));
             this._redoToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._redoToolButton.Name = "_redoToolButton";
-            this._redoToolButton.Size = new System.Drawing.Size(34, 33);
+            this._redoToolButton.Size = new System.Drawing.Size(34, 28);
             this._redoToolButton.Text = "重做";
             this._redoToolButton.Click += new System.EventHandler(this.RedoToolButtonClick);
             // 
-            // _flowLayoutPanel
+            // _loadToolButton
             // 
-            this._flowLayoutPanel.Controls.Add(this._slideButton);
-            this._flowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._flowLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this._flowLayoutPanel.Name = "_flowLayoutPanel";
-            this._flowLayoutPanel.Size = new System.Drawing.Size(214, 439);
-            this._flowLayoutPanel.TabIndex = 6;
+            this._loadToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._loadToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_loadToolButton.Image")));
+            this._loadToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._loadToolButton.Name = "_loadToolButton";
+            this._loadToolButton.Size = new System.Drawing.Size(34, 28);
+            this._loadToolButton.Text = "toolStripButton1";
+            this._loadToolButton.ToolTipText = "load";
+            this._loadToolButton.Click += new System.EventHandler(this.ClickLoadToolButton);
+            // 
+            // _saveToolButton
+            // 
+            this._saveToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._saveToolButton.Image = ((System.Drawing.Image)(resources.GetObject("_saveToolButton.Image")));
+            this._saveToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._saveToolButton.Name = "_saveToolButton";
+            this._saveToolButton.Size = new System.Drawing.Size(34, 28);
+            this._saveToolButton.Text = "toolStripButton2";
+            this._saveToolButton.ToolTipText = "save";
+            this._saveToolButton.Click += new System.EventHandler(this.ClickSaveToolButton);
             // 
             // Form1
             // 
@@ -374,13 +401,13 @@ namespace PowerPoint
             this._windowSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._windowSplitContainer)).EndInit();
             this._windowSplitContainer.ResumeLayout(false);
+            this._flowLayoutPanel.ResumeLayout(false);
             this._drawSplitContainer.Panel1.ResumeLayout(false);
             this._drawSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._drawSplitContainer)).EndInit();
             this._drawSplitContainer.ResumeLayout(false);
             this._toolBar.ResumeLayout(false);
             this._toolBar.PerformLayout();
-            this._flowLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -412,6 +439,8 @@ namespace PowerPoint
         private BindingToolStripButton _redoToolButton;
         private System.Windows.Forms.ToolStripButton _pageToolButton;
         private System.Windows.Forms.FlowLayoutPanel _flowLayoutPanel;
+        private System.Windows.Forms.ToolStripButton _loadToolButton;
+        private System.Windows.Forms.ToolStripButton _saveToolButton;
     }
 }
 
