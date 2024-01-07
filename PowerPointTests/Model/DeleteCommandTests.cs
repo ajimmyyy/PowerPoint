@@ -12,6 +12,7 @@ namespace PowerPoint.Tests
     public class DeleteCommandTests
     {
         Shape _shape;
+        Shapes _shapes;
         Model _model;
         PrivateObject _modelPrivate;
         DeleteCommand _deleteCommand;
@@ -23,9 +24,10 @@ namespace PowerPoint.Tests
             _shape = new Line(0, 0, 0, 0);
             _model = new Model();
             _modelPrivate = new PrivateObject(_model);
-            _deleteCommand = new DeleteCommand(_model, _shape);
+            _shapes = _modelPrivate.GetField("_shapes") as Shapes;
+            _deleteCommand = new DeleteCommand(_model, _shape, _shapes);
 
-            _model.AddShape(_shape);
+            _model.AddShape(_shape, _shapes);
         }
 
         //測試DeleteCommand執行命令

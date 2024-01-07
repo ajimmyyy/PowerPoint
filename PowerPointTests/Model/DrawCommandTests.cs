@@ -12,6 +12,7 @@ namespace PowerPoint.Tests
     public class DrawCommandTests
     {
         Shape _shape;
+        Shapes _shapes;
         Model _model;
         PrivateObject _modelPrivate;
         DrawCommand _drawCommand;
@@ -23,7 +24,8 @@ namespace PowerPoint.Tests
             _shape = new Line(0, 0, 0, 0);
             _model = new Model();
             _modelPrivate = new PrivateObject(_model);
-            _drawCommand = new DrawCommand(_model, _shape);
+            _shapes = _modelPrivate.GetField("_shapes") as Shapes;
+            _drawCommand = new DrawCommand(_model, _shape, _shapes);
         }
 
         //測試DrawCommand執行命令

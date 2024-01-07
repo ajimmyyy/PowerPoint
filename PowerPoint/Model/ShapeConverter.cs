@@ -12,6 +12,9 @@ namespace PowerPoint
     {
         const string SHAPE_TYPE = "ShapeName";
         const string SHAPE_INFO = "Info";
+        const string LEFT_PARENTHESIS = "(";
+        const string RIGHT_PARENTHESIS = ")";
+        const Char COMMA = ',';
 
         //可轉化
         public override bool CanConvert(Type objectType)
@@ -27,7 +30,10 @@ namespace PowerPoint
             string shapeName = shape[SHAPE_TYPE].ToString();
             string info = shape[SHAPE_INFO].ToString();
 
-            return Factory.CreateShape(shapeName, info);
+            string[] values = info.Replace(LEFT_PARENTHESIS, "").Replace(RIGHT_PARENTHESIS, "").Split(COMMA);
+            int[] coordinate = values.Select(int.Parse).ToArray();
+
+            return Factory.CreateShape(shapeName, coordinate);
         }
 
         //轉為Json

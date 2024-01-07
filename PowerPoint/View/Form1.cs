@@ -63,8 +63,11 @@ namespace PowerPoint
         //DataGridView新增按鈕被按下
         private void AddButtonClick(object sender, EventArgs e)
         {
-            
-            _presentationModel.AddButtonClickHandler(_shapeComboBox.Text);
+            using (CoordinateDialog modalDialog = new CoordinateDialog())
+            {
+                DialogResult result = modalDialog.ShowDialog();
+                _presentationModel.AddButtonClickHandler(_shapeComboBox.Text, result, modalDialog.GetCoordinate());
+            }
         }
 
         //DataGridView刪除按鈕被按下
@@ -146,7 +149,13 @@ namespace PowerPoint
         public void SlideClick(object sender, EventArgs e)
         {
             SlideButton clickedButton = sender as SlideButton;
-            _presentationModel.ClickSlideButtonHandler(_flowLayoutPanel.Controls, clickedButton);
+            foreach (Control control in _flowLayoutPanel.Controls)
+            {
+                SlideButton button = control as SlideButton;
+                button.Checked = false;
+            }
+            clickedButton.Checked = true;
+            _presentationModel.ClickSlideButtonHandler(_flowLayoutPanel.Controls.IndexOf(clickedButton));
             _shapeDataGridView.DataSource = _model.ShapeList;
         }
 
@@ -159,7 +168,12 @@ namespace PowerPoint
         //在縮圖區內鍵盤按下
         private void PressKeyboardKeySlide(object sender, KeyEventArgs e)
         {
-            _presentationModel.PressKeyboardSlideHandler(e.KeyCode, _flowLayoutPanel.Controls);
+            int total = _flowLayoutPanel.Controls.Count;
+            for (int i = total - 1; i >= 0; i--)
+            {
+                SlideButton button = (SlideButton)_flowLayoutPanel.Controls[i];
+                _presentationModel.PressKeyboardSlideHandler(e.KeyCode, button.Checked, i, total);
+            }
         }
 
         //載入按鈕被按下
@@ -172,18 +186,27 @@ namespace PowerPoint
         }
 
         //儲存按鈕被按下
-        private void ClickSaveToolButton(object sender, EventArgs e)
+        private async void ClickSaveToolButton(object sender, EventArgs e)
         {
-            using (SaveDialog loadDialog = new SaveDialog(_model))
+            await Task.Run(() =>
             {
-                DialogResult result = loadDialog.ShowDialog();
-            }
+                using (SaveDialog loadDialog = new SaveDialog(_model))
+                {
+                    DialogResult result = loadDialog.ShowDialog();
+                }
+            });
         }
 
         //視窗大小重新繪製
         private void ResizeWindow(object sender, EventArgs e)
         {
-            _presentationModel.ResizeSlide(_flowLayoutPanel.Controls, _flowLayoutPanel.Width);
+            foreach (Control control in _flowLayoutPanel.Controls)
+            {
+                SlideButton button = control as SlideButton;
+                int[] size = _presentationModel.ResizeSlide(_flowLayoutPanel.Width);
+                button.Width = size[0];
+                button.Height = size[1];
+            }
             _canvas.Height = _presentationModel.ResizeWindow(_canvas.Width);
             _drawSplitContainer.Panel1.Padding = new Padding(WINDOW_PADDING, _presentationModel.RepositionWindow(_drawSplitContainer.Height, _canvas.Height), WINDOW_PADDING, 0);
             _canvas.Invalidate(true);
@@ -211,7 +234,15 @@ namespace PowerPoint
             newButton.MouseEnter += EnterSlideMouse;
             newButton.MouseLeave += LeaveSlideMouse;
             _flowLayoutPanel.Controls.Add(newButton);
-            _presentationModel.ResizeSlide(_flowLayoutPanel.Controls, _flowLayoutPanel.Width);
+            foreach (Control control in _flowLayoutPanel.Controls)
+            {
+                SlideButton button = control as SlideButton;
+                int[] size = _presentationModel.ResizeSlide(_flowLayoutPanel.Width);
+                button.Width = size[0];
+                button.Height = size[1];
+                button.Checked = false;
+            }
+            newButton.Checked = true;
         }
 
         //刪除頁面

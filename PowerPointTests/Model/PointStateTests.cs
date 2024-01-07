@@ -18,8 +18,10 @@ namespace PowerPoint.Tests
         const double INIT_RIGHT = 100;
         const double INIT_BOTTOM = 100;
         Shape _shape;
+        Shapes _shapes;
         Model _model;
         PointState _pointState;
+        PrivateObject _modelPrivate;
         PrivateObject _pointStatePrivate;
 
         //測試選取模式初始化
@@ -28,7 +30,9 @@ namespace PowerPoint.Tests
         {
             _shape = new Line(INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM);
             _model = new Model();
-            _pointState = new PointState(_shape, _model);
+            _modelPrivate = new PrivateObject(_model);
+            _shapes = _modelPrivate.GetField("_shapes") as Shapes;
+            _pointState = new PointState(_shape, _model, _shapes);
             _pointStatePrivate = new PrivateObject(_pointState);
         }
 

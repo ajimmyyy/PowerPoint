@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace PowerPoint.Tests
 {
@@ -17,16 +19,34 @@ namespace PowerPoint.Tests
         const double INIT_RIGHT = 400;
         const double INIT_BOTTOM = 300;
         Shape _shape;
+        Shapes _shapes;
+        Pages _pages;
         Model _model;
         PrivateObject _modelPrivate;
+        private string _tempFilePath;
 
         //測試Model初始化
         [TestInitialize()]
         public void Initialize()
         {
             _shape = new Line(INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM);
+            _shapes = new Shapes();
+            _pages = new Pages();
             _model = new Model();
             _modelPrivate = new PrivateObject(_model);
+            _shapes = _modelPrivate.GetField("_shapes") as Shapes;
+            _pages = _modelPrivate.GetField("_pages") as Pages;
+            _tempFilePath = Path.Combine(Directory.GetCurrentDirectory(), "test.json");
+        }
+
+        //測試Model清理
+        [TestCleanup]
+        public void Cleanup()
+        {
+            if (System.IO.File.Exists(_tempFilePath))
+            {
+                System.IO.File.Delete(_tempFilePath);
+            }
         }
 
         //測試Model當DataGridView新增按鈕被按下的處理
@@ -35,13 +55,14 @@ namespace PowerPoint.Tests
         {
             List<string> testShapeName = new List<string> { ModeType.LINE_NAME, ModeType.CIRCLE_NAME, ModeType.RECTANGLE_NAME };
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
+            int[] coordinate = new int[] { 0, 0, 0, 0 };
 
             for (int i = 0; i < testShapeName.Count; i++)
             {
-                _model.AddButtonClickEvent(testShapeName[i], 1);
+                _model.AddButtonClickEvent(testShapeName[i], coordinate);
                 Assert.IsTrue(shapes.GetCount() == i + 1);
             }
-            _model.AddButtonClickEvent("", 1);
+            _model.AddButtonClickEvent("", coordinate);
             Assert.IsTrue(shapes.GetCount() == testShapeName.Count);
         }
 
@@ -53,8 +74,9 @@ namespace PowerPoint.Tests
         public void DeleteButtonClickEventTest(int rowIndex, int columnIndex, int expected)
         {
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
+            int[] coordinate = new int[] { 0, 0, 0, 0 };
 
-            _model.AddButtonClickEvent(ModeType.LINE_NAME, 1);
+            _model.AddButtonClickEvent(ModeType.LINE_NAME, coordinate);
             _model.DeleteButtonClickEvent(rowIndex, columnIndex);
 
             Assert.AreEqual(expected, shapes.GetCount());
@@ -175,7 +197,7 @@ namespace PowerPoint.Tests
         {
             _modelPrivate.SetField("_selection", _shape);
             _modelPrivate.SetField("_isInScaleArea", true);
-            _model.ChangeState(0, 0, 1);
+            _model.ChangeState(0, 0);
 
             IState state = _modelPrivate.GetField("_state") as IState;
 
@@ -188,7 +210,7 @@ namespace PowerPoint.Tests
         {
             _modelPrivate.SetField("_selection", _shape);
             _modelPrivate.SetField("_toolModePressed", ModeType.LINE_NAME);
-            _model.ChangeState(0, 0, 1);
+            _model.ChangeState(0, 0);
 
             IState state = _modelPrivate.GetField("_state") as IState;
             Shape hint = _modelPrivate.GetField("_hint") as Shape;
@@ -203,7 +225,7 @@ namespace PowerPoint.Tests
         {
             int expected = 1;
             CommandManagerMock commandManager = new CommandManagerMock();
-            ICommand command = new DrawCommand(_model, _shape);
+            ICommand command = new DrawCommand(_model, _shape, _shapes);
             _modelPrivate.SetField("_commandManager", commandManager);
 
             _model.LogCommand(command);
@@ -216,11 +238,10 @@ namespace PowerPoint.Tests
         public void AddShapeTest()
         {
             int expected = 1;
-            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
 
-            _model.AddShape(_shape);
+            _model.AddShape(_shape, _shapes);
 
-            Assert.AreEqual(expected, shapes.GetCount());
+            Assert.AreEqual(expected, _shapes.GetCount());
         }
 
         //測試Model刪除形狀
@@ -228,12 +249,11 @@ namespace PowerPoint.Tests
         public void DeleteShapeTest()
         {
             int expected = 0;
-            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
 
-            _model.AddShape(_shape);
-            _model.DeleteShape(_shape);
+            _model.AddShape(_shape, _shapes);
+            _model.DeleteShape(_shape, _shapes);
 
-            Assert.AreEqual(expected, shapes.GetCount());
+            Assert.AreEqual(expected, _shapes.GetCount());
         }
 
         //測試Model移動形狀
@@ -243,12 +263,107 @@ namespace PowerPoint.Tests
             Coordinate coordinate = _shape.GetPosition().Clone();
             Shape selection = new Line(0, 0, 0, 0);
 
-            _model.MoveShape(selection, coordinate);
+            _model.MoveShape(selection, coordinate, _shapes);
 
             Assert.AreEqual(INIT_LEFT, selection.GetPosition()._left);
             Assert.AreEqual(INIT_TOP, selection.GetPosition()._top);
             Assert.AreEqual(INIT_RIGHT, selection.GetPosition()._right);
             Assert.AreEqual(INIT_BOTTOM, selection.GetPosition()._bottom);
+        }
+
+        //測試Model加入新頁面
+        [TestMethod()]
+        public void ClickNewPageTest()
+        {
+            int expected = 1;
+            CommandManagerMock commandManager = new CommandManagerMock();
+            _modelPrivate.SetField("_commandManager", commandManager);
+            _model.ClickNewPage();
+
+            Assert.AreEqual(expected, commandManager.ExecuteCount);
+        }
+
+        //測試Model刪除頁面
+        [TestMethod()]
+        [DataRow(0)]
+        [DataRow(1)]
+        public void ClickDeletePageTest(int index)
+        {
+            int expected = 1;
+            Shapes page = new Shapes();
+            CommandManagerMock commandManager = new CommandManagerMock();
+            _modelPrivate.SetField("_commandManager", commandManager);
+            _model.AddPage(page);
+            _model.ClickDeletePage(index);
+
+            Assert.AreEqual(expected, commandManager.ExecuteCount);
+        }
+
+        //測試Model改變選取頁面
+        [TestMethod()]
+        public void ChangePageTest()
+        {
+            _model.ChangePage(0);
+            Shapes shapes = _modelPrivate.GetField("_shapes") as Shapes;
+
+            Assert.AreSame(_shapes, shapes);
+        }
+
+        //測試Model加入新頁面
+        [TestMethod()]
+        public void AddPageTest()
+        {
+            int expected = 2;
+            Shapes page = new Shapes();
+            _model.AddPage(page);
+
+            Assert.AreEqual(expected, _pages.Count);
+        }
+
+        //測試Model刪除頁面
+        [TestMethod()]
+        public void DeletePageTest()
+        {
+            int expected = 1;
+            Shapes page = new Shapes();
+            _model.AddPage(page);
+            _model.DeletePage(_shapes);
+
+            Assert.AreEqual(expected, _pages.Count);
+        }
+
+        //測試Model保存頁面
+        [TestMethod()]
+        public void SavePagesTest()
+        {
+            _model.SavePages(_tempFilePath);
+            var fileContent = System.IO.File.ReadAllText(_tempFilePath);
+            var deserializedPages = JsonConvert.DeserializeObject<Pages>(fileContent);
+
+            Assert.IsNotNull(deserializedPages);
+        }
+
+        //測試Model載入頁面
+        [TestMethod()]
+        public void LoadPagesTest()
+        {
+            _model.SavePages(_tempFilePath);
+            _model.LoadPages(_tempFilePath);
+
+            Assert.IsNotNull(_pages);
+        }
+
+        //測試Model更新頁面
+        [TestMethod()]
+        [DataRow(1, 2)]
+        [DataRow(2, 1)]
+        public void UpdatePagesTest(int pageCount, int pageNow)
+        {
+            bool eventRaised = false;
+            _model._modelChanged += (int i) => eventRaised = true;
+            _model.UpdatePages(pageCount, pageNow);
+        
+            Assert.IsTrue(eventRaised);
         }
 
         //測試Model改變操作模式(選取模式)
@@ -261,7 +376,7 @@ namespace PowerPoint.Tests
             _modelPrivate.SetField("_selection", _shape);
             _modelPrivate.SetField("_toolModePressed", ModeType.SELECT_NAME);
 
-            _model.ChangeState(INIT_LEFT, INIT_TOP, 1);
+            _model.ChangeState(INIT_LEFT, INIT_TOP);
 
             IState state = _modelPrivate.GetField("_state") as IState;
             Shape selection = _modelPrivate.GetField("_selection") as Shape;
@@ -343,7 +458,7 @@ namespace PowerPoint.Tests
             int expectedRectangle = 0;
             int expectedDot = 8;
             IGraphicsMock graphics = new IGraphicsMock();
-            Shape hint = Factory.CreateShape(ModeType.CIRCLE_NAME, 1);
+            Shape hint = Factory.CreateShape(ModeType.CIRCLE_NAME);
             Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
 
             _modelPrivate.SetField("_toolModePressed", ModeType.CIRCLE_NAME);
@@ -389,14 +504,90 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expectedDot, graphics.DrawDotCount);
         }
 
+        //測試Model縮圖繪圖
+        [TestMethod()]
+        public void DrawSlideTest()
+        {
+            int expectedClear = 1;
+            int expectedLine = 1;
+            int expectedCircle = 1;
+            int expectedRectangle = 0;
+            int expectedDot = 8;
+            IGraphicsMock graphics = new IGraphicsMock();
+            Shape hint = Factory.CreateShape(ModeType.CIRCLE_NAME);
+            Shapes shapes = _modelPrivate.GetFieldOrProperty("_shapes") as Shapes;
+
+            _modelPrivate.SetField("_toolModePressed", ModeType.CIRCLE_NAME);
+            _modelPrivate.SetField("_isPressed", true);
+
+            shapes.AddShape(_shape);
+            _shape.SetSelect(true);
+            _modelPrivate.SetField("_hint", hint);
+
+            _model.DrawSlide(graphics, 0);
+
+            Assert.AreEqual(expectedClear, graphics.ClearAllCount);
+            Assert.AreEqual(expectedLine, graphics.DrawLineCount);
+            Assert.AreEqual(expectedCircle, graphics.DrawCircleCount);
+            Assert.AreEqual(expectedRectangle, graphics.DrawRectangleCount);
+            Assert.AreEqual(expectedDot, graphics.DrawDotCount);
+        }
+
+        //測試Model縮圖繪圖(無即時形狀)
+        [TestMethod()]
+        public void DrawSlideTestNoHint()
+        {
+            int expectedClear = 1;
+            int expectedLine = 1;
+            int expectedCircle = 0;
+            int expectedRectangle = 0;
+            int expectedDot = 8;
+            IGraphicsMock graphics = new IGraphicsMock();
+
+            _modelPrivate.SetField("_toolModePressed", ModeType.CIRCLE_NAME);
+            _modelPrivate.SetField("_isPressed", false);
+
+            _shapes.AddShape(_shape);
+            _shape.SetSelect(true);
+            _model.DrawSlide(graphics, 0);
+
+            Assert.AreEqual(expectedClear, graphics.ClearAllCount);
+            Assert.AreEqual(expectedLine, graphics.DrawLineCount);
+            Assert.AreEqual(expectedCircle, graphics.DrawCircleCount);
+            Assert.AreEqual(expectedRectangle, graphics.DrawRectangleCount);
+            Assert.AreEqual(expectedDot, graphics.DrawDotCount);
+        }
+
         //測試Model通知模型改變
         [TestMethod()]
         public void NotifyModelChangedTest()
         {
             bool eventRaised = false;
-            _model._modelChanged += () => eventRaised = true;
+            _model._modelChanged += (int i) => eventRaised = true;
 
             _modelPrivate.Invoke("NotifyModelChanged");
+            Assert.IsTrue(eventRaised);
+        }
+
+        //測試Model通知頁面新增
+        [TestMethod()]
+        public void NotifyPageAddTest()
+        {
+            bool eventRaised = false;
+            _model._pageAdd += () => eventRaised = true;
+
+            _modelPrivate.Invoke("NotifyPageAdd", 1);
+            Assert.IsTrue(eventRaised);
+        }
+
+        //測試Model通知頁面刪除
+        [TestMethod()]
+        public void NotifyPageDeleteTest()
+        {
+            bool eventRaised = false;
+            _model._pageDelete += (int i) => eventRaised = true;
+
+            _modelPrivate.Invoke("NotifyPageDelete", 1);
             Assert.IsTrue(eventRaised);
         }
 

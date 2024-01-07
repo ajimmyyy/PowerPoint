@@ -30,3 +30,16 @@ D:\github\PowerPoint\PowerPointTests\bin\Debug\Castle.Core.xml
 D:\github\PowerPoint\PowerPointTests\bin\Debug\Newtonsoft.Json.xml
 D:\github\PowerPoint\PowerPointTests\bin\Debug\WebDriver.xml
 D:\github\PowerPoint\PowerPointTests\bin\Debug\WebDriver.Support.xml
+D:\github\PowerPoint\PowerPointTests\bin\Debug\clientSecret.json
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.Drive.v2.dll
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.Auth.dll
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.dll
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.Core.dll
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.Drive.v2.pdb
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.Drive.v2.xml
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.Auth.pdb
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.Auth.xml
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.pdb
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.xml
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.Core.pdb
+D:\github\PowerPoint\PowerPointTests\bin\Debug\Google.Apis.Core.xml

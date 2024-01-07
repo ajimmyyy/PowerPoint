@@ -14,6 +14,7 @@ namespace PowerPoint.Tests
         const double INIT_POINT_X = 100;
         const double INIT_POINT_Y = 100;
         Shape _hint;
+        Shapes _shapes;
         Model _model;
         PrivateObject _modelPrivate;
         DrawingState _drawingState;
@@ -26,7 +27,8 @@ namespace PowerPoint.Tests
             _hint = new Line(0, 0, 0, 0);
             _model = new Model();
             _modelPrivate = new PrivateObject(_model);
-            _drawingState = new DrawingState(_hint, _model);
+            _shapes = _modelPrivate.GetField("_shapes") as Shapes;
+            _drawingState = new DrawingState(_hint, _model, _shapes);
             _drawingStatePrivate = new PrivateObject(_drawingState);
         }
 

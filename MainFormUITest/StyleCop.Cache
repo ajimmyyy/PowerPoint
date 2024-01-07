@@ -1,8 +1,5 @@
 <stylecopresultscache>
   <version>12</version>
-  <project key="-1491196830">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
   <sourcecode name="MainFormUITest.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2023/09/17 16:47:10.574</styleCop>
@@ -14,6 +11,9 @@
     </timestamps>
     <violations />
   </sourcecode>
+  <project key="-1491196830">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
   <sourcecode name="AssemblyInfo.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2023/09/17 16:47:10.574</styleCop>

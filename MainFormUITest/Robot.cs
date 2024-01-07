@@ -90,6 +90,18 @@ namespace MainFormUITest
             _driver.FindElementByName(name).Click();
         }
 
+        public void ClickButtonByID(string id)
+        {
+            _driver.FindElementByAccessibilityId(id).Click();
+        }
+
+        public void PressKey(string key)
+        {
+            new Actions(_driver)
+                .SendKeys(key)
+                .Perform();
+        }
+
         //test
         public void MouseDown(string element, int pointX, int pointY)
         {
@@ -120,6 +132,25 @@ namespace MainFormUITest
                 if ("ControlType.TabItem" == element.TagName)
                     element.Click();
             }
+        }
+        public void ClickComboBox(string comboBoxAutomationId)
+        {
+            WindowsElement comboBox = _driver.FindElementByAccessibilityId(comboBoxAutomationId);
+            comboBox.Click();
+        }
+
+        public void DragSplitBar(string splitContainerAutomationId, int xOffset, int yOffset)
+        {
+            WindowsElement splitContainer = _driver.FindElementByAccessibilityId(splitContainerAutomationId);
+            Actions actions = new Actions(_driver);
+            actions.ClickAndHold(splitContainer).MoveByOffset(xOffset, yOffset).Release().Perform();
+        }
+
+        public void EnterText(string comboBoxAutomationId, string text)
+        {
+            WindowsElement element = _driver.FindElementByAccessibilityId(comboBoxAutomationId);
+            element.Clear();
+            element.SendKeys(text);
         }
 
         // test

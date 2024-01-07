@@ -59,14 +59,14 @@ namespace PowerPoint
         }
 
         //取得輸入座標
-        public int[] GetCoordinate()
+        public string[] GetCoordinate()
         {
-            return new int[]
+            return new string[]
             {
-                int.Parse(_leftTopXBox.Text),
-                int.Parse(_leftTopYBox.Text),
-                int.Parse(_rightBottomXBox.Text),
-                int.Parse(_rightBottomYBox.Text)
+                _leftTopXBox.Text,
+                _leftTopYBox.Text,
+                _rightBottomXBox.Text,
+                _rightBottomYBox.Text
             };
         }
     }

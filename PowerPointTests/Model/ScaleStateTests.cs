@@ -17,7 +17,9 @@ namespace PowerPoint.Tests
         const double INIT_BOTTOM = 100;
         Model _model;
         Shape _shape;
+        Shapes _shapes;
         ScaleState _scaleState;
+        PrivateObject _modelPrivate;
         PrivateObject _scaleStatePrivate;
 
         //測試縮放模式初始化
@@ -26,7 +28,9 @@ namespace PowerPoint.Tests
         {
             _model = new Model();
             _shape = new Line(INIT_LEFT, INIT_TOP, INIT_RIGHT, INIT_BOTTOM);
-            _scaleState = new ScaleState(_shape, _model);
+            _modelPrivate = new PrivateObject(_model);
+            _shapes = _modelPrivate.GetField("_shapes") as Shapes;
+            _scaleState = new ScaleState(_shape, _model, _shapes);
             _scaleStatePrivate = new PrivateObject(_scaleState);
         }
 

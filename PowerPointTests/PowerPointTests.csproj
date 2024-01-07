@@ -85,12 +85,14 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Model\AddCommandTests.cs" />
+    <Compile Include="Model\AddPageCommandTests.cs" />
     <Compile Include="Model\CircleTests.cs" />
     <Compile Include="Model\CommandManagerMock.cs" />
     <Compile Include="Model\CommandManagerTests.cs" />
     <Compile Include="Model\CommandMock.cs" />
     <Compile Include="Model\CoordinateTests.cs" />
     <Compile Include="Model\DeleteCommandTests.cs" />
+    <Compile Include="Model\DeletePageCommandTests.cs" />
     <Compile Include="Model\DrawCommandTests.cs" />
     <Compile Include="Model\DrawingStateTests.cs" />
     <Compile Include="Model\FactoryTests.cs" />
@@ -100,12 +102,15 @@
     <Compile Include="Model\ModelMock.cs" />
     <Compile Include="Model\ModelTests.cs" />
     <Compile Include="Model\MoveCommandTests.cs" />
+    <Compile Include="Model\PagesTests.cs" />
     <Compile Include="Model\PointStateTests.cs" />
     <Compile Include="Model\RectangleTests.cs" />
     <Compile Include="Model\ScaleStateTests.cs" />
     <Compile Include="Model\SelectionTests.cs" />
+    <Compile Include="Model\ShapeConverterTests.cs" />
     <Compile Include="Model\ShapesTests.cs" />
     <Compile Include="Model\ShapeTests.cs" />
+    <Compile Include="PresentationModel\DialogPresentationModelTests.cs" />
     <Compile Include="PresentationModel\PresentationModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

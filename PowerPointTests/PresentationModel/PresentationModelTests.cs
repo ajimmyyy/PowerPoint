@@ -17,6 +17,7 @@ namespace PowerPoint.Tests
         const int INIT_SLIDE_WIDTH = 128;
         PresentationModel _presentationModel;
         Model _model;
+        Shapes _shapes;
         PrivateObject _modelPrivate;
         PrivateObject _presentationModelPrivate;
 
@@ -28,6 +29,7 @@ namespace PowerPoint.Tests
             _presentationModel = new PresentationModel(_model);
             _modelPrivate = new PrivateObject(_model);
             _presentationModelPrivate = new PrivateObject(_presentationModel);
+            _shapes = _modelPrivate.GetField("_shapes") as Shapes;
         }
 
         //測試PresentationModel當tool按鈕被按下
@@ -54,9 +56,7 @@ namespace PowerPoint.Tests
             _presentationModelPrivate.SetField("_isRectanglePressed", false);
             _presentationModelPrivate.SetField("_isCirclePressed", false);
 
-            _presentationModel.UpdateCursor();
-
-            Assert.AreEqual(expected, _presentationModel.CursorNow);
+            Assert.AreEqual(expected, _presentationModel.UpdateCursor());
         }
 
         //測試PresentationModel更新鼠標(在繪圖模式)
@@ -72,9 +72,7 @@ namespace PowerPoint.Tests
             _presentationModelPrivate.SetField("_isRectanglePressed", isRectanglePressed);
             _presentationModelPrivate.SetField("_isCirclePressed", isCirclePressed);
 
-            _presentationModel.UpdateCursor();
-
-            Assert.AreEqual(expected, _presentationModel.CursorNow);
+            Assert.AreEqual(expected, _presentationModel.UpdateCursor());
         }
 
         //測試PresentationModel更新鼠標(在縮放區域)
@@ -84,9 +82,7 @@ namespace PowerPoint.Tests
             Cursor expected = Cursors.SizeNWSE;
             _presentationModelPrivate.SetField("_isInScaleArea", true);
 
-            _presentationModel.UpdateCursor();
-
-            Assert.AreEqual(expected, _presentationModel.CursorNow);
+            Assert.AreEqual(expected, _presentationModel.UpdateCursor());
         }
 
         //測試PresentationModel當DataGridView新增按鈕被按下
@@ -94,10 +90,25 @@ namespace PowerPoint.Tests
         public void AddButtonClickHandlerTest()
         {
             int expected = 1;
+            string[] coordinate = new string[] { "0", "0", "10", "10" };
             ModelMock modelmock = new ModelMock();
             _presentationModelPrivate.SetField("_model", modelmock);
 
-            _presentationModel.AddButtonClickHandler(ModeType.LINE_NAME, 1);
+            _presentationModel.AddButtonClickHandler(ModeType.LINE_NAME, DialogResult.OK, coordinate);
+
+            Assert.AreEqual(expected, modelmock.AddButtonCount);
+        }
+
+        //測試PresentationModel當DataGridView新增按鈕被按下(未正確輸入)
+        [TestMethod()]
+        public void AddButtonClickHandlerNoTypeTest()
+        {
+            int expected = 0;
+            string[] coordinate = new string[] { "0", "0", "10", "10" };
+            ModelMock modelmock = new ModelMock();
+            _presentationModelPrivate.SetField("_model", modelmock);
+
+            _presentationModel.AddButtonClickHandler("", DialogResult.OK, coordinate);
 
             Assert.AreEqual(expected, modelmock.AddButtonCount);
         }
@@ -189,6 +200,30 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expectedCount, modelmock.DeleteCount);
         }
 
+        //測試PresentationModel當按下新增頁面
+        [TestMethod()]
+        public void ClickNewPageButtonHandlerTest()
+        {
+            int expectedCount = 1;
+            ModelMock modelmock = new ModelMock();
+            _presentationModelPrivate.SetField("_model", modelmock);
+            _presentationModel.ClickNewPageButtonHandler();
+
+            Assert.AreEqual(expectedCount, modelmock.AddPageCount);
+        }
+
+        //測試PresentationModel當按下刪除頁面
+        [TestMethod()]
+        public void PressKeyboardSlideHandlerTest()
+        {
+            int expectedCount = 1;
+            ModelMock modelmock = new ModelMock();
+            _presentationModelPrivate.SetField("_model", modelmock);
+            _presentationModel.PressKeyboardSlideHandler(Keys.None, true, 0, 0);
+            _presentationModel.PressKeyboardSlideHandler(Keys.Delete, true, 0, 2);
+            Assert.AreEqual(expectedCount, modelmock.DeletePageCount);
+        }
+
         //測試PresentationModel當復原按鈕被按下
         [TestMethod()]
         public void UndoToolButtonClickHandlerTest()
@@ -243,6 +278,19 @@ namespace PowerPoint.Tests
             Assert.AreEqual(expectedCount, modelmock.RedoCount);
         }
 
+        //測試PresentationModel當點擊頁面
+        [TestMethod()]
+        public void ClickSlideButtonHandlerTest()
+        {
+            int expectedCount = 1;
+            ModelMock modelmock = new ModelMock();
+            _presentationModelPrivate.SetField("_model", modelmock);
+
+            _presentationModel.ClickSlideButtonHandler(0);
+
+            Assert.AreEqual(expectedCount, modelmock.ChangePageCount);
+        }
+
         //測試PresentationModel計算16:9視窗高度
         [TestMethod()]
         [DataRow(160, 91)]
@@ -251,6 +299,16 @@ namespace PowerPoint.Tests
         public void ResizeWindowTest(int width, int expectedHeight)
         {
             Assert.AreEqual(expectedHeight, _presentationModel.ResizeWindow(width));
+        }
+
+        //測試PresentationModel計算縮圖16:9視窗高度
+        [TestMethod()]
+        [DataRow(166, new int[] { 160, 91 })]
+        public void ResizeSlideTest(int width, int[] expected)
+        {
+            int[] size = _presentationModel.ResizeSlide(width);
+            Assert.AreEqual(expected[0], size[0]);
+            Assert.AreEqual(expected[1], size[1]);
         }
 
         //測試PresentationModel計算視窗置中距離
@@ -292,7 +350,7 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void ToolButtonEnabledCheckTest()
         {
-            _model.LogCommand(new DrawCommand(_model, new Line(0, 0, 0, 0)));
+            _model.LogCommand(new DrawCommand(_model, new Line(0, 0, 0, 0), _shapes));
 
             _presentationModelPrivate.Invoke("ToolButtonEnabledCheck");
 
@@ -336,9 +394,9 @@ namespace PowerPoint.Tests
             using (var bitmap = new Bitmap(100, 100))
             using (var graphics = Graphics.FromImage(bitmap))
             {
-                _presentationModel.SlideDraw(graphics, INIT_SLIDE_WIDTH);
+                _presentationModel.SlideDraw(graphics, INIT_SLIDE_WIDTH, 0);
 
-                Assert.AreEqual(expected, modelmock.DrawCount);
+                Assert.AreEqual(expected, modelmock.SlideDrawCount);
             }
         }
 
@@ -350,17 +408,6 @@ namespace PowerPoint.Tests
             _presentationModel.PropertyChanged += (sender, args) => { eventRaised = true; };
 
             _presentationModelPrivate.Invoke("NotifyPropertyChanged");
-            Assert.IsTrue(eventRaised);
-        }
-
-        //測試PresentationModel通知鼠標屬性改變
-        [TestMethod()]
-        public void NotifyCursorChanged()
-        {
-            bool eventRaised = false;
-            _presentationModel._cursorChanged += () => { eventRaised = true; };
-
-            _presentationModelPrivate.Invoke("NotifyCursorChanged");
             Assert.IsTrue(eventRaised);
         }
     }

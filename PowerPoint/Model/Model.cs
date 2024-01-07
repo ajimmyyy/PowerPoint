@@ -95,13 +95,13 @@ namespace PowerPoint
         }
 
         //新增頁面
-        public void ClickNewPage()
+        public virtual void ClickNewPage()
         {
             LogCommand(new AddPageCommand(this));
         }
 
         //刪除頁面
-        public void ClickDeletePage(int index)
+        public virtual void ClickDeletePage(int index)
         {
             LogCommand(new DeletePageCommand(this, _pages.GetPage(index)));
             if (index == 0)
@@ -111,7 +111,7 @@ namespace PowerPoint
         }
 
         //切換頁面
-        public void ChangePage(int index)
+        public virtual void ChangePage(int index)
         {
             _shapes = _pages.GetPage(index);
             NotifyModelChanged();
@@ -183,7 +183,7 @@ namespace PowerPoint
         }
 
         //更新頁面
-        private void UpdatePages(int pageCount, int pageNow)
+        public void UpdatePages(int pageCount, int pageNow)
         {
             if (pageNow - pageCount > 0)
                 NotifyPageAdd(pageNow - pageCount);

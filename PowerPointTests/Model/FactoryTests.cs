@@ -15,7 +15,7 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void CreateShapeLineTest()
         {
-            Shape shape = Factory.CreateShape(ModeType.LINE_NAME, 1);
+            Shape shape = Factory.CreateShape(ModeType.LINE_NAME);
             Assert.IsNotNull(shape);
             Assert.IsInstanceOfType(shape, typeof(Line));
         }
@@ -24,7 +24,7 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void CreateShapeCircleTest()
         {
-            Shape shape = Factory.CreateShape(ModeType.CIRCLE_NAME, 1);
+            Shape shape = Factory.CreateShape(ModeType.CIRCLE_NAME);
             Assert.IsNotNull(shape);
             Assert.IsInstanceOfType(shape, typeof(Circle));
         }
@@ -33,7 +33,7 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void CreateShapeRectangleTest()
         {
-            Shape shape = Factory.CreateShape(ModeType.RECTANGLE_NAME, 1);
+            Shape shape = Factory.CreateShape(ModeType.RECTANGLE_NAME);
             Assert.IsNotNull(shape);
             Assert.IsInstanceOfType(shape, typeof(Rectangle));
         }
@@ -42,8 +42,17 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void CreateShapeNullTest()
         {
-            Shape shape = Factory.CreateShape("", 1);
+            Shape shape = Factory.CreateShape("");
             Assert.IsNull(shape);
+        }
+
+        //測試工廠窗建頁面
+        [TestMethod()]
+        public void CreateShapesTest()
+        {
+            Shapes page = Factory.CreateShapes();
+            Assert.IsNotNull(page);
+            Assert.IsInstanceOfType(page, typeof(Shapes));
         }
     }
 }

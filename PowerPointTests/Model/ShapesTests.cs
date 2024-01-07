@@ -32,6 +32,16 @@ namespace PowerPoint.Tests
             Assert.AreSame(shapeList, _shapes.ShapeList);
         }
 
+        //測試Shapes設定binding List
+        [TestMethod()]
+        public void SetShapeListTest()
+        {
+            BindingList<Shape> shapeList = new BindingList <Shape>{ };
+            _shapes.ShapeList = shapeList;
+
+            Assert.AreSame(shapeList, _shapes.ShapeList);
+        }
+
         //測試Shapes創建形狀並加入到list裡
         [TestMethod()]
         public void AddNewShapeTest()
@@ -52,7 +62,7 @@ namespace PowerPoint.Tests
         public void AddShapeTest()
         {
             int expected = 1;
-            Shape testShape = Factory.CreateShape(ModeType.LINE_NAME, 1);
+            Shape testShape = Factory.CreateShape(ModeType.LINE_NAME);
             BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
 
             _shapes.AddShape(testShape);
@@ -94,8 +104,8 @@ namespace PowerPoint.Tests
         public void DeleteShapeByShapeTest()
         {
             BindingList<Shape> shapeList = _shapePrivate.GetFieldOrProperty("_shapeList") as BindingList<Shape>;
-            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME, 1);
-            Shape testCircle = Factory.CreateShape(ModeType.CIRCLE_NAME, 1);
+            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
+            Shape testCircle = Factory.CreateShape(ModeType.CIRCLE_NAME);
 
             _shapes.AddShape(testLine);
             _shapes.AddShape(testCircle);
@@ -116,7 +126,7 @@ namespace PowerPoint.Tests
         [DataRow(1, 301, false)]
         public void FindShapeTest(double pointX, double pointY, bool expected)
         {
-            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME, 1);
+            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
             testLine.SetPosition(0, 100, 200, 300);
 
             _shapes.AddShape(testLine);
@@ -128,8 +138,8 @@ namespace PowerPoint.Tests
         [TestMethod()]
         public void FindShapeByIndexTest()
         {
-            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME, 1);
-            Shape testCircle = Factory.CreateShape(ModeType.CIRCLE_NAME, 1);
+            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
+            Shape testCircle = Factory.CreateShape(ModeType.CIRCLE_NAME);
 
             Assert.IsNull(_shapes.FindShape(0));
 
@@ -166,7 +176,7 @@ namespace PowerPoint.Tests
         public void CountTest()
         {
             int expected = 1;
-            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME, 1);
+            Shape testLine = Factory.CreateShape(ModeType.LINE_NAME);
 
             _shapes.AddShape(testLine);
 

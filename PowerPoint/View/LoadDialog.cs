@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 using System.IO;
 
 namespace PowerPoint
@@ -16,6 +17,7 @@ namespace PowerPoint
         private string _loadPath;
         GoogleDriveService _service;
         Model _model;
+        const int WAIT_TIME = 1000;
 
         public LoadDialog(Model model)
         {
@@ -52,6 +54,9 @@ namespace PowerPoint
             _loadPath = System.IO.Directory.GetCurrentDirectory();
             _service.DownloadFile(selectedFile, _loadPath);
             _model.LoadPages(System.IO.Path.Combine(_loadPath, selectedFile.Title));
+
+            Thread.Sleep(WAIT_TIME);
+
             DialogResult = DialogResult.OK;
             Close();
         }

@@ -194,7 +194,7 @@
               <Weight>1</Weight>
               <Project>PowerPoint</Project>
               <File>ShapeConverter.cs</File>
-              <Line>23</Line>
+              <Line>26</Line>
               <StartLine>0</StartLine>
               <StartCol>0</StartCol>
               <EndLine>0</EndLine>
@@ -210,7 +210,7 @@
               <Weight>1</Weight>
               <Project>PowerPoint</Project>
               <File>ShapeConverter.cs</File>
-              <Line>34</Line>
+              <Line>40</Line>
               <StartLine>0</StartLine>
               <StartCol>0</StartCol>
               <EndLine>0</EndLine>
@@ -457,6 +457,11 @@
                 <AnalysisFileType>Test</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>Model\AddPageCommandTests.cs</RelativePath>
+                <ProjectName>PowerPointTests</ProjectName>
+                <AnalysisFileType>Test</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>Model\CircleTests.cs</RelativePath>
                 <ProjectName>PowerPointTests</ProjectName>
                 <AnalysisFileType>Test</AnalysisFileType>
@@ -487,6 +492,11 @@
                 <AnalysisFileType>Test</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>Model\DeletePageCommandTests.cs</RelativePath>
+                <ProjectName>PowerPointTests</ProjectName>
+                <AnalysisFileType>Test</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>Model\DrawCommandTests.cs</RelativePath>
                 <ProjectName>PowerPointTests</ProjectName>
                 <AnalysisFileType>Test</AnalysisFileType>
@@ -504,12 +514,12 @@
               <AnalysisFile>
                 <RelativePath>Model\IGraphicsMock.cs</RelativePath>
                 <ProjectName>PowerPointTests</ProjectName>
-                <AnalysisFileType>Test</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Model\IStateMock.cs</RelativePath>
                 <ProjectName>PowerPointTests</ProjectName>
-                <AnalysisFileType>Test</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Model\LineTests.cs</RelativePath>
@@ -519,7 +529,7 @@
               <AnalysisFile>
                 <RelativePath>Model\ModelMock.cs</RelativePath>
                 <ProjectName>PowerPointTests</ProjectName>
-                <AnalysisFileType>Test</AnalysisFileType>
+                <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Model\ModelTests.cs</RelativePath>
@@ -528,6 +538,11 @@
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Model\MoveCommandTests.cs</RelativePath>
+                <ProjectName>PowerPointTests</ProjectName>
+                <AnalysisFileType>Test</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>Model\PagesTests.cs</RelativePath>
                 <ProjectName>PowerPointTests</ProjectName>
                 <AnalysisFileType>Test</AnalysisFileType>
               </AnalysisFile>
@@ -552,12 +567,22 @@
                 <AnalysisFileType>Test</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>Model\ShapeConverterTests.cs</RelativePath>
+                <ProjectName>PowerPointTests</ProjectName>
+                <AnalysisFileType>Test</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>Model\ShapesTests.cs</RelativePath>
                 <ProjectName>PowerPointTests</ProjectName>
                 <AnalysisFileType>Test</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
                 <RelativePath>Model\ShapeTests.cs</RelativePath>
+                <ProjectName>PowerPointTests</ProjectName>
+                <AnalysisFileType>Test</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
+                <RelativePath>PresentationModel\DialogPresentationModelTests.cs</RelativePath>
                 <ProjectName>PowerPointTests</ProjectName>
                 <AnalysisFileType>Test</AnalysisFileType>
               </AnalysisFile>
@@ -572,11 +597,6 @@
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
-                <RelativePath>MainFormUITest.cs</RelativePath>
-                <ProjectName>MainFormUITest</ProjectName>
-                <AnalysisFileType>Test</AnalysisFileType>
-              </AnalysisFile>
-              <AnalysisFile>
                 <RelativePath>Properties\AssemblyInfo.cs</RelativePath>
                 <ProjectName>MainFormUITest</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
@@ -588,8 +608,8 @@
               </AnalysisFile>
             </AnalysisFiles>
           </AnalysisFileManager>
-          <ProductionLoc>3797</ProductionLoc>
-          <TestLoc>2757</TestLoc>
+          <ProductionLoc>4171</ProductionLoc>
+          <TestLoc>2929</TestLoc>
         </CodeReview>
       </Data>
     </div>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 using System.IO;
 
 namespace PowerPoint
@@ -16,6 +17,7 @@ namespace PowerPoint
         private string _saveFileName;
         GoogleDriveService _service;
         Model _model;
+        const int WAIT_TIME = 1000;
 
         public SaveDialog(Model model)
         {
@@ -44,6 +46,9 @@ namespace PowerPoint
             _saveFileName = System.IO.Path.Combine(currentDirectory, fileName);
             _model.SavePages(_saveFileName);
             _service.UploadFile(_saveFileName, CONTENT_TYPE);
+
+            Thread.Sleep(WAIT_TIME);
+
             DialogResult = DialogResult.OK;
             Close();
         }

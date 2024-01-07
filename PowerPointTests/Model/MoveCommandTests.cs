@@ -15,8 +15,10 @@ namespace PowerPoint.Tests
         Coordinate _lastPosition;
         Shape _originShape;
         Shape _lastShape;
+        Shapes _shapes;
         Model _model;
         MoveCommand _moveCommand;
+        PrivateObject _modelPrivate;
 
         //測試MoveCommand初始化
         [TestInitialize()]
@@ -27,7 +29,9 @@ namespace PowerPoint.Tests
             _originPosition = _originShape.GetPosition().Clone();
             _lastPosition = _lastShape.GetPosition().Clone();
             _model = new Model();
-            _moveCommand = new MoveCommand(_model, _lastShape, _originPosition);
+            _modelPrivate = new PrivateObject(_model);
+            _shapes = _modelPrivate.GetField("_shapes") as Shapes;
+            _moveCommand = new MoveCommand(_model, _lastShape, _originPosition, _shapes);
         }
 
         //測試MoveCommand執行命令

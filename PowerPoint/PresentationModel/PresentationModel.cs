@@ -117,18 +117,13 @@ namespace PowerPoint
         }
 
         //當DataGridView新增按鈕被按下
-        public void AddButtonClickHandler(string shapeType)
+        public void AddButtonClickHandler(string shapeType, DialogResult result, string[] input)
         {
-            if (shapeType != "")
+            if (shapeType != "" && result == DialogResult.OK)
             {
-                using (CoordinateDialog modalDialog = new CoordinateDialog())
-                {
-                    DialogResult result = modalDialog.ShowDialog();
-                    if (result == DialogResult.OK)
-                        _model.AddButtonClickEvent(shapeType, modalDialog.GetCoordinate());
-                }
+                int[] coordinate = input.Select(int.Parse).ToArray();
+                _model.AddButtonClickEvent(shapeType, coordinate);
             }
-
             ToolButtonEnabledCheck();
         }
 
@@ -191,20 +186,12 @@ namespace PowerPoint
         }
 
         //當按下刪除頁面
-        public void PressKeyboardSlideHandler(Keys keyPress, Control.ControlCollection controls)
+        public void PressKeyboardSlideHandler(Keys keyPress, bool isClick, int index, int total)
         {
-            if (keyPress == Keys.Delete && controls.Count > 1)
+            if (keyPress == Keys.Delete && isClick && total > 1)
             {
-                for (int i = 0; i < controls.Count; i++)
-                {
-                    SlideButton button = (SlideButton)controls[i];
-
-                    if (button.Checked)
-                    {
-                        _model.ClickDeletePage(i);
-                        ToolButtonEnabledCheck();
-                    }
-                }
+                _model.ClickDeletePage(index);
+                ToolButtonEnabledCheck();
             }
         }
 
@@ -231,22 +218,9 @@ namespace PowerPoint
         }
 
         //當點擊頁面
-        public void ClickSlideButtonHandler(Control.ControlCollection controls, SlideButton clickButton)
+        public void ClickSlideButtonHandler(int index)
         {
-            bool check = !clickButton.Checked;
-            foreach (Control control in controls)
-            {
-                SlideButton button = control as SlideButton;
-
-                if (button == null)
-                {
-                    throw new Exception(TURN_BUTTON_ERROR);
-                }
-
-                button.Checked = false;
-            }
-            clickButton.Checked = check;
-            _model.ChangePage(controls.IndexOf(clickButton));
+            _model.ChangePage(index);
         }
 
         //設定視窗大小
@@ -256,17 +230,11 @@ namespace PowerPoint
         }
 
         //設定所有頁面大小
-        public void ResizeSlide(Control.ControlCollection controls, int width)
+        public int[] ResizeSlide(int breadth)
         {
-            foreach (Control control in controls)
-            {
-                if (control is Button)
-                {
-                    Button button = (Button)control;
-                    button.Width = width - SLIDE_PADDING;
-                    button.Height = ResizeWindow(width - SLIDE_PADDING);
-                }
-            }
+            int width = breadth - SLIDE_PADDING;
+            int height = ResizeWindow(breadth - SLIDE_PADDING);
+            return new int[] { width, height };
         }
 
         //計算視窗置中距離

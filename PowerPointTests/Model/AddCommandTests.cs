@@ -12,6 +12,7 @@ namespace PowerPoint.Tests
     public class AddCommandTests
     {
         Model _model;
+        Shapes _shapes;
         PrivateObject _modelPrivate;
         AddCommand _addCommand;
 
@@ -19,9 +20,11 @@ namespace PowerPoint.Tests
         [TestInitialize()]
         public void Initialize()
         {
+            int[] coordinate = new int[] { 0, 0, 10, 10 };
             _model = new Model();
             _modelPrivate = new PrivateObject(_model);
-            _addCommand = new AddCommand(_model, ModeType.LINE_NAME, 1);
+            _shapes = _modelPrivate.GetField("_shapes") as Shapes;
+            _addCommand = new AddCommand(_model, ModeType.LINE_NAME, coordinate, _shapes);
         }
 
         //測試DrawAddCommand執行命令

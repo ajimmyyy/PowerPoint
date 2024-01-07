@@ -11,17 +11,21 @@ namespace PowerPoint
         int _addButtonCount = 0;
         int _deleteButtonCount = 0;
         int _drawCount = 0;
+        int _slideDrawCount = 0;
         int _pressCount = 0;
         int _moveCount = 0;
         int _releaseCount = 0;
         int _deleteCount = 0;
+        int _addPageCount = 0;
+        int _deletePageCount = 0;
+        int _changePageCount = 0;
         int _undoCount = 0;
         int _redoCount = 0;
         int _inScaleAreaCount = 0;
         int _setToolCount = 0;
 
         //當DataGridView新增按鈕被按下的處理
-        public override void AddButtonClickEvent(string shapeType, double ratio)
+        public override void AddButtonClickEvent(string shapeType, int[] coordinate)
         {
             _addButtonCount++;
         }
@@ -36,6 +40,12 @@ namespace PowerPoint
         public override void Draw(IGraphics graphics)
         {
             _drawCount++;
+        }
+
+        //縮圖畫出所有形狀和即時形狀
+        public override void DrawSlide(IGraphics graphics, int index)
+        {
+            _slideDrawCount++;
         }
 
         //滑鼠被按下
@@ -60,6 +70,24 @@ namespace PowerPoint
         public override void PressDelete()
         {
             _deleteCount++;
+        }
+
+        //新增頁面
+        public override void ClickNewPage()
+        {
+            _addPageCount++;
+        }
+
+        //刪除頁面
+        public override void ClickDeletePage(int index)
+        {
+            _deletePageCount++;
+        }
+
+        //切換頁面
+        public override void ChangePage(int index)
+        {
+            _changePageCount++;
         }
 
         //操作復原
@@ -111,6 +139,14 @@ namespace PowerPoint
             }
         }
 
+        public int SlideDrawCount
+        {
+            get
+            {
+                return _slideDrawCount;
+            }
+        }
+
         public int PressCount
         {
             get
@@ -140,6 +176,30 @@ namespace PowerPoint
             get
             {
                 return _deleteCount;
+            }
+        }
+
+        public int AddPageCount
+        {
+            get
+            {
+                return _addPageCount;
+            }
+        }
+
+        public int DeletePageCount
+        {
+            get
+            {
+                return _deletePageCount ;
+            }
+        }
+
+        public int ChangePageCount
+        {
+            get
+            {
+                return _changePageCount;
             }
         }
 
