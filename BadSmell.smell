@@ -597,6 +597,11 @@
                 <AnalysisFileType>Model</AnalysisFileType>
               </AnalysisFile>
               <AnalysisFile>
+                <RelativePath>MainFormUITest.cs</RelativePath>
+                <ProjectName>MainFormUITest</ProjectName>
+                <AnalysisFileType>Test</AnalysisFileType>
+              </AnalysisFile>
+              <AnalysisFile>
                 <RelativePath>Properties\AssemblyInfo.cs</RelativePath>
                 <ProjectName>MainFormUITest</ProjectName>
                 <AnalysisFileType>Model</AnalysisFileType>
@@ -608,8 +613,8 @@
               </AnalysisFile>
             </AnalysisFiles>
           </AnalysisFileManager>
-          <ProductionLoc>4171</ProductionLoc>
-          <TestLoc>2929</TestLoc>
+          <ProductionLoc>4174</ProductionLoc>
+          <TestLoc>3260</TestLoc>
         </CodeReview>
       </Data>
     </div>

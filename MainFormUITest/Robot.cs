@@ -90,11 +90,13 @@ namespace MainFormUITest
             _driver.FindElementByName(name).Click();
         }
 
+        // test
         public void ClickButtonByID(string id)
         {
             _driver.FindElementByAccessibilityId(id).Click();
         }
 
+        // test
         public void PressKey(string key)
         {
             new Actions(_driver)
@@ -133,12 +135,15 @@ namespace MainFormUITest
                     element.Click();
             }
         }
+
+        // test
         public void ClickComboBox(string comboBoxAutomationId)
         {
             WindowsElement comboBox = _driver.FindElementByAccessibilityId(comboBoxAutomationId);
             comboBox.Click();
         }
 
+        // test
         public void DragSplitBar(string splitContainerAutomationId, int xOffset, int yOffset)
         {
             WindowsElement splitContainer = _driver.FindElementByAccessibilityId(splitContainerAutomationId);
@@ -146,11 +151,20 @@ namespace MainFormUITest
             actions.ClickAndHold(splitContainer).MoveByOffset(xOffset, yOffset).Release().Perform();
         }
 
+        // test
         public void EnterText(string comboBoxAutomationId, string text)
         {
             WindowsElement element = _driver.FindElementByAccessibilityId(comboBoxAutomationId);
             element.Clear();
             element.SendKeys(text);
+        }
+
+        // test
+        public void EnterText(string text)
+        {
+            new Actions(_driver)
+                .SendKeys(text)
+                .Perform();
         }
 
         // test

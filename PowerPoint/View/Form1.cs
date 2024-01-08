@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -148,9 +149,11 @@ namespace PowerPoint
         //縮圖被按下
         public void SlideClick(object sender, EventArgs e)
         {
+            const string ERROR_MESSAGE = "Control is not of type SlideButton";
             SlideButton clickedButton = sender as SlideButton;
             foreach (Control control in _flowLayoutPanel.Controls)
             {
+                Debug.Assert(control is SlideButton, ERROR_MESSAGE);
                 SlideButton button = control as SlideButton;
                 button.Checked = false;
             }
